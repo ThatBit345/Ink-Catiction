@@ -26,10 +26,10 @@ class Menu extends Phaser.Scene
 	{
 		// Background assets
 		this.splash = this.add.image(1000, 360, 'splash');
-		this.background_slice = this.add.image(0, 360, 'back');
+		this.background_slice = this.add.image(640, 360, 'back');
 
 		// Main menu
-		this.title1 = this.add.text(50, 20, 'Ink', {color: '#000', fontSize: '96px'});
+		this.title1 = this.add.text(50, 50, 'Ink', {color: '#000', fontSize: '96px'});
 		this.title2 = this.add.text(50, 126, 'Catiction', {color: '#000', fontSize: '96px'});
 		this.ver = this.add.text(1130, 670, 'ver 0.01.00', {color: '#333', fontSize: '16px'});
 		this.play_button = new Button(this.onPlay, 'Play', this, 250, 340, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128);
