@@ -18,7 +18,6 @@ class Game extends Phaser.Scene
 		this.load.image('cat', '../assets/cat.png');
         this.load.spritesheet('frank', '../assets/francat_spritesheet.png', { frameWidth: 28*4, frameHeight: 32*4 });
 	}
-
     
 	create(data)
 	{ 
@@ -30,15 +29,11 @@ class Game extends Phaser.Scene
         this.collission = this.physics.add.collider(this.player1.sprite, this.player2.sprite);
     }
 
-
-
-
 	update(time, delta)
 	{
        this.player1.updateMovement();
        this.player2.updateMovement();
 	}
-
 }
 
 export default Game;
