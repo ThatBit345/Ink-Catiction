@@ -1,4 +1,5 @@
 import Player from './player.js';
+import Grid from './grid.js';
 
 class Game extends Phaser.Scene
 {
@@ -17,6 +18,8 @@ class Game extends Phaser.Scene
         //Placeholders
 		this.load.image('cat', '../assets/cat.png');
         this.load.spritesheet('frank', '../assets/francat_spritesheet.png', { frameWidth: 28*4, frameHeight: 32*4 });
+
+		this.load.image('box', '../assets/box.png');
 	}
     
 	create(data)
@@ -27,6 +30,8 @@ class Game extends Phaser.Scene
         this.player2 = this.physics.add.existing(new Player(this, 450, 100, 'frank', 5, this.keys2));
 
         this.collission = this.physics.add.collider(this.player1.sprite, this.player2.sprite);
+
+		this.grid = new Grid(this);
     }
 
 	update(time, delta)
