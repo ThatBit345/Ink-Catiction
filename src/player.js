@@ -72,7 +72,7 @@ import Game from './game.js';
     }
 
     updateMovement(){
-        var velocity = 200;
+        var velocity = 300;
 
         if (this.controls[0].isDown){
             this.sprite.setVelocityX(0);
