@@ -1,6 +1,8 @@
+import Game from './game.js';
+
 class Player extends Phaser.Physics.Arcade.Sprite {
    
-    constructor(scene, x, y, texture, number, keys){
+    constructor(scene, x, y, texture, number, keys, color){
         super(scene, x, y, 'Texture');
 
         this.scene = scene;
@@ -8,11 +10,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.y = y;
         this.texture = texture;
 
+        this.color = color;
+
         this.name = `Player ${number}`;
         this.life = 4;
         this.deaths = 0;
         this.addKeys(keys);
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
+        this.sprite.depth = 1;
+      
         this.direction = this.getInitialDirection(number);
         
         this.createAnimations();
