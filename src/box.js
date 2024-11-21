@@ -1,8 +1,9 @@
 class Box {
-    constructor(argCoordX, argCoordY, argColor, argScene) {
+    constructor(argCoordX, argCoordY, argColor, argScene, argImage) {
         this.position = [argCoordX, argCoordY];
         this.color = argColor;
         this.scene = argScene;
+        this.image = argImage;
     }
 
     setNewColor(newColor) {
@@ -10,7 +11,8 @@ class Box {
     }
 
     drawBox() {
-        this.scene.add.image(this.position[0], this.position[1], this.color).setOrigin(0, 0);
+        //this.scene.add.image(this.position[0], this.position[1], this.color).setOrigin(0, 0);
+        this.image.setTintFill(this.color);
     }
 
     distance(other) {

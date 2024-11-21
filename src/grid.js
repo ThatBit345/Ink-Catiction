@@ -16,13 +16,9 @@ class Grid {
         for (let i = 0; i < 1280 / 40; i++) {
             let array = [];
             for (let j = 0; j < 720 / 40; j++) {
-                let ink;
-
-                if (i == 0 && j == 0) { ink = 'inkFrancat'; }
-                else if (i == 31 && j == 17) { ink = 'inkAgata'; }
-                else { ink = 'box'; }
-                let box = new Box(i * 40, j * 40, ink, this.scene);
-                box.drawBox();
+                let ink = '0x4fff00';
+                let sprite = this.scene.add.image(i*40, j*40, this.image).setOrigin(0,0);
+                let box = new Box(i * 40, j * 40, ink, this.scene, sprite);
 
                 array.push(box);
             }
@@ -30,11 +26,6 @@ class Grid {
         }
         return matrix;
     }
-
-    /*drawGrid(x, y) {
-        console.log("CoordX: " + this.grid[x][y].position[0]);
-        this.scene.add.image(this.grid[x][y].position[0], this.grid[x][y].position[1], this.image);
-    }*/
 
     updateGrid(other) {
         for (let i = 0; i < 32; i++) {

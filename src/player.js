@@ -17,6 +17,7 @@ import Game from './game.js';
         this.addKeys(keys);
 
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
+        this.sprite.depth = 1;
 
         this.direction = this.getInitialDirection(number);
         this.createAnimations();
@@ -77,28 +78,24 @@ import Game from './game.js';
         var velocity = 300;
 
         if (this.controls[0].isDown){
-            //this.y-velocity;
             this.sprite.setVelocityX(0);
             this.sprite.setVelocityY(-velocity);
             this.upDownMovement();
         }
         else if (this.controls[1].isDown)
         {
-            //this.x-velocity;
             this.sprite.setVelocityX(-velocity);
             this.sprite.setVelocityY(0);
             this.sprite.anims.play(`${this.texture}-move_left`, true);
             this.direction = 'left';
         } 
         else if (this.controls[2].isDown){
-            //this.y+velocity;
             this.sprite.setVelocityX(0);
             this.sprite.setVelocityY(velocity);
             this.upDownMovement();
         }
         else if (this.controls[3].isDown)
         {
-            //this.x+velocity;
             this.sprite.setVelocityX(velocity);
             this.sprite.setVelocityY(0);
             this.sprite.anims.play(`${this.texture}-move_right`, true);
