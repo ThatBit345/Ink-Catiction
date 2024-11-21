@@ -17,7 +17,7 @@ class Grid {
             let array = [];
             for (let j = 0; j < 720 / 40; j++) {
                 let ink = '0x4fff00';
-                let sprite = this.scene.add.image(i*40, j*40, this.image).setOrigin(0,0);
+                let sprite = this.scene.add.image(i * 40, j * 40, this.image).setOrigin(0, 0);
                 let box = new Box(i * 40, j * 40, ink, this.scene, sprite);
 
                 array.push(box);
@@ -33,6 +33,22 @@ class Grid {
                 this.grid[i][j].distance(other);
             }
         }
+    }
+
+    countColors() {
+        let contadorRosa = 0;
+        let contadorAmarillo = 0;
+        for (let i = 0; i < 1280 / 40; i++) {
+            for (let j = 0; j < 720 / 40; j++) {
+                let box = this.grid[i][j];
+                if(box.color == '0xfad927') {
+                    contadorAmarillo++;
+                } else if (box.color == '0xfa27ba') {
+                    contadorRosa++;
+                }
+            }
+        }
+        return [contadorAmarillo,contadorRosa];
     }
 }
 
