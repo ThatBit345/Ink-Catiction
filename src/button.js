@@ -1,6 +1,6 @@
 class Button extends Phaser.GameObjects.Container
 {
-	constructor(callback, label, scene, x, y, normal_texture, highlighted_texture, pressed_texture, disabled_texture, width) 
+	constructor(callback, label, scene, x, y, normal_texture, highlighted_texture, pressed_texture, disabled_texture, width, height) 
 	{
 		super(scene, x, y, undefined);
 
@@ -12,14 +12,14 @@ class Button extends Phaser.GameObjects.Container
 		this.enabled = true;
 
 		let rectX = -(width * 3) / 2;
-		let rectY = -96 / 2;
+		let rectY = -(height * 3) / 2;
 		
 		this.on('pointerover', this.onPointerOver);
 		this.on('pointerout', this.onPointerOut);
 		this.on('pointerdown', this.onPointerDown);
 		this.on('pointerup', this.onPointerUp);
 
-		this.nslice = scene.add.nineslice(0, 0, normal_texture, undefined, width, 1, 4, 4, undefined, undefined);
+		this.nslice = scene.add.nineslice(0, 0, normal_texture, undefined, width, height, 4, 4, 4, 4, undefined, undefined);
 		this.nslice.scale = 3;
 
 		this.label = scene.add.text(0, 0, label, {color: '#000', fontSize: '64px', fontFamily: 'Metamorphous'});
@@ -28,7 +28,7 @@ class Button extends Phaser.GameObjects.Container
 		this.add(this.nslice);
 		this.add(this.label);
 
-		this.setInteractive(new Phaser.Geom.Rectangle(rectX, rectY, width * 3, 96), Phaser.Geom.Rectangle.Contains);
+		this.setInteractive(new Phaser.Geom.Rectangle(rectX, rectY, width * 3, height * 3), Phaser.Geom.Rectangle.Contains);
 		scene.add.existing(this);
     }
 

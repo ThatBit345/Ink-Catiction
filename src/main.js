@@ -19,6 +19,7 @@ var startGame = function(){
 		type: Phaser.AUTO,
 		width: 1280,
 		height: 720,
+		autoCenter: Phaser.Scale.Center.CENTER_HORIZONTALLY,
 		pixelArt: true,
 		physics: {
 			default: "arcade",
