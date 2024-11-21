@@ -13,16 +13,15 @@ class Grid {
 
     generateGrid() {
         let matrix = [];
-        for (let i = 0; i < 1280 / 32; i++) {
+        for (let i = 0; i < 1280 / 40; i++) {
             let array = [];
-            for (let j = 0; j < 720 / 32; j++) {
+            for (let j = 0; j < 720 / 40; j++) {
                 let ink;
 
-                if (i == 3 && j == 3) { ink = 'inkFrancat'; }
-                else if (i == 38 && j == 21) { ink = 'inkAgata'; }
+                if (i == 0 && j == 0) { ink = 'inkFrancat'; }
+                else if (i == 31 && j == 17) { ink = 'inkAgata'; }
                 else { ink = 'box'; }
-                let box = new Box(i * 32, j * 32, ink, this.scene);
-
+                let box = new Box(i * 40, j * 40, ink, this.scene);
                 box.drawBox();
 
                 array.push(box);
@@ -36,6 +35,14 @@ class Grid {
         console.log("CoordX: " + this.grid[x][y].position[0]);
         this.scene.add.image(this.grid[x][y].position[0], this.grid[x][y].position[1], this.image);
     }*/
+
+    updateGrid(other) {
+        for (let i = 0; i < 32; i++) {
+            for (let j = 0; j < 18; j++) {
+                this.grid[i][j].distance(other);
+            }
+        }
+    }
 }
 
 export default Grid;

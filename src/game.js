@@ -25,9 +25,9 @@ class Game extends Phaser.Scene {
 		this.grid = new Grid(this,'box');
 
 		this.keys1 = ["W", "A", "S", "D"]
-		this.player1 = this.physics.add.existing(new Player(this, 50, 100, 'frank', 5, this.keys1, 'inkFrancat'));
+		this.player1 = this.physics.add.existing(new Player(this, 32, 28, 'frank', 5, this.keys1, 'inkFrancat'));
 		this.keys2 = ["UP", "LEFT", "DOWN", "RIGHT"]
-		this.player2 = this.physics.add.existing(new Player(this, 450, 100, 'frank', 5, this.keys2, 'inkAgata'));
+		this.player2 = this.physics.add.existing(new Player(this, 1252, 656, 'frank', 5, this.keys2, 'inkAgata'));
 
 		//this.collission = this.physics.add.collider(this.player1.sprite, this.player2.sprite);
 	}
@@ -40,6 +40,8 @@ class Game extends Phaser.Scene {
 		//this.player2.drawPath();
 		this.player1.updateMovement();
 		this.player2.updateMovement();
+		this.grid.updateGrid(this.player1);
+		this.grid.updateGrid(this.player2);
 	}
 }
 
