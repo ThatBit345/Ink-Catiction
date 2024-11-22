@@ -31,6 +31,7 @@ class Grid {
         for (let i = 0; i < 32; i++) {
             for (let j = 0; j < 18; j++) {
                 this.grid[i][j].distance(other);
+				this.grid[i][j].updateSprite();
             }
         }
     }

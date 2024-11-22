@@ -15,8 +15,13 @@ class Box {
         this.image.setTintFill(this.color);
     }
 
+	updateSprite()
+	{
+		
+	}
+
     distance(other) {
-        if (other.sprite.x > this.position[0] && other.sprite.x <= this.position[0] + 40 && other.sprite.y > this.position[1] && other.sprite.y <= this.position[1]+40) {
+        if (other.sprite.x > this.position[0] && other.sprite.x <= this.position[0] + 40 && other.sprite.y + 32 > this.position[1] && other.sprite.y + 32 <= this.position[1]+40) {
             this.setNewColor(other.color);
             this.drawBox();
         }

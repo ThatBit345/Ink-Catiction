@@ -73,12 +73,12 @@ class Menu extends Phaser.Scene
 		this.char_title2 = this.add.text(560 - 2560, 110, 'miauracter', {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'});
 		this.char_back_button = new Button(this.onCharacterBack, 'Back', this, 160 - 2560, 850, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 		
-		this.char1_button = new Button(this.undefinedButton, ' ', this, 520 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char2_button = new Button(this.undefinedButton, ' ', this, 640 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char3_button = new Button(this.undefinedButton, ' ', this, 760 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char4_button = new Button(this.undefinedButton, ' ', this, 520 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char5_button = new Button(this.undefinedButton, ' ', this, 640 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char6_button = new Button(this.undefinedButton, ' ', this, 760 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char1_button = new Button(this.onSelectCharacter, ' ', this, 520 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char2_button = new Button(this.onSelectCharacter, ' ', this, 640 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char3_button = new Button(this.onSelectCharacter, ' ', this, 760 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char4_button = new Button(this.onSelectCharacter, ' ', this, 520 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char5_button = new Button(this.onSelectCharacter, ' ', this, 640 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char6_button = new Button(this.onSelectCharacter, ' ', this, 760 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
 
 		// Elements to tween
 		this.elements = [
@@ -283,6 +283,11 @@ class Menu extends Phaser.Scene
 	}
 
 	// Character Functions -------------------------
+	onSelectCharacter()
+	{
+		this.scene.scene.start('Game');
+	}
+
 	onCharacterBack()
 	{
 		this.scene.add.tween({

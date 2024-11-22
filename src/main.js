@@ -30,7 +30,7 @@ var startGame = function(){
 				}
 			}
 		},
-		scene: Game
+		scene: [Menu, Game]
 	}
 
 	new Phaser.Game(config);
