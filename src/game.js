@@ -15,6 +15,7 @@ class Game extends Phaser.Scene {
         // Placeholders
 		this.load.image('cat', '../assets/cat.png');
         this.load.image('box', '../assets/box.png');
+        this.load.image('ink', '../assets/ink.png');
 
         // Final Sprites
         this.load.spritesheet('agata', '../assets/agata_spritesheet.png', { frameWidth: 78, frameHeight: 88 });
@@ -24,7 +25,7 @@ class Game extends Phaser.Scene {
     
 	create(data) {        
         // World Configuration
-        this.grid = new Grid(this, 'box');
+        this.grid = new Grid(this, 'ink');
 
         // Player 1 Configuration
         this.keys1 = [ "W", "A", "S", "D", "E" ]
