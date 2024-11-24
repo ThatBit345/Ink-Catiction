@@ -84,7 +84,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         
     }
 
-    applyPowerup(player, delta){
+    applyPowerup(player, delta, grid){
         switch(this.type){
             case 'Dash':    
                 player.velocity = player.initialVelocity*2;

@@ -48,10 +48,10 @@ class Game extends Phaser.Scene {
         //this.collission = this.physics.add.collider(this.player1.sprite, this.player2.sprite);
 
         // PowerUps Configuration
-        /*this.powerups = [[200, 100],[200, 200], [200, 300]];
+        this.powerups = [[200, 100],[200, 200], [200, 300]];
         this.powerup1 = this.physics.add.existing(new Powerup(this, this.powerups[0][0], this.powerups[0][1], 'powerups'));
         this.powerup2 = this.physics.add.existing(new Powerup(this, this.powerups[1][0], this.powerups[1][1], 'powerups'));
-        this.powerup3 = this.physics.add.existing(new Powerup(this, this.powerups[2][0], this.powerups[2][1], 'powerups'));*/
+        this.powerup3 = this.physics.add.existing(new Powerup(this, this.powerups[2][0], this.powerups[2][1], 'powerups'));
 
         this.timer = 0;
         this.rounds = 0;
