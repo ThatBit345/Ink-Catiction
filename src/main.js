@@ -1,5 +1,6 @@
 import Menu from './menu.js';
 import Game from './game.js';
+import Endgame from './endgame.js';
 
 var fontConfig = {
 
@@ -30,7 +31,7 @@ var startGame = function(){
 				}
 			}
 		},
-		scene: [Menu, Game]
+		scene: [Menu, Game, Endgame]
 	}
 
 	new Phaser.Game(config);
