@@ -3,8 +3,8 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, 'Texture');
 
         this.scene = scene;
-        this.x = x;
-        this.y = y;
+        this.x = (Math.random() * (31 - 1) + 1) * 40;
+        this.y = (Math.random() * (17 - 1) + 1) * 40;
         this.texture = texture;
 
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
@@ -57,7 +57,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         }       
     }
 
-    updatePowerup(player, delta){
+    updatePowerup(player, delta, grid){
         this.sprite.anims.play(`${this.type}`, true);  
 
         
@@ -76,7 +76,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         } 
 
         if(this.picked){
-            this.applyPowerup(player, delta);        
+            this.applyPowerup(player, delta, grid);        
         }
         if (this.duration > 10000 ) {
             this.respawn(delta);
@@ -101,11 +101,16 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
                 }
             break;
             case 'Bomb':
-                this.duration += delta;
-                if(this.duration < 5){        
-                    console.log(`Type Bomb not implemented yet`);
+                let x = Math.floor(this.x / 40);
+                let y = Math.floor(this.y / 40);
+
+                for (let i = -1; i < 2; i++) {
+                    for (let j = -1; j < 2; j++) {
+                        let box = grid.grid[x + i][y + j];
+                        box.updateSprite(box.position[0], box.position[1], grid);
+                    }
                 }
-            break;
+                break;
             default: console.log(`Type ${type} not implemented`); 
         }
     }
