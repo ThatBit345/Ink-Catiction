@@ -9,12 +9,8 @@ class Box {
 
     setNewColor(newColor) {
         this.color = newColor;
+		this.image.setTintFill(this.color);
 		this.image.alpha = 1;
-    }
-
-    drawBox() {
-        //this.scene.add.image(this.position[0], this.position[1], this.color).setOrigin(0, 0);
-        this.image.setTintFill(this.color);
     }
 
 	getPlayer()
@@ -71,10 +67,14 @@ class Box {
         if (other.sprite.x > this.position[0] && other.sprite.x <= this.position[0] + 40 && other.sprite.y + 32 > this.position[1] && other.sprite.y + 32 <= this.position[1]+40) {
             this.player = other.name;
 			this.setNewColor(other.color);
-            this.drawBox();
         }
     }
 
+	setPlayer(player)
+	{
+		this.player = player.name;
+		this.setNewColor(player.color);
+	}
 }
 
 export default Box;

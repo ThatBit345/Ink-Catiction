@@ -17,7 +17,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.duration = 0;
         this.picked = false;
         this.respawntime = 0;
-        
+        this.exploded = false;
     }
 
     generateRandomType(){
@@ -60,7 +60,6 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
     updatePowerup(player, delta, grid){
         this.sprite.anims.play(`${this.type}`, true);  
 
-        
         var distance = this.manhattanDistance(this.sprite.x, this.sprite.y, player.sprite.x, player.sprite.y);
         if(distance < 40){
             this.time += delta;
@@ -101,13 +100,16 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
                 }
             break;
             case 'Bomb':
+				if(this.exploded) return;
+				this.exploded = true;
                 let x = Math.floor(this.x / 40);
                 let y = Math.floor(this.y / 40);
 
                 for (let i = -1; i < 2; i++) {
                     for (let j = -1; j < 2; j++) {
                         let box = grid.grid[x + i][y + j];
-                        box.updateSprite(box.position[0], box.position[1], grid);
+						box.setPlayer(player);
+                        box.updateSprite(x + i, y + j, grid.grid);
                     }
                 }
                 break;
@@ -122,6 +124,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.picked = false;
         this.time = 0;
         this.duration = 0;
+        this.exploded = false;
     }
 
     manhattanDistance(powerx, powery, playerx, playery){
