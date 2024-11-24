@@ -40,19 +40,19 @@ class Grid {
     }
 
     countColors() {
-        let contadorRosa = 0;
-        let contadorAmarillo = 0;
+        let player1counter = 0;
+        let player2counter = 0;
         for (let i = 0; i < 1280 / 40; i++) {
             for (let j = 0; j < 720 / 40; j++) {
                 let box = this.grid[i][j];
-                if(box.color == '0xfad927') {
-                    contadorAmarillo++;
-                } else if (box.color == '0xfa27ba') {
-                    contadorRosa++;
+                if(box.getPlayer() == "Player 1") {
+                    player1counter++;
+                } else if (box.getPlayer() == "Player 2") {
+                    player2counter++;
                 }
             }
         }
-        return [contadorAmarillo,contadorRosa];
+        return [player1counter, player2counter];
     }
 }
 

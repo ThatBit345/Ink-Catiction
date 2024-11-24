@@ -1,6 +1,6 @@
 class Button extends Phaser.GameObjects.Container
 {
-	constructor(callback, label, scene, x, y, normal_texture, highlighted_texture, pressed_texture, disabled_texture, width, height) 
+	constructor(callback, label, textSize, scene, x, y, normal_texture, highlighted_texture, pressed_texture, disabled_texture, width, height) 
 	{
 		super(scene, x, y, undefined);
 
@@ -22,7 +22,7 @@ class Button extends Phaser.GameObjects.Container
 		this.nslice = scene.add.nineslice(0, 0, normal_texture, undefined, width, height, 4, 4, 4, 4, undefined, undefined);
 		this.nslice.scale = 3;
 
-		this.label = scene.add.text(0, 0, label, {color: '#000', fontSize: '64px', fontFamily: 'Metamorphous'});
+		this.label = scene.add.text(0, 0, label, {color: '#000', fontSize: textSize, fontFamily: 'Metamorphous'});
 		Phaser.Display.Align.In.Center(this.label, this.nslice);
 
 		this.add(this.nslice);
