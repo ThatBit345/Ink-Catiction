@@ -210,6 +210,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
+	resetState()
+	{
+		this.runMovement(`${this.texture}-idle`, 0, 0);
+		this.sprite.setVelocityX(0);
+		this.sprite.setVelocityY(0);
+	}
+
     deathSequence(other, a, b){
         if(other.respawnclock > 1 && other.respawnclock < 400){
             this.runAnimation(other,`${other.texture}-hit`, 0, 0);  

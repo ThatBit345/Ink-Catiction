@@ -31,11 +31,11 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
 		y = (Math.random() * (17 - 1) + 1) * 40;
 
 		// Clamp values to the map's range
-		if(x > 100) x = 100;
-		else if (x < 1180) x = 1180;
+		if(x < 100) x = 100;
+		else if (x > 1180) x = 1180;
 
-		if(y > 180) y = 180;
-		else if(y < 680) y = 680;
+		if(y < 180) y = 180;
+		else if(y > 680) y = 680;
 
 		return [x, y];
 	}
@@ -128,8 +128,12 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
                 for (let i = -1; i < 2; i++) {
                     for (let j = -1; j < 2; j++) {
                         let box = grid.grid[x + i][y + j];
-						box.setPlayer(player);
-                        box.updateSprite(x + i, y + j, grid.grid);
+
+						if(box != undefined)
+						{
+							box.setPlayer(player);
+                        	box.updateSprite(x + i, y + j, grid.grid);
+						}
                     }
                 }
                 break;

@@ -144,6 +144,11 @@ class Game extends Phaser.Scene {
 		else if(!this.over)
 		{
 			this.over = true;
+
+			// Reset players to idle state
+			this.player1.resetState();
+			this.player2.resetState();
+
             this.finishGame();
         }
     }

@@ -63,7 +63,11 @@ class Box {
 		this.image.setFrame(frame);
 	}
 
-    distance(other) {
+    distance(other) 
+	{
+		// Skip borders, used only for the bomb as the player should not be able to get here
+		if(this.position[0] > 1180 || this.position[0] < 80 || this.position[1] < 180) return;
+
         if (other.sprite.x > this.position[0] && other.sprite.x <= this.position[0] + 40 && other.sprite.y + 32 > this.position[1] && other.sprite.y + 32 <= this.position[1]+40) {
             this.player = other.name;
 			this.setNewColor(other.color);
@@ -72,6 +76,9 @@ class Box {
 
 	setPlayer(player)
 	{
+		// Skip borders, used only for the bomb as the player should not be able to get here
+		if(this.position[0] > 1180 || this.position[0] < 80 || this.position[1] < 180) return;
+
 		this.player = player.name;
 		this.setNewColor(player.color);
 	}
