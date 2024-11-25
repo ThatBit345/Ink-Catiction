@@ -40,6 +40,9 @@ El equipo de desarrollo planea lanzar una versión de este juego a la plataforma
 
 Tampoco se descarta la posibilidad de emplear métodos de monetización que no provengan directamente del videojuego, pudiendo crear merchandising o arte promocional que se pueda vender en forma de pósters o peluches de los personajes del juego.
 
+### Licencia de uso
+Ink Catiction tiene una licencia Apache 2.0, por lo que se permite modificar, redistribuir y utilizar el código con fines tanto comerciales como no comerciales siempre y cuando se incluya un aviso de licencia Apache.
+
 ### Historia
 El juego no tendrá un contenido narrativo amplio, ya que no forma parte del género del videojuego. Sin embargo, para situar al jugador en un mundo lúdico narrativo sí que se implementará una pequeña historia para crear el contexto del videojuego.
 
