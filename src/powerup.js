@@ -3,8 +3,11 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, 'Texture');
 
         this.scene = scene;
-        this.x = (Math.random() * (31 - 1) + 1) * 40;
-        this.y = (Math.random() * (17 - 1) + 1) * 40;
+
+		let pos = this.getPosition();
+        this.x = pos[0];
+        this.y = pos[1];
+
         this.texture = texture;
 
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
@@ -19,6 +22,23 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.respawntime = 0;
         this.exploded = false;
     }
+
+	getPosition()
+	{
+		let x, y;
+
+		x = (Math.random() * (31 - 1) + 1) * 40;
+		y = (Math.random() * (17 - 1) + 1) * 40;
+
+		// Clamp values to the map's range
+		if(x < 100) x = 100;
+		else if (x > 1180) x = 1180;
+
+		if(y < 180) y = 180;
+		else if(y > 680) y = 680;
+
+		return [x, y];
+	}
 
     generateRandomType(){
         var type = ['Dash', 'Power', 'Bomb'];
@@ -75,7 +95,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         } 
 
         if(this.picked){
-            this.applyPowerup(player, delta, grid);        
+            this.applyPowerup(player, delta, grid);
         }
         if (this.duration > 10000 ) {
             this.respawn(delta);
@@ -108,8 +128,12 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
                 for (let i = -1; i < 2; i++) {
                     for (let j = -1; j < 2; j++) {
                         let box = grid.grid[x + i][y + j];
-						box.setPlayer(player);
-                        box.updateSprite(x + i, y + j, grid.grid);
+
+						if(box != undefined)
+						{
+							box.setPlayer(player);
+                        	box.updateSprite(x + i, y + j, grid.grid);
+						}
                     }
                 }
                 break;

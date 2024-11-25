@@ -202,7 +202,7 @@ class Menu extends Phaser.Scene
 		
 	}
 
-	// Main Menu Functions -----------------------------
+	// #region Main Menu Functions ---------------------
 	onPlay()
 	{
 		this.scene.add.tween({
@@ -265,8 +265,9 @@ class Menu extends Phaser.Scene
 			ease: 'Cubic.inOut'
 		});
 	}
+	// #endregion
 
-	// Settings Functions ------------------------------
+	// #region Settings Functions ----------------------
 	onSettingsBack()
 	{
 		this.scene.add.tween({
@@ -307,8 +308,9 @@ class Menu extends Phaser.Scene
 		this.scene.sound.setVolume(volume);
 		this.scene.volume_text.text = Math.round(volume * 10);
 	}
+	// #endregion
 
-	// Comms Selection Functions -----------------------
+	// #region Comms Selection Functions ---------------
 	onLocal()
 	{
 		this.scene.tweens.chain({
@@ -361,8 +363,9 @@ class Menu extends Phaser.Scene
 			ease: 'Cubic.inOut'
 		});
 	}
+	// #endregion
 
-	// Character Functions -----------------------------
+	// #region Character Functions ---------------------
 	onSelectCharacter()
 	{
 		this.scene.scene.start('Game');
@@ -552,8 +555,9 @@ class Menu extends Phaser.Scene
 		scene.player1 = undefined;
 		scene.player2 = undefined;
 	}
+	// #endregion
 
-	// Credits Functions -------------------------------
+	// #region Credits Functions -----------------------
 	onCreditsBack()
 	{
 		this.scene.add.tween({
@@ -577,6 +581,7 @@ class Menu extends Phaser.Scene
 			ease: 'Cubic.inOut'
 		});
 	}
+	// #endregion
 	
 	undefinedButton()
 	{

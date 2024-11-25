@@ -13,7 +13,9 @@ Trabajo desarrollado para la asignatura de _Juegos en Red_.
 El documento de diseño es un elemento vivo que evoluciona junto con el juego. En este apartado se verán reflejados los cambios más relevantes realizados en el mismo respecto a sus distintas versiones.
 - V1.0 22/10/2024: Versión inicial del GDD
 - V2.0 26/11/2024. 
-	- Se han añadido los contenidos clasificación de edad, la licencia de uso y monetización al apartado de Introducción
+	- Añadidos los contenidos clasificación de edad, la licencia de uso y monetización al apartado de Introducción
+	- Añadidas las imágenes de arte de personajes, paletas y _sprites_ a sus respectivos apartados
+ 	- Correcciones menores en el documento respecto a la anterior versión 
 
 ## Introducción
 ### Motivación
@@ -39,6 +41,9 @@ Según la clasificación europea PEGI, este videojuego se encontraría dentro de
 El equipo de desarrollo planea lanzar una versión de este juego a la plataforma itch.io de manera gratuita para abarcar una mayor cantidad de público. Sin embargo, se ofrecerá la posibilidad de realizar una donación para apoyar a los creadores por el precio que el adquisidor desee, aunque la cantidad de la donación recomendada será 2.00€. Se considera también la posibilidad de añadir contenido adicional (personajes, mapas, modos de juego) y crear una versión final en caso de que el juego sea lo suficientemente exitoso, pudiendo convertirlo en un producto que se adquiera mediante un pago único de entre 5.00 a 10.00€.
 
 Tampoco se descarta la posibilidad de emplear métodos de monetización que no provengan directamente del videojuego, pudiendo crear merchandising o arte promocional que se pueda vender en forma de pósters o peluches de los personajes del juego.
+
+### Licencia de uso
+Ink Catiction tiene una licencia Apache 2.0, por lo que se permite modificar, redistribuir y utilizar el código con fines tanto comerciales como no comerciales siempre y cuando se incluya un aviso de licencia Apache.
 
 ### Historia
 El juego no tendrá un contenido narrativo amplio, ya que no forma parte del género del videojuego. Sin embargo, para situar al jugador en un mundo lúdico narrativo sí que se implementará una pequeña historia para crear el contexto del videojuego.
@@ -68,29 +73,43 @@ En el mapa se distribuirán una serie de *Power Ups* que aparecerán aleatoria y
 - **Aumento de velocidad:** el personaje recibe un bonificador que aumenta su velocidad durante 5 segundos, pudiendo abarcar más zonas del tablero.
 - **Ataques ilimitados:** el jugador recibirá por 5 segundos un número ilimitado de ataques que no afectará a la barra de resistencia.
 - **Bomba de pintura:** se produce una explosión que cubre de tinta todo lo que hay alrededor del jugador en un radio determinado, pintando de una sola vez una mayor zona del mapa.
+<img width="1599" alt="cats" src="https://github.com/user-attachments/assets/47f7369c-6c55-426c-ab74-e9ce256d546b">
 ## Mapas
 El espacio consta de una dimensión en 2D con una estructura tipo mapa de baldosas. Este espacio estará limitado al espacio de la pantalla, y el POV que tendrán los jugadores del mapa será de una cámara 2D en perspectiva cenital, con las sprites representadas en picado para una mejor legibilidad de los personajes.
 
-El juego contará con varios mapas jugables y diferenciados entre sí, los cuales serán elegidos al azar al comienzo de la partida. Se espera implementar los siguientes mapas:
-- **Bosque fantasía:** Colorido bosque en el que habitan criaturas fantásticas y la magia abunda allá por donde se pisa. En este lugar se refugian aquellos felinos que buscan una vida animada pero alejada del ruido de la ciudad.
+El juego contará con varios mapas jugables y diferenciados entre sí, los cuales serán elegidos al azar al comienzo de la partida. Se ha implementado el siguiente mapa:
 - **Catacumbas de las ánimas:** a esta prisión se destinaban todos aquellos individuos que interrumpían la paz del reino de forma indiscriminada, condenándolos a un encierro en la profunda oscuridad por el resto de sus vidas. Sin embargo, una fuerza misteriosa echó abajo la estructura, convirtiéndola en unas catacumbas que ahora se usan como arena de combate callejera.
+
+Se espera implementar los siguientes mapas:
+- **Bosque fantasía:** Colorido bosque en el que habitan criaturas fantásticas y la magia abunda allá por donde se pisa. En este lugar se refugian aquellos felinos que buscan una vida animada pero alejada del ruido de la ciudad.
 - **Estadio victorioso:** este estadio se ubica en el mismo centro de la ajetreada ciudad, y la cantidad de grandes eventos que se celebran en él hace de este lugar un espacio memorable en el que sólo los mejores combatientes pueden dar a conocer su espectáculo en el campo de batalla.
 
 Tanto la estructura como los bocetos de diseño se implementará en las siguientes fases del desarrollo.
 ## Personajes
-Todos los personajes de Ink Catiction son gatos, como indica el nombre. Se harán distintos tipos de gato para cada color. Esta decisión se ha llevado a cabo para que a los jugadores les resulte más fácil diferenciar a sus personajes en la pantalla. A continuación se muestran las descripciones que han permitido realizar un *concept art* de los personajes (presentados en el orden en el que se mencionan), que más adelante se convertirán en *sprites*.
+Todos los personajes de Ink Catiction son gatos, como indica el nombre. Se harán distintos tipos de gato para cada color. Esta decisión se ha llevado a cabo para que a los jugadores les resulte más fácil diferenciar a sus personajes en la pantalla. A continuación se muestran las descripciones que han permitido realizar un *concept art* de los personajes, que se convertirán en *sprites*.
+
 <img width="1599" alt="cats" src="https://github.com/user-attachments/assets/970d54f0-e923-4f6b-9107-1f2b1460dc5a">
 
-- **Gato morado:** “*Yenna* es una gata esfinge muy solitaria que ha dominado el arte de la brujería. Tiende a maldecir con sus hechizos chamánicos a todos aquellos que la molestan, ya que es fácilmente irritable. Su accesorio especial es una calavera  de cuervo teñida de morado que lleva como casco. La tinta morada que emplea en combate es el resultado de los torrentes de magia negra que salen despedidos de sus manos cuando conjura un hechizo.”
+### Personajes implementados
 - **Gato amarillo:** “*Frankcatstein* es un gato grisáceo de origen desconocido. Las partes de su cuerpo están unidas de una forma extremadamente macabra, como si de un muñeco hecho de piezas de otros juguetes se tratase. Este felino tiene una incontrolable sed de caos que se sacia únicamente cuando saborea la derrota de sus enemigos. Su accesorio especial es un cono de prevención que su creador utilizó para evitar que se arrancase partes de su propio cuerpo. El rastro de tinta amarilla que va dejando a su paso no es más que el combustible filtrado que su cuerpo utiliza para funcionar correctamente.”
+
 - **Gato magenta:** “*Ágata* es una gata calicó pastelera a la que le encantan las fresas. Tiene un carácter cariñoso y amistoso que invita a iniciar una amistad, sin embargo, le lanzará una tarta de fresas recién sacada del horno a todos aquellos que le intenten hacer daño a ella o a cualquiera de sus amigos. Tiene un sombrero con forma de fresa. La tinta que utiliza está hecha de una crema pastelera especial que se queda pegada allá por donde cae.”
+
+A continuación se muestra el arte de los personajes en orden de descripción respectivamente.
+![character_splash](https://github.com/user-attachments/assets/9c43e060-a53d-4d72-91d7-a479a69b484d)
+
+### Personajes por implementar 
+- **Gato morado:** “*Yenna* es una gata esfinge muy solitaria que ha dominado el arte de la brujería. Tiende a maldecir con sus hechizos chamánicos a todos aquellos que la molestan, ya que es fácilmente irritable. Su accesorio especial es una calavera  de cuervo teñida de morado que lleva como casco. La tinta morada que emplea en combate es el resultado de los torrentes de magia negra que salen despedidos de sus manos cuando conjura un hechizo.”
 - **Gato azul:** “*Stregobor* es un gato siamés anciano y uno de los hechiceros más reconocidos del reino. Tiene un carácter tranquilo y tiende a sopesar mucho las posibles soluciones para resolver sus problemas, por lo que no suele recurrir al conflicto a no ser que sea estrictamente necesario. Su accesorio identificativo es un sombrero puntiagudo azul de mago y una capa del mismo color. La tinta azul que utiliza proviene de las pociones mágicas cuya receta se ha esmerado en perfeccionar desde su juventud.”
 - **Gato naranja:** “*Sardinilla* es un gato naranja y, como los demás gatos de este tipo, es muy activo y tiene momentos de locura espontáneos. Su perfil hiperactivo encaja muy bien con la ajetreada vida de la ciudad, por lo que se retiró a la *miautrópolis* a trabajar como agente de obras. Su accesorio más llamativo es un cono de tráfico naranja reflectante que lleva puesto en la cabeza, junto con un chaleco del mismo color. Su tinta naranja son los cientos de litros de pintura que encargó por error para pintar su casa, y que ahora tiene que gastar en algo mejor.”
 - **Gato cian:** “*Gwynn* es un gato tuxedo y el fan número uno de la limpieza de baños. Tiene un carácter robusto y estricto. Se dedica a limpiar todos los restos de tinta que otros combatientes dejan por ahí, lo que le ha ganado bastantes enemigos. Utiliza una mezcla de limpiadores muy potentes y corrosivos a la piel como tinta, lo que puede provocar intoxicación a sus enemigos. Su accesorio especia es un gorro de limpieza y dos pared de guantes de color cian.”
-## Estilo visual
-*Ink Catiction* contará con un estilo de arte tipo *Pixel Art*, con una resolución aún por definir. Será de una estética simple debido al reducido tiempo disponible para el desarrollo del videojuego pero con posibilidad de un mayor desarrollo en el apartado de diseño en un futuro.
 
-En la selección de paletas de colores se hace especial hincapié en el color de las tintas. Se ha optado por colores llamativos y bien diferenciados entre sí con el fin de que las zonas pintadas por cada personaje queden claramente delimitadas entre sí. Es por ello que los jugadores podrán escoger los sets de pintura que deseen dentro de una paleta preestablecida, sin que ambos jugadores puedan elegir el mismo color para la misma partida.
+## Estilo visual
+*Ink Catiction* contará con un estilo de arte tipo *Pixel Art*, con una resolución aproximada de 32px. Será de una estética simple debido al reducido tiempo disponible para el desarrollo del videojuego pero con posibilidad de un mayor desarrollo en el apartado de diseño en un futuro. A continuación se muestran ejemplos de algunos ciclos de animación creados para los personajes, como el idle de Ágata o el ciclo de carrera de Frankcatstein:
+![ejemplos_animaciones_personajes](https://github.com/user-attachments/assets/8553663a-f6fd-4663-abc1-291b124d03f7)
+
+En la selección de paletas de colores se hace especial hincapié en el color de las tintas. Se ha optado por colores llamativos y bien diferenciados entre sí con el fin de que las zonas pintadas por cada personaje queden claramente delimitadas entre sí. Es por ello que los jugadores podrán escoger los sets de pintura que deseen dentro de una paleta preestablecida, sin que ambos jugadores puedan elegir el mismo color para la misma partida. Esta selección del color pintura viene determinada por el personaje que se haya seleccionado. Se espera implementar los siguientes seis tipos de tintas: 
+![Colores_de_tintas](https://github.com/user-attachments/assets/b752edfa-857a-497b-9e68-5a9d0928849e)
 
 ### Arte 2D
 Se espera que las imágenes utilizadas sean de elaboración propia, aunque este aspecto puede estar sujeto a cambios en función de las capacidades del equipo. Los elementos artísticos 2D que deberán estar presentes en la versión final del juego son los siguientes:
@@ -104,6 +123,12 @@ Se espera que las imágenes utilizadas sean de elaboración propia, aunque este 
 	- *Animación de muerte*.
 	- *Animación de potenciamiento (tras obtener un Power Up)*.
 	- *Animación de idle (opcional).*
+ Se han añadido las siguientes animaciones adicionales:
+	- *Animación tras recibir un golge*.
+	- *Animación de reaparición (opcional)*.
+	- *Animación de desaparición (opcional)*.
+ Ejemplo de spritesheet hecha con las animaciones mencionadas en la lista:
+![agata_spritesheet_example](https://github.com/user-attachments/assets/57ccd709-40b1-4fde-91f1-8cf6a1cd152e)
 
 Elementos de aparición **opcional** pero pueden ayudan a enriquecer la experiencia visual del juego:
 - *Splash art alternativo*: piezas de arte que representen situaciones del juego y que se puedan utilizar como fondo en algunas pantallas de las interfaces.

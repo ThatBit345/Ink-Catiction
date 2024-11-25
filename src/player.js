@@ -4,9 +4,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y, 'Texture');
 
         this.scene = scene;
-        this.x = x;
-        this.y = y;
         this.texture = texture;
+
+		this.x = x;
+		this.y = y;
 
         this.name = `Player ${number}`;
         this.color = color;
@@ -122,6 +123,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     updateMovement(velocity){
+		//console.log(this.x);
+
         // Attack animation
         if(this.controls[4].isDown && this.isAttacking && this.power){  
             this.runAnimation(this, `${this.texture}-attack`, 0, 0);                  
@@ -137,21 +140,20 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // If not busy doing other animations
         if(!this.isAnimating){
             // Up Movement
-            if (this.controls[0].isDown){               
+            if (this.controls[0].isDown && this.sprite.y > 180){               
                 this.runMovement(`${this.texture}-move`, 0, -velocity);
             }
             // Left movement
-            else if (this.controls[1].isDown) {
+            else if (this.controls[1].isDown && this.sprite.x > 100) {
                 this.runMovement(`${this.texture}-move`, -velocity, 0);
                 this.direction = 'left';
             } 
-
             // Down movement
-            else if (this.controls[2].isDown){
+            else if (this.controls[2].isDown && this.sprite.y < 680){
                 this.runMovement(`${this.texture}-move`, 0, velocity);
             }
             // Right Movement
-            else if (this.controls[3].isDown) {
+            else if (this.controls[3].isDown && this.sprite.x < 1180) {
                 this.runMovement(`${this.texture}-move`, velocity, 0);
                 this.direction = 'right';
             }          
@@ -207,6 +209,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
     }
+
+	resetState()
+	{
+		this.runMovement(`${this.texture}-idle`, 0, 0);
+		this.sprite.setVelocityX(0);
+		this.sprite.setVelocityY(0);
+	}
 
     deathSequence(other, a, b){
         if(other.respawnclock > 1 && other.respawnclock < 400){

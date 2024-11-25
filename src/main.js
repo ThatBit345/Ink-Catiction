@@ -22,6 +22,8 @@ var startGame = function(){
 		width: 1280,
 		height: 720,
 		autoCenter: Phaser.Scale.Center.CENTER_HORIZONTALLY,
+		disableContextMenu: true,
+		fps: 60,
 		pixelArt: true,
 		physics: {
 			default: "arcade",
