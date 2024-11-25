@@ -33,11 +33,10 @@ El título cuenta con las siguientes características principales:
 Al ser un juego sencillo de jugar disponible a distintos grupos, el equipo se ha centrado en un público más joven, reflejado en el uso de colores brillantes que retenga más su atención, entre otros. El hecho de que el juego esté destinado a un público joven no impide que otros también lo jueguen, como en un ambiente familiar, por lo que debe mantener una experiencia ligera y entretenida.
 
 Según la clasificación europea PEGI, este videojuego se encontraría dentro de la categoría con la etiqueta PEGI 7, siendo que el juego contiene escenas o sonidos que pueden atemorizar a niños pequeños y existe cierto grado de violencia, aunque esta no se encuentra representada de forma realista ni explícita. En el sistema análogo norteamericano se clasificaría como ESRB Everyone 10+.
-###Monetización
+### Monetización
 El equipo de desarrollo planea lanzar una versión de este juego a la plataforma itch.io de manera gratuita para abarcar una mayor cantidad de público. Sin embargo, se ofrecerá la posibilidad de realizar una donación para apoyar a los creadores por el precio que el adquisidor desee, aunque la cantidad de la donación recomendada será 2.00€. Se considera también la posibilidad de añadir contenido adicional (personajes, mapas, modos de juego) y crear una versión final en caso de que el juego sea lo suficientemente exitoso, pudiendo convertirlo en un producto que se adquiera mediante un pago único de entre 5.00 a 10.00€.
 
 Tampoco se descarta la posibilidad de emplear métodos de monetización que no provengan directamente del videojuego, pudiendo crear merchandising o arte promocional que se pueda vender en forma de pósters o peluches de los personajes del juego.
-
 ### Historia
 El juego no tendrá un contenido narrativo amplio, ya que no forma parte del género del videojuego. Sin embargo, para situar al jugador en un mundo lúdico narrativo sí que se implementará una pequeña historia para crear el contexto del videojuego.
 
