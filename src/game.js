@@ -17,6 +17,7 @@ class Game extends Phaser.Scene {
         this.setTimeStart = 1;
         
 		this.over = false;
+		this.timer_dropped = false;
     }
 
     preload() {
@@ -24,7 +25,10 @@ class Game extends Phaser.Scene {
         this.load.image('cat', '../assets/cat.png');
         this.load.image('box', '../assets/box.png');
 
+		// UI
 		this.load.image('endcard', '../assets/ui/spr_endcard_back.png');
+		this.load.image('timer_back', '../assets/ui/spr_timer_back.png');
+		this.load.image('panel', '../assets/ui/spr_button_normal.png');
 
         this.load.image('ink', '../assets/ink.png');
 		this.load.image('background', '../assets/map_catacombs.png');
@@ -39,12 +43,17 @@ class Game extends Phaser.Scene {
 		this.background = this.add.image(640, 360, 'background');
 		this.background.depth = -10;
 
+		this.timer_back = this.add.image(640, -100, 'timer_back');
+		this.timer_back.scale = 4;
+
+		this.start_timer_back = this.add.nineslice(640, 360, 'panel', undefined, 64, 48, 4, 4, 4, 4, undefined, undefined)
+		this.start_timer_back.scale = 4;
+
         // World Configuration
         this.grid = new Grid(this, 'ink');
 
         this.initTime = 0;
-        this.gameDuration = 30;
-
+        this.gameDuration = 35; // 5 second warmup? + 30 second game?
 
         // Player 1 Configuration
         this.keys1 = ["W", "A", "S", "D", "E"]
@@ -69,11 +78,12 @@ class Game extends Phaser.Scene {
         this.timer = 0;
         this.rounds = 0;
 
-        this.title1 = this.add.text(300, 50, ' ', { color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous' });
-        this.title2 = this.add.text(300, 150, ' ', { color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous' });
+        this.startTimeText = this.add.text(300, 50, ' ', { color: '#452600', fontSize: '96px', fontFamily: 'Metamorphous' });
 
-        this.timeText = this.add.text(600, 150, ' ', { color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous' });
+        this.timeText = this.add.text(0, 0, ' ', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous' });
+		Phaser.Display.Align.In.Center(this.timeText, this.timer_back);
         
+		// End animation setup
 		this.endcard_upper = this.add.image(-922, 1117, 'endcard');
 		this.endcard_upper.angle = -28.6;
 		this.endcard_upper.depth = 10;
@@ -96,29 +106,50 @@ class Game extends Phaser.Scene {
         //console.log('setTimeStart: ' + this.setTimeStart);
         //console.log('initTime: ' + this.initTime);
         //console.log('Time: ' +time);
-        if(this.initTime == 0){
-        this.initTime = this.setInitTime(time);
+        if(this.initTime == 0)
+		{
+        	this.initTime = this.setInitTime(time);
         }
         //console.log('initTime: ' + this.initTime);
         //console.log('Time: ' +time);
         this.timer = (time / 1000) - this.initTime;
 
-        this.timeText.setText(Math.round(this.timer));
-
-        if (this.timer < this.gameDuration) {
+        if (this.timer < this.gameDuration)
+		{
             console.log('Time: ' +time);
-            this.countDown(this.timer, this.title1);
-            if (this.timer < 2) {
+            this.countDown(this.timer, this.startTimeText);
+			Phaser.Display.Align.In.Center(this.startTimeText, this.start_timer_back);
+			
+			// Warmup period
+            if (this.timer < 1) 
+			{
                 this.player1.runAnimation(this.player1, `${this.player1.texture}-teleport`, 0, 0);
                 this.player2.runAnimation(this.player2, `${this.player2.texture}-teleport`, 0, 0);
-                console.log("a");
             }
-            else if (this.timer > 2 && this.timer < 7) {
+            else if (this.timer > 1 && this.timer < 7) 
+			{
                 this.player1.runAnimation(this.player1, `${this.player1.texture}-idle`, 0, 0);
                 this.player2.runAnimation(this.player2, `${this.player2.texture}-idle`, 0, 0);
-                console.log("a");
             }
-            else {
+			// Game period
+            else 
+			{
+				if(!this.timer_dropped)
+				{
+					this.timer_dropped = true;
+					this.start_timer_back.visible = false;
+
+					this.add.tween({
+						targets: this.timer_back,
+						duration: 1000,
+						y: 40,
+						ease: 'Cubic.inOut'
+					});
+				}
+
+				// Set display timer
+       		 	this.timeText.setText(Math.round(this.gameDuration - this.timer + 1));
+				Phaser.Display.Align.In.Center(this.timeText, this.timer_back);
 
                 //Update grid
                 this.grid.updateGrid(this.player1);
@@ -145,6 +176,17 @@ class Game extends Phaser.Scene {
 		{
 			this.over = true;
 
+			// Remove timer element
+			this.timeText.setText('');
+			Phaser.Display.Align.In.Center(this.timeText, this.timer_back);
+
+			this.add.tween({
+				targets: this.timer_back,
+				duration: 1000,
+				y: -100,
+				ease: 'Cubic.inOut'
+			});
+			
 			// Reset players to idle state
 			this.player1.resetState();
 			this.player2.resetState();
