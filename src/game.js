@@ -89,19 +89,23 @@ class Game extends Phaser.Scene {
     }
 
     update(time, delta) {
-        console.log('setTimeStart: ' + this.setTimeStart);
         console.log('initTime: ' + this.initTime);
         console.log('Time: ' +time);
         if(this.initTime == 0){
         this.initTime = this.setInitTime(time);
         }
-        console.log('initTime: ' + this.initTime);
-        console.log('Time: ' +time);
+        
         this.timer = (time / 1000) - this.initTime;
 
-        this.timeText.setText(Math.round(this.timer));
+        if(Math.round(this.timer) - 7 > 0){
+            if(this.gameDuration - (Math.round(this.timer) - 7) > -1){
+                this.timeText.setText(this.gameDuration - (Math.round(this.timer) - 7));
+            }
+        }else {
+            this.timeText.setText(this.gameDuration);
+        }
 
-        if (this.timer < this.gameDuration) {
+        if (this.timer - 7 < this.gameDuration) {
             console.log('Time: ' +time);
             this.countDown(this.timer, this.title1);
             if (this.timer < 2) {
