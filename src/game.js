@@ -48,6 +48,7 @@ class Game extends Phaser.Scene {
 
 		this.start_timer_back = this.add.nineslice(640, 360, 'panel', undefined, 64, 48, 4, 4, 4, 4, undefined, undefined)
 		this.start_timer_back.scale = 4;
+		this.start_timer_back.depth = 10;
 
         // World Configuration
         this.grid = new Grid(this, 'ink');
@@ -79,8 +80,10 @@ class Game extends Phaser.Scene {
         this.rounds = 0;
 
         this.startTimeText = this.add.text(300, 50, ' ', { color: '#452600', fontSize: '96px', fontFamily: 'Metamorphous' });
+		this.startTimeText.depth = 10;
 
         this.timeText = this.add.text(0, 0, ' ', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous' });
+		this.timeText.depth = 10;
 		Phaser.Display.Align.In.Center(this.timeText, this.timer_back);
         
 		// End animation setup
