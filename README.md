@@ -9,7 +9,12 @@ Trabajo desarrollado para la asignatura de _Juegos en Red_.
 - Samuel Retamero Salado -> @Samuelovich -> s.retamero.2022@alumnos.urjc.es
 
 # GDD
-GDD Versión 1.0 -> 22/10/2024
+## Historial de versiones
+El documento de diseño es un elemento vivo que evoluciona junto con el juego. En este apartado se verán reflejados los cambios más relevantes realizados en el mismo respecto a sus distintas versiones.
+- V1.0 22/10/2024: Versión inicial del GDD
+- V2.0 26/11/2024. 
+	- Se han añadido los contenidos clasificación de edad, la licencia de uso y monetización al apartado de Introducción
+
 ## Introducción
 ### Motivación
 El surgimiento de los juegos en línea ha supuesto un antes y un después en la historia de los videojuegos, marcando así tendencias y hábitos de los jugadores. Este fenómeno ha cobrado una especial importancia, siendo que según un estudio realizado a principios de 2024 por Statista, calcula que el 93% de los jugadores juegan en línea, por lo que merece la pena detenerse a reflexionar y aprender acerca del formato de juego más común de la industria. El objetivo de esta práctica será, por lo tanto, desplegar un proceso de diseño y desarrollo que permita crear un videojuego en red que pueda conectar a dos usuarios desde distintos dispositivos.
@@ -21,11 +26,17 @@ A lo largo de las cuatro fases de la práctica de Juegos en Red el equipo de des
 El título cuenta con las siguientes características principales:
 - **Mecánicas variadas:** cuenta con mecánicas inspiradas en *Splatoon*, como la condición de victoria de aquel jugador que haya pintado una mayor zona de la pantalla, así como mecánicas originales que le darán más personalidad al juego.
 - **Uso del modelo cliente/servidor**, ya que está pensado para ser jugado desde dos máquinas distintas conectadas a la misma red que acceden al juego que se encuentra almacenado en otro dispositivo que actúa de servidor.
-- **Uso del framework Phaser 3** para desarrollar el videojuego con Javascript.
+- **Uso del framework Phaser 3** para desarrollar el videojuego mediante Javascript.
 ### Género
 *Ink Catiction* es un juego de acción en formato multijugador competitivo en el que dos jugadores deberán enfrentarse y tomar todo el control de un territorio posible. Tiene diferentes aspectos de juegos de estrategia, como el uso de potenciadores que habrá repartidos por el mapa.
 ### Público objetivo
 Al ser un juego sencillo de jugar disponible a distintos grupos, el equipo se ha centrado en un público más joven, reflejado en el uso de colores brillantes que retenga más su atención, entre otros. El hecho de que el juego esté destinado a un público joven no impide que otros también lo jueguen, como en un ambiente familiar, por lo que debe mantener una experiencia ligera y entretenida.
+
+Según la clasificación europea PEGI, este videojuego se encontraría dentro de la categoría con la etiqueta PEGI 7, siendo que el juego contiene escenas o sonidos que pueden atemorizar a niños pequeños y existe cierto grado de violencia, aunque esta no se encuentra representada de forma realista ni explícita. En el sistema análogo norteamericano se clasificaría como ESRB Everyone 10+.
+### Monetización
+El equipo de desarrollo planea lanzar una versión de este juego a la plataforma itch.io de manera gratuita para abarcar una mayor cantidad de público. Sin embargo, se ofrecerá la posibilidad de realizar una donación para apoyar a los creadores por el precio que el adquisidor desee, aunque la cantidad de la donación recomendada será 2.00€. Se considera también la posibilidad de añadir contenido adicional (personajes, mapas, modos de juego) y crear una versión final en caso de que el juego sea lo suficientemente exitoso, pudiendo convertirlo en un producto que se adquiera mediante un pago único de entre 5.00 a 10.00€.
+
+Tampoco se descarta la posibilidad de emplear métodos de monetización que no provengan directamente del videojuego, pudiendo crear merchandising o arte promocional que se pueda vender en forma de pósters o peluches de los personajes del juego.
 ### Historia
 El juego no tendrá un contenido narrativo amplio, ya que no forma parte del género del videojuego. Sin embargo, para situar al jugador en un mundo lúdico narrativo sí que se implementará una pequeña historia para crear el contexto del videojuego.
 

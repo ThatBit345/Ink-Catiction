@@ -14,11 +14,8 @@ class Game extends Phaser.Scene {
         this.player1_ink = this.getPlayerColor(this.player1_character);
         this.player2_ink = this.getPlayerColor(this.player2_character);
 
-<<<<<<< HEAD
         this.setTimeStart = 1;
         
-=======
->>>>>>> fe90c31ad685f1de8a338ef7f44d48027faba3ae
 		this.over = false;
     }
 
@@ -71,11 +68,8 @@ class Game extends Phaser.Scene {
         this.title1 = this.add.text(300, 50, ' ', { color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous' });
         this.title2 = this.add.text(300, 150, ' ', { color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous' });
 
-<<<<<<< HEAD
         this.timeText = this.add.text(600, 150, ' ', { color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous' });
         
-=======
->>>>>>> fe90c31ad685f1de8a338ef7f44d48027faba3ae
 		this.endcard_upper = this.add.image(-922, 1117, 'endcard');
 		this.endcard_upper.angle = -28.6;
 		this.endcard_upper.depth = 10;
