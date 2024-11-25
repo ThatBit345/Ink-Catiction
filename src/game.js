@@ -40,7 +40,7 @@ class Game extends Phaser.Scene {
 
 
         this.initTime = 0;
-        this.gameDuration = 15;
+        this.gameDuration = 30;
 
         // Player 1 Configuration
         this.keys1 = ["W", "A", "S", "D", "E"]
