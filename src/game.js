@@ -27,6 +27,7 @@ class Game extends Phaser.Scene {
 		this.load.image('endcard', '../assets/ui/spr_endcard_back.png');
 
         this.load.image('ink', '../assets/ink.png');
+		this.load.image('background', '../assets/map_catacombs.png');
 
         // Final Sprites
         this.load.spritesheet('agata', '../assets/agata_spritesheet.png', { frameWidth: 78, frameHeight: 88 });
@@ -35,23 +36,26 @@ class Game extends Phaser.Scene {
     }
 
     create(data) {
+		this.background = this.add.image(640, 360, 'background');
+		this.background.depth = -10;
+
         // World Configuration
         this.grid = new Grid(this, 'ink');
-
 
         this.initTime = 0;
         this.gameDuration = 15;
 
+
         // Player 1 Configuration
         this.keys1 = ["W", "A", "S", "D", "E"]
         this.velocity1 = 200;
-        this.player1 = this.physics.add.existing(new Player(this, 50, 100, this.player1_character, 1, this.keys1, this.velocity1, this.player1_ink));
+        this.player1 = this.physics.add.existing(new Player(this, 128, 215, this.player1_character, 1, this.keys1, this.velocity1, this.player1_ink));
         this.player1.setCollideWorldBounds(true);
 
         // Player 2 Configuration
         this.keys2 = ["UP", "LEFT", "DOWN", "RIGHT", "SHIFT"]
         this.velocity2 = 200;
-        this.player2 = this.physics.add.existing(new Player(this, 450, 100, this.player2_character, 2, this.keys2, this.velocity2, this.player2_ink));
+        this.player2 = this.physics.add.existing(new Player(this, 1152, 215, this.player2_character, 2, this.keys2, this.velocity2, this.player2_ink));
         this.player2.setCollideWorldBounds(true);
 
         //this.collission = this.physics.add.collider(this.player1.sprite, this.player2.sprite);
@@ -89,14 +93,14 @@ class Game extends Phaser.Scene {
     }
 
     update(time, delta) {
-        console.log('setTimeStart: ' + this.setTimeStart);
-        console.log('initTime: ' + this.initTime);
-        console.log('Time: ' +time);
+        //console.log('setTimeStart: ' + this.setTimeStart);
+        //console.log('initTime: ' + this.initTime);
+        //console.log('Time: ' +time);
         if(this.initTime == 0){
         this.initTime = this.setInitTime(time);
         }
-        console.log('initTime: ' + this.initTime);
-        console.log('Time: ' +time);
+        //console.log('initTime: ' + this.initTime);
+        //console.log('Time: ' +time);
         this.timer = (time / 1000) - this.initTime;
 
         this.timeText.setText(Math.round(this.timer));
