@@ -20,6 +20,7 @@ El documento de diseño es un elemento vivo que evoluciona junto con el juego. E
 El surgimiento de los juegos en línea ha supuesto un antes y un después en la historia de los videojuegos, marcando así tendencias y hábitos de los jugadores. Este fenómeno ha cobrado una especial importancia, siendo que según un estudio realizado a principios de 2024 por Statista, calcula que el 93% de los jugadores juegan en línea, por lo que merece la pena detenerse a reflexionar y aprender acerca del formato de juego más común de la industria. El objetivo de esta práctica será, por lo tanto, desplegar un proceso de diseño y desarrollo que permita crear un videojuego en red que pueda conectar a dos usuarios desde distintos dispositivos.
 
 A lo largo de las cuatro fases de la práctica de Juegos en Red el equipo de desarrollo *MoMo Studios* se encargará de traer a la vida *Ink Catiction*, un videojuego de acción inspirado en *Splatoon*. A continuación se muestra el documento de diseño de dicho videojuego, donde se desarrollan todos los contenidos que se pretenden plasmar en la entrega final.
+
 ### Concepto
 *Ink Catiction* es un videojuego en el que los jugadores tendrán la oportunidad de ponerse en la piel de distintos felinos combatientes, cuyo objetivo es competir contra otros gatos y dominar el campo de batalla usando el poder de la tinta como arma, para así convertirse en los campeones del reino.
 
@@ -33,10 +34,12 @@ El título cuenta con las siguientes características principales:
 Al ser un juego sencillo de jugar disponible a distintos grupos, el equipo se ha centrado en un público más joven, reflejado en el uso de colores brillantes que retenga más su atención, entre otros. El hecho de que el juego esté destinado a un público joven no impide que otros también lo jueguen, como en un ambiente familiar, por lo que debe mantener una experiencia ligera y entretenida.
 
 Según la clasificación europea PEGI, este videojuego se encontraría dentro de la categoría con la etiqueta PEGI 7, siendo que el juego contiene escenas o sonidos que pueden atemorizar a niños pequeños y existe cierto grado de violencia, aunque esta no se encuentra representada de forma realista ni explícita. En el sistema análogo norteamericano se clasificaría como ESRB Everyone 10+.
+
 ### Monetización
 El equipo de desarrollo planea lanzar una versión de este juego a la plataforma itch.io de manera gratuita para abarcar una mayor cantidad de público. Sin embargo, se ofrecerá la posibilidad de realizar una donación para apoyar a los creadores por el precio que el adquisidor desee, aunque la cantidad de la donación recomendada será 2.00€. Se considera también la posibilidad de añadir contenido adicional (personajes, mapas, modos de juego) y crear una versión final en caso de que el juego sea lo suficientemente exitoso, pudiendo convertirlo en un producto que se adquiera mediante un pago único de entre 5.00 a 10.00€.
 
 Tampoco se descarta la posibilidad de emplear métodos de monetización que no provengan directamente del videojuego, pudiendo crear merchandising o arte promocional que se pueda vender en forma de pósters o peluches de los personajes del juego.
+
 ### Historia
 El juego no tendrá un contenido narrativo amplio, ya que no forma parte del género del videojuego. Sin embargo, para situar al jugador en un mundo lúdico narrativo sí que se implementará una pequeña historia para crear el contexto del videojuego.
 
@@ -48,7 +51,7 @@ En esta sección se explica detalladamente los controles que se emplean en el ju
 
 El movimiento de los personajes se realizará en cuatro direcciones, y vendrá determinado por los siguientes controles:
 - **Movimiento en modo local**: en el caso de juego en local, los jugadores podrán usar las combinaciones de teclas “WASD”, para el jugador uno, y las teclas de las flechas “↑←↓→”, para el jugador dos, para desplazarse por la pantalla de juego e ir pintando aquellas zonas por las que pasa.
-- **Movimiento en modo en línea**: en el juego en red ambos jugadores usarán la combinación de teclas “WASD” desde cada uno de sus dispositivos.
+- **Movimiento en modo en línea**: en el juego en red ambos jugadores usarán la combinación de teclas “WASD” desde cada uno de sus dispositivos. Se considera la posibilidad de añadir controles por mando.
 
 #### Ataques
 Los jugadores podrán lanzar ataques básicos a melé pulsando las teclas correspondientes. Los ataques del jugador uno se activarán con la tecla “E” y los del jugador dos se podrán usar al pulsar la tecla “Shift right”. Para poder llevar a cabo un ataque exitoso requerirán que el jugador atacante se posicione en una de las casillas vecinas a las del jugador atacado.
