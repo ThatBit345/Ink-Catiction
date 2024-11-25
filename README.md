@@ -81,18 +81,27 @@ El juego contará con varios mapas jugables y diferenciados entre sí, los cuale
 
 Tanto la estructura como los bocetos de diseño se implementará en las siguientes fases del desarrollo.
 ## Personajes
-Todos los personajes de Ink Catiction son gatos, como indica el nombre. Se harán distintos tipos de gato para cada color. Esta decisión se ha llevado a cabo para que a los jugadores les resulte más fácil diferenciar a sus personajes en la pantalla. A continuación se muestran las descripciones que han permitido realizar un *concept art* de los personajes (presentados en el orden en el que se mencionan), que más adelante se convertirán en *sprites*.
+Todos los personajes de Ink Catiction son gatos, como indica el nombre. Se harán distintos tipos de gato para cada color. Esta decisión se ha llevado a cabo para que a los jugadores les resulte más fácil diferenciar a sus personajes en la pantalla. A continuación se muestran las descripciones que han permitido realizar un *concept art* de los personajes, que se convertirán en *sprites*.
+
 <img width="1599" alt="cats" src="https://github.com/user-attachments/assets/970d54f0-e923-4f6b-9107-1f2b1460dc5a">
 
-- **Gato morado:** “*Yenna* es una gata esfinge muy solitaria que ha dominado el arte de la brujería. Tiende a maldecir con sus hechizos chamánicos a todos aquellos que la molestan, ya que es fácilmente irritable. Su accesorio especial es una calavera  de cuervo teñida de morado que lleva como casco. La tinta morada que emplea en combate es el resultado de los torrentes de magia negra que salen despedidos de sus manos cuando conjura un hechizo.”
+### Personajes implementados
 - **Gato amarillo:** “*Frankcatstein* es un gato grisáceo de origen desconocido. Las partes de su cuerpo están unidas de una forma extremadamente macabra, como si de un muñeco hecho de piezas de otros juguetes se tratase. Este felino tiene una incontrolable sed de caos que se sacia únicamente cuando saborea la derrota de sus enemigos. Su accesorio especial es un cono de prevención que su creador utilizó para evitar que se arrancase partes de su propio cuerpo. El rastro de tinta amarilla que va dejando a su paso no es más que el combustible filtrado que su cuerpo utiliza para funcionar correctamente.”
-![Frankcatstein concept art](https://github.com/user-attachments/assets/character_splash/frank_splash.png?raw=true)
+
+![Frankcatstein splash art](https://github.com/user-attachments/assets/46f40c16-28af-44a4-94c9-39fabadaca6a)
+
 - **Gato magenta:** “*Ágata* es una gata calicó pastelera a la que le encantan las fresas. Tiene un carácter cariñoso y amistoso que invita a iniciar una amistad, sin embargo, le lanzará una tarta de fresas recién sacada del horno a todos aquellos que le intenten hacer daño a ella o a cualquiera de sus amigos. Tiene un sombrero con forma de fresa. La tinta que utiliza está hecha de una crema pastelera especial que se queda pegada allá por donde cae.”
+
+![Agata splash art](https://github.com/user-attachments/assets/53e5ec82-639f-4c0e-a72a-0a20c953f623)
+
+### Personajes por implementar 
+- **Gato morado:** “*Yenna* es una gata esfinge muy solitaria que ha dominado el arte de la brujería. Tiende a maldecir con sus hechizos chamánicos a todos aquellos que la molestan, ya que es fácilmente irritable. Su accesorio especial es una calavera  de cuervo teñida de morado que lleva como casco. La tinta morada que emplea en combate es el resultado de los torrentes de magia negra que salen despedidos de sus manos cuando conjura un hechizo.”
 - **Gato azul:** “*Stregobor* es un gato siamés anciano y uno de los hechiceros más reconocidos del reino. Tiene un carácter tranquilo y tiende a sopesar mucho las posibles soluciones para resolver sus problemas, por lo que no suele recurrir al conflicto a no ser que sea estrictamente necesario. Su accesorio identificativo es un sombrero puntiagudo azul de mago y una capa del mismo color. La tinta azul que utiliza proviene de las pociones mágicas cuya receta se ha esmerado en perfeccionar desde su juventud.”
 - **Gato naranja:** “*Sardinilla* es un gato naranja y, como los demás gatos de este tipo, es muy activo y tiene momentos de locura espontáneos. Su perfil hiperactivo encaja muy bien con la ajetreada vida de la ciudad, por lo que se retiró a la *miautrópolis* a trabajar como agente de obras. Su accesorio más llamativo es un cono de tráfico naranja reflectante que lleva puesto en la cabeza, junto con un chaleco del mismo color. Su tinta naranja son los cientos de litros de pintura que encargó por error para pintar su casa, y que ahora tiene que gastar en algo mejor.”
 - **Gato cian:** “*Gwynn* es un gato tuxedo y el fan número uno de la limpieza de baños. Tiene un carácter robusto y estricto. Se dedica a limpiar todos los restos de tinta que otros combatientes dejan por ahí, lo que le ha ganado bastantes enemigos. Utiliza una mezcla de limpiadores muy potentes y corrosivos a la piel como tinta, lo que puede provocar intoxicación a sus enemigos. Su accesorio especia es un gorro de limpieza y dos pared de guantes de color cian.”
+- 
 ## Estilo visual
-*Ink Catiction* contará con un estilo de arte tipo *Pixel Art*, con una resolución aún por definir. Será de una estética simple debido al reducido tiempo disponible para el desarrollo del videojuego pero con posibilidad de un mayor desarrollo en el apartado de diseño en un futuro.
+*Ink Catiction* contará con un estilo de arte tipo *Pixel Art*, con una resolución aproximada de 32px. Será de una estética simple debido al reducido tiempo disponible para el desarrollo del videojuego pero con posibilidad de un mayor desarrollo en el apartado de diseño en un futuro.
 
 En la selección de paletas de colores se hace especial hincapié en el color de las tintas. Se ha optado por colores llamativos y bien diferenciados entre sí con el fin de que las zonas pintadas por cada personaje queden claramente delimitadas entre sí. Es por ello que los jugadores podrán escoger los sets de pintura que deseen dentro de una paleta preestablecida, sin que ambos jugadores puedan elegir el mismo color para la misma partida.
 
