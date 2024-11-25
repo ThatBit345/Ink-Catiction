@@ -95,7 +95,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         } 
 
         if(this.picked){
-            this.applyPowerup(player, delta, grid);        
+            this.applyPowerup(player, delta, grid);
         }
         if (this.duration > 10000 ) {
             this.respawn(delta);
