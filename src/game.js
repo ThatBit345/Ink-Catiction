@@ -40,7 +40,7 @@ class Game extends Phaser.Scene {
 
 
         this.initTime = 0;
-        this.gameDuration = 15;
+        this.gameDuration = 5;
 
         // Player 1 Configuration
         this.keys1 = ["W", "A", "S", "D", "E"]
@@ -169,7 +169,12 @@ class Game extends Phaser.Scene {
 		let scene = this.parent.scene;
 
 		let ranking = scene.grid.countColors();
-        scene.scene.start('Endgame', [ranking, scene.player1, scene.player2]); 
+        console.log(ranking);
+        let p1score = ranking[0];
+        let p2score = ranking[1];
+        console.log('p1 score: ' + p1score);
+        console.log('p2 score: ' + p2score);
+        scene.scene.start('Endgame', [p1score, p2score, scene.player1, scene.player2]); 
 	}
 
     countDown(timer, title) {

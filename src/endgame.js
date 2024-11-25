@@ -4,12 +4,14 @@ class Endgame extends Phaser.Scene {
 	constructor() {
 		super('Endgame');
 	}
-
+  
 	init(data) {
-		var ranking = data[0];
-		console.log(ranking);
-		var Players = [data[1],data[2]];
-		console.log('Ranking de la partida: ' + ranking);
+		this.p1score = data[0];
+		this.p2score = data[1];
+		//console.log(ranking);
+		var Players = [data[2],data[3]];
+		console.log(Players);
+		console.log('Ranking de la partida: ' + this.p1score + 'vs' + this.p2score);
 	}
 
 	preload() {
@@ -23,15 +25,23 @@ class Endgame extends Phaser.Scene {
 
 		this.title1 = this.add.text(245, 100, 'Game Ranking', { color: '#452600', fontSize: '96px', fontFamily: 'Metamorphous' });
 
-		this.first = this.add.text(250, 250, 'First Place:', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
-		this.second = this.add.text(250, 350, 'Second Place: ', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+		//this.first = this.add.text(250, 250, 'First Place: ' + 'player1', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+		//this.second = this.add.text(250, 350, 'Second Place: ' + 'player2', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
 
-		if (this.ranking[1] > this.ranking[2]) {
-			this.first_name = this.add.text(350, 250, this.Players[1].name, { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
-			this.second_name = this.add.text(350, 350, this.Players[0].name, { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
-		} else if (ranking[0] < ranking[1]) {
-			this.first_name = this.add.text(350, 250, this.Players[0].name, { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
-			this.second_name = this.add.text(350, 350, this.Players[1].name, { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+
+		console.log('Ranking de la partida: ' + this.p1score + 'vs' + this.p2score);
+		if (this.p1score > this.p2score) {
+			//this.first_name = this.add.text(350, 250, this.Players[1].name, { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+			//this.second_name = this.add.text(350, 350, this.Players[0].name, { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+			this.first = this.add.text(250, 250, 'First Place: ' + 'player1', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+			this.second = this.add.text(250, 350, 'Second Place: ' + 'player2', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+			this.p1Text = this.add.text(250, 450, 'Player1 score: ' + this.p1score, { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+			this.p2Text = this.add.text(250, 550, 'Player1 score: ' + this.p2score, { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+		} else if (this.p1score < this.p2score) {
+			//this.first_name = this.add.text(350, 250, 'player2', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+			//this.second_name = this.add.text(350, 350, 'player1', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+			this.first = this.add.text(250, 250, 'First Place: ' + 'player2', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
+			this.second = this.add.text(250, 350, 'Second Place: ' + 'player1', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
 		}
 
 	}
