@@ -43,7 +43,7 @@ class Game extends Phaser.Scene {
         this.grid = new Grid(this, 'ink');
 
         this.initTime = 0;
-        this.gameDuration = 15;
+        this.gameDuration = 30;
 
 
         // Player 1 Configuration
