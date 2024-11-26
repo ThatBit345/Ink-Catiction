@@ -25,6 +25,13 @@ class Game extends Phaser.Scene {
         this.load.image('cat', '../assets/cat.png');
         this.load.image('box', '../assets/box.png');
 
+		// Sound
+		this.load.audio('bgm', '../assets/audio/mus_match.mp3');
+		this.load.audio('end_whisle', '../assets/audio/snd_end.mp3');
+		this.load.audio('bomb', '../assets/audio/snd_bomb.mp3');
+		this.load.audio('powerup', '../assets/audio/snd_powerup.mp3');
+		this.load.audio('hit', '../assets/audio/snd_hit.mp3');
+
 		// UI
 		this.load.image('endcard', '../assets/ui/spr_endcard_back.png');
 		this.load.image('timer_back', '../assets/ui/spr_timer_back.png');
@@ -103,6 +110,14 @@ class Game extends Phaser.Scene {
 		this.endcard_text_lower.angle = -28.6;
 		this.endcard_text_lower.depth = 10;
 
+		// Audio
+		let vol = this.registry.get('volume');
+		this.sound.setVolume(vol);
+
+		this.bgm = this.sound.add('bgm');
+		this.bgm.play();
+
+		this.endWhisle = this.sound.add('end_whisle');
     }
 
     update(time, delta) {
@@ -179,6 +194,9 @@ class Game extends Phaser.Scene {
 		else if(!this.over)
 		{
 			this.over = true;
+			
+			this.bgm.stop();
+			this.endWhisle.play();
 
 			// Remove timer element
 			this.timeText.setText('');

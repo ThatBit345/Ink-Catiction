@@ -39,161 +39,164 @@ class Menu extends Phaser.Scene
 
 	create(data)
 	{
-		const text_title = {color: '#E5B770', fontSize: '48px', fontFamily: 'Metamorphous'};
-		const text_normal = {color: '#E5B770', fontSize: '32px', fontFamily: 'Metamorphous'};
-		const text_title_dark = {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'};
+		const textTitle = {color: '#E5B770', fontSize: '48px', fontFamily: 'Metamorphous'};
+		const textNormal = {color: '#E5B770', fontSize: '32px', fontFamily: 'Metamorphous'};
+		const textTitleDark = {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'};
+
+		console.log(this);
+		this.registry.set('volume', 1);
 
 		// Background assets
 		this.splash = this.add.image(1000, 360, 'splash');
-		this.background_slice = this.add.image(640, 1080, 'back');
+		this.backgroundSlice = this.add.image(640, 1080, 'back');
 
 		// Main menu -----------------------------------
 		this.title1 = this.add.text(50, 50, 'Ink', {color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous'});
 		this.title2 = this.add.text(50, 126, 'Catiction', {color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous'});
 		this.ver = this.add.text(1130, 670, 'ver 0.01.00', {color: '#333', fontSize: '16px', fontFamily: 'Metamorphous'});
-		this.play_button = new Button(this.onPlay, 'Play', '64px', this, 250, 340, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
-		this.options_button = new Button(this.onSettings, 'Settings', '64px', this, 310, 460, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
-		this.credits_button = new Button(this.onCredits, 'Credits', '64px', this, 370, 580, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
+		this.playButton = new Button(this.onPlay, 'Play', '64px', this, 250, 340, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
+		this.optionsButton = new Button(this.onSettings, 'Settings', '64px', this, 310, 460, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
+		this.creditsButton = new Button(this.onCredits, 'Credits', '64px', this, 370, 580, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
 		
 		// Local/Online menu ---------------------------
-		this.coms_title1 = this.add.text(680 - 1280, 80, 'Choose your', text_title);
-		this.coms_title2 = this.add.text(730 - 1280, 150, 'connection type', text_title);
-		this.local_button = new Button(this.onLocal, 'Local Play', '64px', this, 900 - 1280, 340, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 172, 32);
-		this.online_button = new Button(this.undefinedButton, 'Online Play', '64px', this, 820 - 1280, 460, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 172, 32);
-		this.online_button.toggleEnable();
-		this.coms_back_button = new Button(this.onCommsBack, 'Back', '64px', this, 160 - 1280, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		this.comsTitle1 = this.add.text(680 - 1280, 80, 'Choose your', textTitle);
+		this.comsTitle2 = this.add.text(730 - 1280, 150, 'connection type', textTitle);
+		this.localButton = new Button(this.onLocal, 'Local Play', '64px', this, 900 - 1280, 340, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 172, 32);
+		this.onlineButton = new Button(this.undefinedButton, 'Online Play', '64px', this, 820 - 1280, 460, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 172, 32);
+		this.onlineButton.toggleEnable();
+		this.comsBackButton = new Button(this.onCommsBack, 'Back', '64px', this, 160 - 1280, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 		
 		// Credits menu --------------------------------
-		this.credits_back_button = new Button(this.onCreditsBack, 'Back', '64px', this, 160, 850, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
-		this.credits_title = this.add.text(720 + 1280, 80, 'Credits', text_title);
-		this.credits1 = this.add.text(680 + 1280, 180, 'Pablo Quiñones', text_normal);
-		this.credits2 = this.add.text(640 + 1280, 250, 'Sara Romero', text_normal);
-		this.credits3 = this.add.text(600 + 1280, 320, 'María Márquez', text_normal);
-		this.credits4 = this.add.text(560 + 1280, 390, 'Samuel Retamero', text_normal);
+		this.creditsBackButton = new Button(this.onCreditsBack, 'Back', '64px', this, 160, 850, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		this.creditsTitle = this.add.text(720 + 1280, 80, 'Credits', textTitle);
+		this.credits1 = this.add.text(680 + 1280, 180, 'Pablo Quiñones', textNormal);
+		this.credits2 = this.add.text(640 + 1280, 250, 'Sara Romero', textNormal);
+		this.credits3 = this.add.text(600 + 1280, 320, 'María Márquez', textNormal);
+		this.credits4 = this.add.text(560 + 1280, 390, 'Samuel Retamero', textNormal);
 		
 		// Settings menu -------------------------------
-		this.settings_back_button = new Button(this.onSettingsBack, 'Back', '64px', this, 160, 1440 + 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
-		this.settings_title = this.add.text(60, 1440 + 60, 'Settings', text_title);
-		this.volume_label = this.add.text(160, 1440 + 160, 'Volume', text_title);
-		this.volume_text = this.add.text(260, 1440 + 240, '10', text_normal);
-		this.volume_down_button = new Button(this.onMasterDecrease, '-', '40px', this, 200, 1440 + 260, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 16, 16);
-		this.volume_up_button = new Button(this.onMasterIncrease, '+', '40px', this, 360, 1440 + 260, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 16, 16);
+		this.settingsBackButton = new Button(this.onSettingsBack, 'Back', '64px', this, 160, 1440 + 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		this.settingsTitle = this.add.text(60, 1440 + 60, 'Settings', textTitle);
+		this.volumeLabel = this.add.text(160, 1440 + 160, 'Volume', textTitle);
+		this.volumeText = this.add.text(260, 1440 + 240, '10', textNormal);
+		this.volumeDownButton = new Button(this.onMasterDecrease, '-', '40px', this, 200, 1440 + 260, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 16, 16);
+		this.volumeUpButton = new Button(this.onMasterIncrease, '+', '40px', this, 360, 1440 + 260, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 16, 16);
 
 		// Character Select menu -----------------------
-		this.char_back_left = this.add.image(640, -620, 'back_char_left');
-		this.char_back_right = this.add.image(640, 1340, 'back_char_right');
-		this.char_title1 = this.add.text(460 - 2560, 40, 'Choose your', {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'});
-		this.char_title2 = this.add.text(560 - 2560, 110, 'miauracter', {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'});
-		this.char_back_button = new Button(this.onCharacterBack, 'Back', '64px', this, 160 - 2560, 850, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		this.charBackLeft = this.add.image(640, -620, 'back_char_left');
+		this.charBackRight = this.add.image(640, 1340, 'back_char_right');
+		this.charTitle1 = this.add.text(460 - 2560, 40, 'Choose your', {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'});
+		this.charTitle2 = this.add.text(560 - 2560, 110, 'miauracter', {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'});
+		this.charBackButton = new Button(this.onCharacterBack, 'Back', '64px', this, 160 - 2560, 850, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 		
 		// Agata
-		this.char1_button = new Button(this.onSelectAgata, ' ', '64px', this, 520 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char1_icon = this.add.image(520 - 2560, 525, 'agata_icon');
-		this.char1_icon.scale = 3;
+		this.char1Button = new Button(this.onSelectAgata, ' ', '64px', this, 520 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char1Icon = this.add.image(520 - 2560, 525, 'agata_icon');
+		this.char1Icon.scale = 3;
 		
 		// Frank
-		this.char2_button = new Button(this.onSelectFrank, ' ', '64px', this, 640 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char2_icon = this.add.image(640 - 2560, 525, 'frank_icon');
-		this.char2_icon.scale = 3;
+		this.char2Button = new Button(this.onSelectFrank, ' ', '64px', this, 640 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char2Icon = this.add.image(640 - 2560, 525, 'frank_icon');
+		this.char2Icon.scale = 3;
 
 		// Empty
-		this.char3_button = new Button(this.onSelectCharacter, ' ', '64px', this, 760 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char3_button.toggleEnable();
-		this.char3_icon = this.add.image(760 - 2560, 525, 'lock_icon');
-		this.char3_icon.scale = 3;
+		this.char3Button = new Button(this.onSelectCharacter, ' ', '64px', this, 760 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char3Button.toggleEnable();
+		this.char3Icon = this.add.image(760 - 2560, 525, 'lock_icon');
+		this.char3Icon.scale = 3;
 
 		// Empty
-		this.char4_button = new Button(this.onSelectCharacter, ' ', '64px', this, 520 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char4_button.toggleEnable();
-		this.char4_icon = this.add.image(520 - 2560, 645, 'lock_icon');
-		this.char4_icon.scale = 3;
+		this.char4Button = new Button(this.onSelectCharacter, ' ', '64px', this, 520 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char4Button.toggleEnable();
+		this.char4Icon = this.add.image(520 - 2560, 645, 'lock_icon');
+		this.char4Icon.scale = 3;
 
 		// Empty
-		this.char5_button = new Button(this.onSelectCharacter, ' ', '64px', this, 640 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char5_button.toggleEnable();
-		this.char5_icon = this.add.image(640 - 2560, 645, 'lock_icon');
-		this.char5_icon.scale = 3;
+		this.char5Button = new Button(this.onSelectCharacter, ' ', '64px', this, 640 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char5Button.toggleEnable();
+		this.char5Icon = this.add.image(640 - 2560, 645, 'lock_icon');
+		this.char5Icon.scale = 3;
 
 		// Empty
-		this.char6_button = new Button(this.onSelectCharacter, ' ', '64px', this, 760 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char6_button.toggleEnable();
-		this.char6_icon = this.add.image(760 - 2560, 645, 'lock_icon');
-		this.char6_icon.scale = 3;
+		this.char6Button = new Button(this.onSelectCharacter, ' ', '64px', this, 760 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char6Button.toggleEnable();
+		this.char6Icon = this.add.image(760 - 2560, 645, 'lock_icon');
+		this.char6Icon.scale = 3;
 
 		// Character splash art
-		this.player1_splash_back = this.add.nineslice(-200 - 2560, 300, 'button_normal', undefined, 125, 175, 4, 4, 4, 4, undefined, undefined)
-		this.player1_splash_back.scale = 3;
-		this.player1_splash_back.visible = false;
+		this.player1SplashBack = this.add.nineslice(-200 - 2560, 300, 'button_normal', undefined, 125, 175, 4, 4, 4, 4, undefined, undefined)
+		this.player1SplashBack.scale = 3;
+		this.player1SplashBack.visible = false;
 
-		this.player1_splash = this.add.image(-200 - 2560, 325, 'agata_splash');
-		this.player1_splash.scale = 0.25;
-		this.player1_splash.visible = false;
+		this.player1Splash = this.add.image(-200 - 2560, 325, 'agata_splash');
+		this.player1Splash.scale = 0.25;
+		this.player1Splash.visible = false;
 
-		this.player1_splash_nameplate = this.add.text(-200 - 2560, 100, 'NAME', text_title_dark);
-		this.player1_splash_nameplate.visible = false;
+		this.player1SplashNameplate = this.add.text(-200 - 2560, 100, 'NAME', textTitleDark);
+		this.player1SplashNameplate.visible = false;
 
-		this.player2_splash_back = this.add.nineslice(1480 - 2560, 300, 'button_normal', undefined, 125, 175, 4, 4, 4, 4, undefined, undefined)
-		this.player2_splash_back.scale = 3;
-		this.player2_splash_back.visible = false;
+		this.player2SplashBack = this.add.nineslice(1480 - 2560, 300, 'button_normal', undefined, 125, 175, 4, 4, 4, 4, undefined, undefined)
+		this.player2SplashBack.scale = 3;
+		this.player2SplashBack.visible = false;
 
-		this.player2_splash = this.add.image(1480 - 2560, 325, 'frank_splash');
-		this.player2_splash.scale = 0.25;
-		this.player2_splash.flipX = true;
-		this.player2_splash.visible = false;
+		this.player2Splash = this.add.image(1480 - 2560, 325, 'frank_splash');
+		this.player2Splash.scale = 0.25;
+		this.player2Splash.flipX = true;
+		this.player2Splash.visible = false;
 
-		this.player2_splash_nameplate = this.add.text(1480 - 2560, 100, 'NAME', text_title_dark);
-		this.player2_splash_nameplate.visible = false;
+		this.player2SplashNameplate = this.add.text(1480 - 2560, 100, 'NAME', textTitleDark);
+		this.player2SplashNameplate.visible = false;
 
-		this.start_game_button = new Button(this.onStartGame, 'Start!', '40px', this, 640 - 2560, 425, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 24);
-		this.start_game_button.toggleEnable();
+		this.startGameButton = new Button(this.onStartGame, 'Start!', '40px', this, 640 - 2560, 425, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 24);
+		this.startGameButton.toggleEnable();
 
 		// Elements to tween ---------------------------
 		this.elements = [
-			this.background_slice,
+			this.backgroundSlice,
 			this.title1,
 			this.title2,
 			this.ver,
-			this.play_button, 
-			this.options_button, 
-			this.credits_button,
-			this.settings_back_button,
-			this.settings_title,
-			this.volume_label,
-			this.volume_text,
-			this.volume_down_button,
-			this.volume_up_button,
-			this.coms_title1,
-			this.coms_title2,
-			this.local_button,
-			this.online_button,
-			this.coms_back_button,
-			this.credits_title,
+			this.playButton, 
+			this.optionsButton, 
+			this.creditsButton,
+			this.settingsBackButton,
+			this.settingsTitle,
+			this.volumeLabel,
+			this.volumeText,
+			this.volumeDownButton,
+			this.volumeUpButton,
+			this.comsTitle1,
+			this.comsTitle2,
+			this.localButton,
+			this.onlineButton,
+			this.comsBackButton,
+			this.creditsTitle,
 			this.credits1,
 			this.credits2,
 			this.credits3,
 			this.credits4,
-			this.char_back_button,
-			this.char_title1,
-			this.char_title2,
-			this.char1_button,
-			this.char2_button,
-			this.char3_button,
-			this.char4_button,
-			this.char5_button,
-			this.char6_button,
-			this.char1_icon,
-			this.char2_icon,
-			this.char3_icon,
-			this.char4_icon,
-			this.char5_icon,
-			this.char6_icon,
-			this.player1_splash_back,
-			this.player2_splash_back,
-			this.player1_splash,
-			this.player2_splash,
-			this.player1_splash_nameplate,
-			this.player2_splash_nameplate,
-			this.start_game_button
+			this.charBackButton,
+			this.charTitle1,
+			this.charTitle2,
+			this.char1Button,
+			this.char2Button,
+			this.char3Button,
+			this.char4Button,
+			this.char5Button,
+			this.char6Button,
+			this.char1Icon,
+			this.char2Icon,
+			this.char3Icon,
+			this.char4Icon,
+			this.char5Icon,
+			this.char6Icon,
+			this.player1SplashBack,
+			this.player2SplashBack,
+			this.player1Splash,
+			this.player2Splash,
+			this.player1SplashNameplate,
+			this.player2SplashNameplate,
+			this.startGameButton
 		]
 	}
 
@@ -249,7 +252,7 @@ class Menu extends Phaser.Scene
 					ease: 'Cubic.inOut'
 				},
 				{
-					targets: this.scene.credits_back_button,
+					targets: this.scene.creditsBackButton,
 					duration: 400,
 					y: '-=200',
 					ease: 'Cubic.out'
@@ -294,7 +297,8 @@ class Menu extends Phaser.Scene
 		else if(volume < 0) volume = 0;
 
 		this.scene.sound.setVolume(volume);
-		this.scene.volume_text.text = Math.round(volume * 10);
+		this.scene.registry.set('volume', volume);
+		this.scene.volumeText.text = Math.round(volume * 10);
 	}
 
 	onMasterDecrease()
@@ -306,7 +310,8 @@ class Menu extends Phaser.Scene
 		else if(volume < 0) volume = 0;
 
 		this.scene.sound.setVolume(volume);
-		this.scene.volume_text.text = Math.round(volume * 10);
+		this.scene.registry.set('volume', volume);
+		this.scene.volumeText.text = Math.round(volume * 10);
 	}
 	// #endregion
 
@@ -323,13 +328,13 @@ class Menu extends Phaser.Scene
 					ease: 'Cubic.inOut'
 				},
 				{
-					targets: [this.scene.char_back_left, this.scene.char_back_right],
+					targets: [this.scene.charBackLeft, this.scene.charBackRight],
 					duration: 300,
 					y: 360,
 					ease: 'Cubic.inOut'
 				},
 				{
-					targets: this.scene.char_back_button,
+					targets: this.scene.charBackButton,
 					duration: 400,
 					y: '-=200',
 					ease: 'Cubic.out'
@@ -379,20 +384,20 @@ class Menu extends Phaser.Scene
 			console.log("Set player 1 to Agata");
 
 			// Set the character splash screen
-			this.scene.player1_splash_back.visible = true;
-			this.scene.player1_splash.visible = true;
-			this.scene.player1_splash_nameplate.visible = true;
+			this.scene.player1SplashBack.visible = true;
+			this.scene.player1Splash.visible = true;
+			this.scene.player1SplashNameplate.visible = true;
 
-			this.scene.player1_splash.setTexture('agata_splash');
-			this.scene.player1_splash_nameplate.text = "Agata";
-			Phaser.Display.Align.In.Center(this.scene.player1_splash_nameplate, this.scene.player1_splash_back);
-			this.scene.player1_splash_nameplate.y = 50;
+			this.scene.player1Splash.setTexture('agata_splash');
+			this.scene.player1SplashNameplate.text = "Agata";
+			Phaser.Display.Align.In.Center(this.scene.player1SplashNameplate, this.scene.player1SplashBack);
+			this.scene.player1SplashNameplate.y = 50;
 
-			this.scene.char1_button.toggleEnable();
+			this.scene.char1Button.toggleEnable();
 
 			// Tween the character splash screen into view
 			this.scene.add.tween({
-				targets: [this.scene.player1_splash, this.scene.player1_splash_back, this.scene.player1_splash_nameplate],
+				targets: [this.scene.player1Splash, this.scene.player1SplashBack, this.scene.player1SplashNameplate],
 				duration: 1000,
 				x: '+=400',
 				ease: 'Cubic.inOut'
@@ -404,25 +409,25 @@ class Menu extends Phaser.Scene
 			console.log("Set player 2 to Agata");
 
 			// Set the character splash screen
-			this.scene.player2_splash_back.visible = true;
-			this.scene.player2_splash.visible = true;
-			this.scene.player2_splash_nameplate.visible = true;
+			this.scene.player2SplashBack.visible = true;
+			this.scene.player2Splash.visible = true;
+			this.scene.player2SplashNameplate.visible = true;
 
-			this.scene.player2_splash.setTexture('agata_splash');
-			this.scene.player2_splash_nameplate.text = "Agata";
-			Phaser.Display.Align.In.Center(this.scene.player2_splash_nameplate, this.scene.player2_splash_back);
-			this.scene.player2_splash_nameplate.y = 50;
+			this.scene.player2Splash.setTexture('agata_splash');
+			this.scene.player2SplashNameplate.text = "Agata";
+			Phaser.Display.Align.In.Center(this.scene.player2SplashNameplate, this.scene.player2SplashBack);
+			this.scene.player2SplashNameplate.y = 50;
 
-			this.scene.char1_button.toggleEnable();
+			this.scene.char1Button.toggleEnable();
 
 			// Tween the character splash screen into view
 			this.scene.add.tween({
-				targets: [this.scene.player2_splash, this.scene.player2_splash_back, this.scene.player2_splash_nameplate],
+				targets: [this.scene.player2Splash, this.scene.player2SplashBack, this.scene.player2SplashNameplate],
 				duration: 1000,
 				x: '-=400',
 				ease: 'Cubic.inOut'
 			});
-			this.scene.start_game_button.toggleEnable();
+			this.scene.startGameButton.toggleEnable();
 		}
 	}
 
@@ -434,20 +439,20 @@ class Menu extends Phaser.Scene
 			console.log("Set player 1 to Frank");
 
 			// Set the character splash screen
-			this.scene.player1_splash_back.visible = true;
-			this.scene.player1_splash.visible = true;
-			this.scene.player1_splash_nameplate.visible = true;
+			this.scene.player1SplashBack.visible = true;
+			this.scene.player1Splash.visible = true;
+			this.scene.player1SplashNameplate.visible = true;
 
-			this.scene.player1_splash.setTexture('frank_splash');
-			this.scene.player1_splash_nameplate.text = "Frank";
-			Phaser.Display.Align.In.Center(this.scene.player1_splash_nameplate, this.scene.player1_splash_back);
-			this.scene.player1_splash_nameplate.y = 50;
+			this.scene.player1Splash.setTexture('frank_splash');
+			this.scene.player1SplashNameplate.text = "Frank";
+			Phaser.Display.Align.In.Center(this.scene.player1SplashNameplate, this.scene.player1SplashBack);
+			this.scene.player1SplashNameplate.y = 50;
 
-			this.scene.char2_button.toggleEnable();
+			this.scene.char2Button.toggleEnable();
 	
 			// Tween the character splash screen into view
 			this.scene.add.tween({
-				targets: [this.scene.player1_splash, this.scene.player1_splash_back, this.scene.player1_splash_nameplate],
+				targets: [this.scene.player1Splash, this.scene.player1SplashBack, this.scene.player1SplashNameplate],
 				duration: 1000,
 				x: '+=400',
 				ease: 'Cubic.inOut'
@@ -459,25 +464,25 @@ class Menu extends Phaser.Scene
 			console.log("Set player 2 to Frank");
 
 			// Set the character splash screen
-			this.scene.player2_splash_back.visible = true;
-			this.scene.player2_splash.visible = true;
-			this.scene.player2_splash_nameplate.visible = true;
+			this.scene.player2SplashBack.visible = true;
+			this.scene.player2Splash.visible = true;
+			this.scene.player2SplashNameplate.visible = true;
 			
-			this.scene.player2_splash.setTexture('frank_splash');
-			this.scene.player2_splash_nameplate.text = "Frank";
-			Phaser.Display.Align.In.Center(this.scene.player2_splash_nameplate, this.scene.player2_splash_back);
-			this.scene.player2_splash_nameplate.y = 50;
+			this.scene.player2Splash.setTexture('frank_splash');
+			this.scene.player2SplashNameplate.text = "Frank";
+			Phaser.Display.Align.In.Center(this.scene.player2SplashNameplate, this.scene.player2SplashBack);
+			this.scene.player2SplashNameplate.y = 50;
 
-			this.scene.char2_button.toggleEnable();
+			this.scene.char2Button.toggleEnable();
 	
 			// Tween the character splash screen into view
 			this.scene.add.tween({
-				targets: [this.scene.player2_splash, this.scene.player2_splash_back, this.scene.player2_splash_nameplate],
+				targets: [this.scene.player2Splash, this.scene.player2SplashBack, this.scene.player2SplashNameplate],
 				duration: 1000,
 				x: '-=400',
 				ease: 'Cubic.inOut'
 			});
-			this.scene.start_game_button.toggleEnable();
+			this.scene.startGameButton.toggleEnable();
 		}
 	}
 
@@ -489,7 +494,7 @@ class Menu extends Phaser.Scene
 	onCharacterBack()
 	{
 		this.scene.add.tween({
-			targets: this.scene.char_back_button,
+			targets: this.scene.charBackButton,
 			duration: 400,
 			y: '+=200',
 			ease: 'Cubic.out'
@@ -504,14 +509,14 @@ class Menu extends Phaser.Scene
 		});
 
 		this.scene.add.tween({
-			targets: this.scene.char_back_left,
+			targets: this.scene.charBackLeft,
 			duration: 400,
 			y: -620,
 			ease: 'Cubic.inOut'
 		});
 
 		this.scene.add.tween({
-			targets: this.scene.char_back_right,
+			targets: this.scene.charBackRight,
 			duration: 400,
 			y: 1340,
 			ease: 'Cubic.inOut'
@@ -530,27 +535,27 @@ class Menu extends Phaser.Scene
 		let scene = this.parent.scene;
 
 		// Reset the character splash art screens
-		scene.player1_splash_back.visible = false;
-		scene.player1_splash.visible = false;
-		scene.player1_splash_nameplate.visible = false;
+		scene.player1SplashBack.visible = false;
+		scene.player1Splash.visible = false;
+		scene.player1SplashNameplate.visible = false;
 
-		scene.player1_splash_back.x = -200 - 1280;
-		scene.player1_splash.x = -200 - 1280;
-		scene.player1_splash_nameplate.x = -200 - 1280;
+		scene.player1SplashBack.x = -200 - 1280;
+		scene.player1Splash.x = -200 - 1280;
+		scene.player1SplashNameplate.x = -200 - 1280;
 
-		scene.player2_splash_back.visible = false;
-		scene.player2_splash.visible = false;
-		scene.player2_splash_nameplate.visible = false;
+		scene.player2SplashBack.visible = false;
+		scene.player2Splash.visible = false;
+		scene.player2SplashNameplate.visible = false;
 
-		scene.player2_splash_back.x = 1480 - 1280;
-		scene.player2_splash.x = 1480 - 1280;
-		scene.player2_splash_nameplate.x = 1480 - 1280;
+		scene.player2SplashBack.x = 1480 - 1280;
+		scene.player2Splash.x = 1480 - 1280;
+		scene.player2SplashNameplate.x = 1480 - 1280;
 
-		if(scene.start_game_button.enabled) scene.start_game_button.toggleEnable();
+		if(scene.startGameButton.enabled) scene.startGameButton.toggleEnable();
 
 		// Reset the character buttons and selection
-		if(!scene.char1_button.enabled) scene.char1_button.toggleEnable();
-		if(!scene.char2_button.enabled) scene.char2_button.toggleEnable();
+		if(!scene.char1Button.enabled) scene.char1Button.toggleEnable();
+		if(!scene.char2Button.enabled) scene.char2Button.toggleEnable();
 
 		scene.player1 = undefined;
 		scene.player2 = undefined;
@@ -561,7 +566,7 @@ class Menu extends Phaser.Scene
 	onCreditsBack()
 	{
 		this.scene.add.tween({
-			targets: this.scene.credits_back_button,
+			targets: this.scene.creditsBackButton,
 			duration: 400,
 			y: '+=200',
 			ease: 'Cubic.out'

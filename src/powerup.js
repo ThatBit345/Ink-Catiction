@@ -23,6 +23,9 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.picked = false;
         this.respawntime = 0;
         this.exploded = false;
+		
+		this.bombSfx = this.scene.sound.add('bomb');
+		this.sfx = this.scene.sound.add('powerup');
     }
 
 	getPosition()
@@ -83,7 +86,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.sprite.anims.play(`${this.type}`, true);  
 
         var distance = this.manhattanDistance(this.sprite.x, this.sprite.y, player.sprite.x, player.sprite.y);
-        if(distance < 40){
+        if(distance < 40 && this.sprite.visible){
             this.time += delta;
             if(this.time < 200){
                 player.runAnimation(player,`${player.texture}-powerup`, 0, 0);
@@ -92,7 +95,8 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
                 }
                 //this.sprite.enable = false;
                 this.picked = true;
-		this.wielder = player;
+				this.wielder = player;
+				this.sfx.play();
                 this.sprite.setVisible(false);
             }                           
         } 
@@ -125,6 +129,8 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
             case 'Bomb':
 				if(this.exploded) return;
 				this.exploded = true;
+				this.bombSfx.play();
+
                 let x = Math.floor(this.x / 40);
                 let y = Math.floor(this.y / 40);
 
@@ -152,7 +158,15 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.time = 0;
         this.duration = 0;
         this.exploded = false;
-	this.wielder = undefined;
+		this.wielder = undefined;
+
+		var pos = this.getPosition();
+
+		this.x = pos[0];
+		this.y = pos[1];
+
+		this.sprite.x = pos[0];
+		this.sprite.y = pos[1];
     }
 
     manhattanDistance(powerx, powery, playerx, playery){

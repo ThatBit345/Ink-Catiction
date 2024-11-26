@@ -33,6 +33,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.cont = 0;
         this.clock = 0;
         this.respawnclock = 0;
+
+		this.hitSfx = this.scene.sound.add('hit');
     }
 
     // Create PLayer configuration
@@ -189,6 +191,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         if(distance < 80 && this.isAttacking && this.cont < 1){
             this.runAnimation(other,`${other.texture}-hit`, 0, 0);
+			this.hitSfx.play();
             console.log(`${this.name} attacked ${other.name}`);      
             this.cont++;
             if(this.cont >= 1){
