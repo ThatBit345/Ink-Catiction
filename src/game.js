@@ -30,7 +30,7 @@ class Game extends Phaser.Scene {
 		this.load.image('timer_back', '../assets/ui/spr_timer_back.png');
 		this.load.image('panel', '../assets/ui/spr_button_normal.png');
 
-        this.load.image('ink', '../assets/ink.png');
+        this.load.image('ink', '../assets/ink_10x.png');
 		this.load.image('background', '../assets/map_catacombs.png');
 
         // Final Sprites
