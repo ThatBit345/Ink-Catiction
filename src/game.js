@@ -63,7 +63,7 @@ class Game extends Phaser.Scene {
         this.player1.setCollideWorldBounds(true);
 
         // Player 2 Configuration
-        this.keys2 = ["UP", "LEFT", "DOWN", "RIGHT", "SHIFT"]
+        this.keys2 = ["UP", "LEFT", "DOWN", "RIGHT", "M"]
         this.velocity2 = 200;
         this.player2 = this.physics.add.existing(new Player(this, 1152, 215, this.player2_character, 2, this.keys2, this.velocity2, this.player2_ink));
         this.player2.setCollideWorldBounds(true);
