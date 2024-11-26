@@ -197,6 +197,8 @@ En esta pantalla se mostrarán los siguientes elementos:
 ### Pantalla de Configuración
 
 ![configuracion](https://github.com/user-attachments/assets/a37041ef-9ff7-45a7-aa0e-630e07f5089d)
+![configuracion_implementado](https://github.com/user-attachments/assets/5261cdfc-0fe7-40d1-b6a7-9ea340498db9)
+
 
 Este boceto representa vagamente la idea de cómo debería ser la pantalla de configuración, compuesta por tres desplegables para las categorías: general, audio y vídeo. En el boceto se muestran tres ejemplos de ajustes genéricos que se podrán emplear en los ajustes, como por ejemplo pueden ser los sliders o los botones. En este caso, la selección de los ajustes más apropiados queda a cargo del apartado de programación.
 ### Pantalla de Resultados
