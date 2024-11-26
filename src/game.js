@@ -174,6 +174,7 @@ class Game extends Phaser.Scene {
                 this.powerup2.updatePowerup(this.player2, delta, this.grid);
                 this.powerup3.updatePowerup(this.player2, delta, this.grid);
             }
+            console.clear();
         } 
 		else if(!this.over)
 		{
@@ -219,6 +220,11 @@ class Game extends Phaser.Scene {
 		let scene = this.parent.scene;
 
 		let ranking = scene.grid.countColors();
+        console.log(ranking);
+        //let p1score = ranking[0];
+        //let p2score = ranking[1];
+        //console.log('p1 score: ' + p1score);
+        //console.log('p2 score: ' + p2score);
         scene.scene.start('Endgame', [ranking, scene.player1, scene.player2]); 
 	}
 
