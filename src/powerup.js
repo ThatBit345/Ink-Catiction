@@ -12,6 +12,8 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
 
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
         this.sprite.setScale(3);
+
+        this.wielder = undefined; //checks which player picked the PowerUp
         this.type;
         this.generateRandomType();
 
@@ -90,14 +92,15 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
                 }
                 //this.sprite.enable = false;
                 this.picked = true;
+		this.wielder = player;
                 this.sprite.setVisible(false);
             }                           
         } 
 
-        if(this.picked){
+        if(this.picked && this.wielder == player){
             this.applyPowerup(player, delta, grid);
         }
-        if (this.duration > 10000 ) {
+        if (this.duration > 10000 && this.wielder == player) {
             this.respawn(delta);
         }
         
@@ -149,6 +152,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.time = 0;
         this.duration = 0;
         this.exploded = false;
+	this.wielder = undefined;
     }
 
     manhattanDistance(powerx, powery, playerx, playery){
