@@ -15,6 +15,7 @@ El documento de diseño es un elemento vivo que evoluciona junto con el juego. E
 - V2.0 26/11/2024. 
 	- Añadidos los contenidos clasificación de edad, la licencia de uso y monetización al apartado de Introducción
 	- Añadidas las imágenes de arte de personajes, paletas y _sprites_ a sus respectivos apartados
+	- Añadidas las nuevas versiones de las interfaces
  	- Correcciones menores en el documento respecto a la anterior versión 
 
 ## Introducción
@@ -22,7 +23,6 @@ El documento de diseño es un elemento vivo que evoluciona junto con el juego. E
 El surgimiento de los juegos en línea ha supuesto un antes y un después en la historia de los videojuegos, marcando así tendencias y hábitos de los jugadores. Este fenómeno ha cobrado una especial importancia, siendo que según un estudio realizado a principios de 2024 por Statista, calcula que el 93% de los jugadores juegan en línea, por lo que merece la pena detenerse a reflexionar y aprender acerca del formato de juego más común de la industria. El objetivo de esta práctica será, por lo tanto, desplegar un proceso de diseño y desarrollo que permita crear un videojuego en red que pueda conectar a dos usuarios desde distintos dispositivos.
 
 A lo largo de las cuatro fases de la práctica de Juegos en Red el equipo de desarrollo *MoMo Studios* se encargará de traer a la vida *Ink Catiction*, un videojuego de acción inspirado en *Splatoon*. A continuación se muestra el documento de diseño de dicho videojuego, donde se desarrollan todos los contenidos que se pretenden plasmar en la entrega final.
-
 ### Concepto
 *Ink Catiction* es un videojuego en el que los jugadores tendrán la oportunidad de ponerse en la piel de distintos felinos combatientes, cuyo objetivo es competir contra otros gatos y dominar el campo de batalla usando el poder de la tinta como arma, para así convertirse en los campeones del reino.
 
@@ -36,28 +36,23 @@ El título cuenta con las siguientes características principales:
 Al ser un juego sencillo de jugar disponible a distintos grupos, el equipo se ha centrado en un público más joven, reflejado en el uso de colores brillantes que retenga más su atención, entre otros. El hecho de que el juego esté destinado a un público joven no impide que otros también lo jueguen, como en un ambiente familiar, por lo que debe mantener una experiencia ligera y entretenida.
 
 Según la clasificación europea PEGI, este videojuego se encontraría dentro de la categoría con la etiqueta PEGI 7, siendo que el juego contiene escenas o sonidos que pueden atemorizar a niños pequeños y existe cierto grado de violencia, aunque esta no se encuentra representada de forma realista ni explícita. En el sistema análogo norteamericano se clasificaría como ESRB Everyone 10+.
-
 ### Monetización
 El equipo de desarrollo planea lanzar una versión de este juego a la plataforma itch.io de manera gratuita para abarcar una mayor cantidad de público. Sin embargo, se ofrecerá la posibilidad de realizar una donación para apoyar a los creadores por el precio que el adquisidor desee, aunque la cantidad de la donación recomendada será 2.00€. Se considera también la posibilidad de añadir contenido adicional (personajes, mapas, modos de juego) y crear una versión final en caso de que el juego sea lo suficientemente exitoso, pudiendo convertirlo en un producto que se adquiera mediante un pago único de entre 5.00 a 10.00€.
 
 Tampoco se descarta la posibilidad de emplear métodos de monetización que no provengan directamente del videojuego, pudiendo crear merchandising o arte promocional que se pueda vender en forma de pósters o peluches de los personajes del juego.
-
 ### Licencia de uso
 Ink Catiction tiene una licencia Apache 2.0, por lo que se permite modificar, redistribuir y utilizar el código con fines tanto comerciales como no comerciales siempre y cuando se incluya un aviso de licencia Apache.
-
 ### Historia
 El juego no tendrá un contenido narrativo amplio, ya que no forma parte del género del videojuego. Sin embargo, para situar al jugador en un mundo lúdico narrativo sí que se implementará una pequeña historia para crear el contexto del videojuego.
 
 La narración de *Ink Catiction* está centrada en los conflictos que surgen entre distintos felinos territoriales, que combatirán en un torneo por reclamar la propiedad de un reino. Estos gatos pelearán en espacios preparados para el combate, donde deberán ir dejando trazos de tinta para marcar el terreno de su propiedad. Los protagonistas deberán combatir entre sí para, no solo pintar la mayor zona del patio posible, sino para evitar que el adversario les arrebate su puesto por conseguir la corona.
 ## Jugabilidad
-
 ### Mecánicas
 En esta sección se explica detalladamente los controles que se emplean en el juego así como otros aspectos de la jugabilidad como pueden ser los potenciadores o las condiciones de victoria y derrota. Como puntualización adicional, el juego no contará con niveles progresivamente más complicados ni una curva de dificultad definida, puesto que por el tipo de juego que es, estos aspectos vienen determinados por el nivel de habilidad del jugador y de su oponente y no del videojuego.
 
 El movimiento de los personajes se realizará en cuatro direcciones, y vendrá determinado por los siguientes controles:
 - **Movimiento en modo local**: en el caso de juego en local, los jugadores podrán usar las combinaciones de teclas “WASD”, para el jugador uno, y las teclas de las flechas “↑←↓→”, para el jugador dos, para desplazarse por la pantalla de juego e ir pintando aquellas zonas por las que pasa.
 - **Movimiento en modo en línea**: en el juego en red ambos jugadores usarán la combinación de teclas “WASD” desde cada uno de sus dispositivos. Se considera la posibilidad de añadir controles por mando.
-
 #### Ataques
 Los jugadores podrán lanzar ataques básicos a melé pulsando las teclas correspondientes. Los ataques del jugador uno se activarán con la tecla “E” y los del jugador dos se podrán usar al pulsar la tecla “Shift right”. Para poder llevar a cabo un ataque exitoso requerirán que el jugador atacante se posicione en una de las casillas vecinas a las del jugador atacado.
 
@@ -67,13 +62,13 @@ Cada partida tiene una duración de tres minutos, y se considerará ganador a aq
 ### Condición de derrota
 La condición de derrota es la opuesta a la condición de victoria, pierde el jugador que menos casillas haya sido capaz de pintar en el tiempo delimitado. En caso de empate, pierde el que haya sido eliminado un mayor número de veces por el jugador contrario. La eliminación (muerte del personaje) no conlleva la derrota de la partida pero sí una penalización estratégica.
 ### Objetos
-
 #### Power Ups
 En el mapa se distribuirán una serie de *Power Ups* que aparecerán aleatoria y esporádicamente en puntos accesibles para ambos jugadores. Dichos *Power Ups* aportarán ventajas de distintos tipos que permitirán una experiencia de juego más variada así como un mejor control del mapa en caso de ser utilizados apropiadamente. Se distinguen los siguientes tipos:
 - **Aumento de velocidad:** el personaje recibe un bonificador que aumenta su velocidad durante 5 segundos, pudiendo abarcar más zonas del tablero.
 - **Ataques ilimitados:** el jugador recibirá por 5 segundos un número ilimitado de ataques que no afectará a la barra de resistencia.
 - **Bomba de pintura:** se produce una explosión que cubre de tinta todo lo que hay alrededor del jugador en un radio determinado, pintando de una sola vez una mayor zona del mapa.
 <img width="1599" alt="cats" src="https://github.com/user-attachments/assets/47f7369c-6c55-426c-ab74-e9ce256d546b">
+
 ## Mapas
 El espacio consta de una dimensión en 2D con una estructura tipo mapa de baldosas. Este espacio estará limitado al espacio de la pantalla, y el POV que tendrán los jugadores del mapa será de una cámara 2D en perspectiva cenital, con las sprites representadas en picado para una mejor legibilidad de los personajes.
 
@@ -96,6 +91,7 @@ Todos los personajes de Ink Catiction son gatos, como indica el nombre. Se hará
 - **Gato magenta:** “*Ágata* es una gata calicó pastelera a la que le encantan las fresas. Tiene un carácter cariñoso y amistoso que invita a iniciar una amistad, sin embargo, le lanzará una tarta de fresas recién sacada del horno a todos aquellos que le intenten hacer daño a ella o a cualquiera de sus amigos. Tiene un sombrero con forma de fresa. La tinta que utiliza está hecha de una crema pastelera especial que se queda pegada allá por donde cae.”
 
 A continuación se muestra el arte de los personajes en orden de descripción respectivamente.
+
 ![character_splash](https://github.com/user-attachments/assets/9c43e060-a53d-4d72-91d7-a479a69b484d)
 
 ### Personajes por implementar 
@@ -106,15 +102,17 @@ A continuación se muestra el arte de los personajes en orden de descripción re
 
 ## Estilo visual
 *Ink Catiction* contará con un estilo de arte tipo *Pixel Art*, con una resolución aproximada de 32px. Será de una estética simple debido al reducido tiempo disponible para el desarrollo del videojuego pero con posibilidad de un mayor desarrollo en el apartado de diseño en un futuro. A continuación se muestran ejemplos de algunos ciclos de animación creados para los personajes, como el idle de Ágata o el ciclo de carrera de Frankcatstein:
+
 ![ejemplos_animaciones_personajes](https://github.com/user-attachments/assets/8553663a-f6fd-4663-abc1-291b124d03f7)
 
-En la selección de paletas de colores se hace especial hincapié en el color de las tintas. Se ha optado por colores llamativos y bien diferenciados entre sí con el fin de que las zonas pintadas por cada personaje queden claramente delimitadas entre sí. Es por ello que los jugadores podrán escoger los sets de pintura que deseen dentro de una paleta preestablecida, sin que ambos jugadores puedan elegir el mismo color para la misma partida. Esta selección del color pintura viene determinada por el personaje que se haya seleccionado. Se espera implementar los siguientes seis tipos de tintas: 
-![Colores_de_tintas](https://github.com/user-attachments/assets/b752edfa-857a-497b-9e68-5a9d0928849e)
+En la selección de paletas de colores se hace especial hincapié en el color de las tintas. Se ha optado por colores llamativos y bien diferenciados entre sí con el fin de que las zonas pintadas por cada personaje queden claramente delimitadas entre sí. Es por ello que los jugadores podrán escoger los sets de pintura que deseen dentro de una paleta preestablecida, sin que ambos jugadores puedan elegir el mismo color para la misma partida. Esta selección del color pintura viene determinada por el personaje que se haya seleccionado. Se espera implementar los siguientes seis tipos de tintas, de las cuales ya se han implementado la amarilla y la magenta: 
+
+![colores_de_tintas](https://github.com/user-attachments/assets/6ebebc4c-3c0e-4113-807c-461e6c9fbbdc)
 
 ### Arte 2D
 Se espera que las imágenes utilizadas sean de elaboración propia, aunque este aspecto puede estar sujeto a cambios en función de las capacidades del equipo. Los elementos artísticos 2D que deberán estar presentes en la versión final del juego son los siguientes:
 - *Logo*: un logo con el nombre *Ink Catiction* representado con un estilo de fuente de letra similar a la fuente de letra *Metamorphous*. Los colores estarán especificados en la sección de la paleta de colores.
-- *Splash art principal*: una pieza de arte que tenga elementos relevantes y contextuales de la temática del juego para facilitar al jugador entender ligeramente la idea del sin necesidad de tenerla por escrito.
+- *Splash art principal*: una pieza de arte que tenga elementos relevantes y contextuales de la temática del juego para facilitar al jugador entender ligeramente la idea del sin necesidad de tenerla por escrito. U
 - *Arte de previsualización*: cada uno de los personajes (seis en total) deberá tener un dibujo en 2D donde se pueda ver claramente el personaje completo. Este arte se utilizará en el menú de selección de personajes para que el jugador pueda tener una vista detallada de cómo es el personaje que va a jugar.
 - *Icono de previsualización*: cada uno de los botones de selección de personaje deberá tener un icono (que bien puede ser un recorte de la cara del personaje del arte de previsualización o un icono nuevo) que permita a los jugadores poder distinguir las opciones de personajes que habrá en el panel.
 - *Arte de personaje*: cada personaje contará con sprites animados en estilo Pixel Art. El arte de personaje cuenta con las siguientes animaciones que permitirán una mejor retroalimentación:
@@ -128,7 +126,13 @@ Se espera que las imágenes utilizadas sean de elaboración propia, aunque este 
 	- *Animación de reaparición (opcional)*.
 	- *Animación de desaparición (opcional)*.
  Ejemplo de spritesheet hecha con las animaciones mencionadas en la lista:
+
 ![agata_spritesheet_example](https://github.com/user-attachments/assets/57ccd709-40b1-4fde-91f1-8cf6a1cd152e)
+
+#### Arte descartado
+En el proceso de diseño de la estética final, se ha creado arte que ha sido descartado por no cumplir con la consistencia, pero que se pretende reciclar para crear el arte de la portada en futuras entregas.
+
+![main_art-placeholder](https://github.com/user-attachments/assets/9ea74a6f-b07b-4325-8518-ca19397153be)
 
 Elementos de aparición **opcional** pero pueden ayudan a enriquecer la experiencia visual del juego:
 - *Splash art alternativo*: piezas de arte que representen situaciones del juego y que se puedan utilizar como fondo en algunas pantallas de las interfaces.
@@ -138,11 +142,16 @@ Elementos de aparición **opcional** pero pueden ayudan a enriquecer la experien
 En este apartado se refleja todo el proceso que los jugadores podrán llevar a cabo a la hora de interactuar con el juego en cada momento. Al iniciar el juego se presentará un *Menú Principal* que podrá conducir a una partida, a un *Menú de Ajustes*, o bien de vuelta al sistema operativo. Si se selecciona la opción de juego, se deberá elegir el tipo de conexión y posteriormente los personajes con los que se va a realizar la partida. A partir de aquí se genera el Game-Loop del juego donde se realizan tres rondas en las que los jugadores reaparecen de forma infinita cada vez que son eliminados hasta que se acaba el tiempo. Una vez completadas las tres rondas, se determina el ganador dando paso a los mensajes de victoria y derrota, y ofreciendo la opción de regresar de nuevo al *Menú Principal*, donde se puede repetir este mismo proceso de nuevo.
 
 El conjunto de interfaces que existirán en el videojuego se relacionarán entre sí de acuerdo con el siguiente diagrama de flujo:
+
 ![diagrama flujo](https://github.com/user-attachments/assets/be39cc30-8a6a-4918-b18a-a2fa5949e273)
 
-A continuación se mostrarán los bocetos y conceptos iniciales de las interfaces con las que el usuario podrá interactuar en el juego. Estos bocetos están elaborados en escala de grises, de tal manera que sólo representan los elementos interactivos relevantes y no representan los colores finales que se utilizarán en el juego. Estos bocetos pueden no representar la estructura final, puesto que el equipo podrá realizar ajustes de las mismas en función de las necesidades del diseño. Más adelante se incluirán las versiones finales de dichas pantallas.
+A continuación se mostrarán los bocetos y conceptos iniciales de las interfaces con las que el usuario podrá interactuar en el juego. Estos bocetos están elaborados en escala de grises, de tal manera que sólo representan los elementos interactivos relevantes y no representan los colores finales que se utilizarán en el juego. Estos bocetos pueden no representar la estructura final, puesto que el equipo podrá realizar ajustes de las mismas en función de las necesidades del diseño. Junto a los bocetos se incluye la interfaz implementada para la segunda entrega.
 ### Pantalla de Menú Principal
+
 ![menu principal](https://github.com/user-attachments/assets/0fc19040-3e92-489f-bb2a-5b548fe5abca)
+
+![menu_principal implementado](https://github.com/user-attachments/assets/11569ea4-239c-40d2-a786-b6432f6976fc)
+
 Esta pantalla contará con los siguientes elementos:
 - Botón *Jugar*, que conducirá a la *Pantalla de Selección de Tipo de Conexión*.
 - Botón *Ajustes*, que conducirá a la *Pantalla de Configuración*.
@@ -150,14 +159,22 @@ Esta pantalla contará con los siguientes elementos:
 - Una imagen artística 2d tipo *splash art* que sirva como portada de presentación del juego.
 - Se debe incluir la versión en la que se encuentra el juego
 ### Pantalla de Selección del tipo de conexión
+
 ![tipo de conexion](https://github.com/user-attachments/assets/40ab20a7-0538-41bd-959e-143e16847f92)
+
+![tipo_de_conexion_implementado](https://github.com/user-attachments/assets/483c2d83-2b5a-4172-bb74-067f0e16b148)
+
 Esta pantalla contará con los siguientes elementos:
 - Un botón *Juego local* que conduzca a la *Pantalla de Selección de Personajes*. 
 - Un botón *Juego en línea* que conduzca a la *Pantalla de Selección de Personajes*.
 - Un botón *Volver* que devuelva al jugador al *Menú Principal*.
 - Una imagen artística 2d tipo splash art que bien puede ser la utilizada en el *Menú Principal* o una versión alternativa de la misma.
 ### Pantalla de Selección de personajes
+
 ![seleccion de personajes](https://github.com/user-attachments/assets/aa155bf4-cc37-46f3-bb70-dbbda7f8aa49)
+
+![seleccion_de_personajes_implementado](https://github.com/user-attachments/assets/bdaf098e-410e-4a82-bf44-35fada50a40d)
+
 La *Pantalla de Selección de Personajes* contará con los siguientes elementos:
 - Un panel de seis botones que contienen iconos de los personajes jugables. Una vez que un jugador haya seleccionado y fijado un personaje, el botón correspondiente al personaje quedará inutilizable para el segundo jugador (se deberá representar mediante una sprite de botón desactivado).
 - Un panel para el Jugador 1 que contará con una sprite detallada del personaje y el nombre del mismo. El personaje seleccionado se mostrará mirando en dirección al centro de la pantalla. 
@@ -166,7 +183,11 @@ La *Pantalla de Selección de Personajes* contará con los siguientes elementos:
 - Un botón *Volver* que regrese al *Menú de Selección de Tipo de Conexión*.
 - Un fondo artístico en 2D que represente algún escenario o mapa presente en el juego.
 ### Pantalla de Juego
+
 ![juego](https://github.com/user-attachments/assets/dad9fa4f-1f80-404c-82a2-9a2c9b2a441f)
+
+![juego_implementado](https://github.com/user-attachments/assets/2b3121ca-ee98-4d22-8c74-109bc610d2b2)
+
 En esta pantalla se mostrarán los siguientes elementos:
 - Panel de las vidas correspondientes para cada jugador, que estarán representadas por tres instancias de un icono (ej: corazones). Cuando un personaje reciba un golpe, uno de los iconos aparecerá vacío.
 - Barra de resistencia que se drenará progresivamente cuando se realicen varios ataques seguidos.
@@ -174,19 +195,27 @@ En esta pantalla se mostrarán los siguientes elementos:
 - Temporizador que marque el tiempo restante hasta que se acabe la ronda (en minutos).
 - Panel con un contador situado bajo el temporizador que marca la victoria de cada jugador en función de la ronda (por ejemplo, si un jugador que utiliza el personaje de tinta azul gana la ronda 1 se mostrará el primer círculo del panel iluminado del mismo color).
 ### Pantalla de Configuración
+
 ![configuracion](https://github.com/user-attachments/assets/a37041ef-9ff7-45a7-aa0e-630e07f5089d)
+
 Este boceto representa vagamente la idea de cómo debería ser la pantalla de configuración, compuesta por tres desplegables para las categorías: general, audio y vídeo. En el boceto se muestran tres ejemplos de ajustes genéricos que se podrán emplear en los ajustes, como por ejemplo pueden ser los sliders o los botones. En este caso, la selección de los ajustes más apropiados queda a cargo del apartado de programación.
 ### Pantalla de Resultados
+
 ![resultados](https://github.com/user-attachments/assets/9870232e-0cdc-4cc8-b831-348e45352a03)
+
+![resultados_implementado](https://github.com/user-attachments/assets/087fe347-4541-451f-90f3-7212b4a4ed93)
+
 Este boceto representa cómo se vería la pantalla final tras finalizar el juego, con los siguientes elementos:
 - Un mensaje de victoria y derrota, según se haya ganado o perdido.
 - Una *sprite* de victoria o derrota del personaje utilizado, según se haya ganado o perdido.
 - Un panel con datos curiosos o relevantes de la partida. En el boceto se muestran los siguientes, pero la elección final queda a cargo del apartado de programación.
 - Un botón *Volver*, que devuelve al jugador al *Menú Principal*.
 En caso de que la partida haya sido jugada en multijugador local, la pantalla se dividirá en dos y se mostrará una versión comprimida de dicha pantalla con las estadísticas de cada jugador en sus respectivas mitades:
+
 ![resultados partidos](https://github.com/user-attachments/assets/7a8e517e-5e6a-4b90-9af6-77478fde4d26)
+
 ### Paleta de colores
-![paleta](https://github.com/user-attachments/assets/b2f0a146-b9b7-410d-aa4c-ba1197988d84)
+
 Para la paleta de colores a usar en este videojuego se ha optado por un conjunto de tonalidades en las que se puede destacar la calidez de la mayoría de sus componentes. Esta combinación ayuda a reflejar más fielmente la tonalidad del videojuego, siendo una obra poco seria y abierta a todos los públicos.
 ## Sonido
 
