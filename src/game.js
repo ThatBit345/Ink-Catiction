@@ -221,11 +221,11 @@ class Game extends Phaser.Scene {
 
 		let ranking = scene.grid.countColors();
         console.log(ranking);
-        let p1score = ranking[0];
-        let p2score = ranking[1];
-        console.log('p1 score: ' + p1score);
-        console.log('p2 score: ' + p2score);
-        scene.scene.start('Endgame', [p1score, p2score, scene.player1, scene.player2]); 
+        //let p1score = ranking[0];
+        //let p2score = ranking[1];
+        //console.log('p1 score: ' + p1score);
+        //console.log('p2 score: ' + p2score);
+        scene.scene.start('Endgame', [ranking, scene.player1, scene.player2]); 
 	}
 
     countDown(timer, title) {
