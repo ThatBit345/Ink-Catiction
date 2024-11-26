@@ -85,8 +85,10 @@ class Menu extends Phaser.Scene
 		// Character Select menu -----------------------
 		this.charBackLeft = this.add.image(640, -620, 'back_char_left');
 		this.charBackRight = this.add.image(640, 1340, 'back_char_right');
+		this.charTitleBack = this.add.nineslice(640 - 2560, 100, 'button_normal', undefined, 130, 50, 4, 4, 4, 4, undefined, undefined)
+		this.charTitleBack.scale = 3;
 		this.charTitle1 = this.add.text(460 - 2560, 40, 'Choose your', {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'});
-		this.charTitle2 = this.add.text(560 - 2560, 110, 'miauracter', {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'});
+		this.charTitle2 = this.add.text(560 - 2560, 110, 'character', {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'});
 		this.charBackButton = new Button(this.onCharacterBack, 'Back', '64px', this, 160 - 2560, 850, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 		
 		// Agata
@@ -178,6 +180,7 @@ class Menu extends Phaser.Scene
 			this.charBackButton,
 			this.charTitle1,
 			this.charTitle2,
+			this.charTitleBack,
 			this.char1Button,
 			this.char2Button,
 			this.char3Button,
