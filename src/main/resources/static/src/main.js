@@ -1,4 +1,5 @@
 import Menu from './menu.js';
+import ChatRoom from './chatroom.js';
 import Game from './game.js';
 import Endgame from './endgame.js';
 
@@ -33,7 +34,7 @@ var startGame = function(){
 				}
 			}
 		},
-		scene: [Menu, Game, Endgame]
+		scene: [Menu, ChatRoom, Game, Endgame]
 	}
 
 	new Phaser.Game(config);
