@@ -35,6 +35,9 @@ class Menu extends Phaser.Scene
 		this.load.image('button_highlighted', '../assets/ui/spr_button_highlighted.png');
 		this.load.image('button_pressed', '../assets/ui/spr_button_pressed.png');
 		this.load.image('button_disabled', '../assets/ui/spr_button_disabled.png');
+
+		// Misc
+		this.load.image('chat_icon', '../assets/ui/spr_chat_icon.png');
 	}
 
 	create(data)
@@ -48,7 +51,7 @@ class Menu extends Phaser.Scene
 
 		// Background assets
 		this.splash = this.add.image(1000, 360, 'splash');
-		this.backgroundSlice = this.add.image(640, 1080, 'back');
+		this.backgroundSlice = this.add.image(640, 1080-360, 'back');
 
 		// Main menu -----------------------------------
 		this.title1 = this.add.text(50, 50, 'Ink', {color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous'});
@@ -58,6 +61,10 @@ class Menu extends Phaser.Scene
 		this.optionsButton = new Button(this.onSettings, 'Settings', '64px', this, 310, 460, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
 		this.creditsButton = new Button(this.onCredits, 'Credits', '64px', this, 370, 580, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
 		
+		this.chatButton = new Button(this.onChat, '', '64px', this, 500, 340, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.chatIcon = this.add.image(500, 340, 'chat_icon');
+		this.chatIcon.scale = 3;
+
 		// Local/Online menu ---------------------------
 		this.comsTitle1 = this.add.text(680 - 1280, 80, 'Choose your', textTitle);
 		this.comsTitle2 = this.add.text(730 - 1280, 150, 'connection type', textTitle);
@@ -161,6 +168,8 @@ class Menu extends Phaser.Scene
 			this.playButton, 
 			this.optionsButton, 
 			this.creditsButton,
+			this.chatButton,
+			this.chatIcon,
 			this.settingsBackButton,
 			this.settingsTitle,
 			this.volumeLabel,
@@ -224,6 +233,23 @@ class Menu extends Phaser.Scene
 			x: '-=740',
 			ease: 'Cubic.inOut'
 		});
+	}
+
+	onChat()
+	{
+		this.scene.add.tween({
+			targets: this.scene.elements,
+			duration: 1000,
+			y: '+=720',
+			ease: 'Cubic.inOut',
+			onComplete: this.scene.onChatFinish
+		});
+	}
+
+	onChatFinish()
+	{
+		let scene = this.parent.scene;
+		scene.scene.start("ChatRoom");
 	}
 
 	onSettings()
