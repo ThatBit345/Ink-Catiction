@@ -25,6 +25,8 @@ class Game extends Phaser.Scene {
         this.load.image('cat', '../assets/cat.png');
         this.load.image('box', '../assets/box.png');
 
+		this.load.image('score_box', '../assets/ui/spr_button_normal.png');
+
 		// Sound
 		this.load.audio('bgm', '../assets/audio/mus_match.mp3');
 		this.load.audio('end_whisle', '../assets/audio/snd_end.mp3');
@@ -50,6 +52,19 @@ class Game extends Phaser.Scene {
 		this.background = this.add.image(640, 360, 'background');
 		this.background.depth = -10;
 
+		this.p1ScoreBox = this.add.image(85,50,'score_box');
+		this.p1ScoreBox.scaleX = 5.0;
+		this.p1ScoreBox.scaleY = 3.0;
+		this.p1Score = this.add.text(20, 10, '000', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous', align: 'center' });
+		Phaser.Display.Align.In.Center(this.p1Score,this.p1ScoreBox);
+
+
+		this.p2ScoreBox = this.add.image(1195,50,'score_box');
+		this.p2ScoreBox.scaleX = 5.0;
+		this.p2ScoreBox.scaleY = 3.0;
+		this.p2Score = this.add.text(1187, 10, '00', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous' , align: 'center'});
+		Phaser.Display.Align.In.Center(this.p2Score,this.p2ScoreBox);
+
 		this.timer_back = this.add.image(640, -100, 'timer_back');
 		this.timer_back.scale = 4;
 
@@ -58,7 +73,7 @@ class Game extends Phaser.Scene {
 		this.start_timer_back.depth = 10;
 
         // World Configuration
-        this.grid = new Grid(this, 'ink');
+        this.grid = new Grid(this, 'ink', this.p1Score, this.p2Score);
 
         this.initTime = 0;
         this.gameDuration = 88;
@@ -176,6 +191,13 @@ class Game extends Phaser.Scene {
                 // Update both players basic movement
                 this.player1.updateMovement(this.player1.velocity);
                 this.player2.updateMovement(this.player2.velocity);
+
+				let scores = this.grid.countColors();
+				this.p1Score.setText(scores[0]);
+				Phaser.Display.Align.In.Center(this.p1Score,this.p1ScoreBox);
+
+				this.p2Score.setText(scores[1]);
+				Phaser.Display.Align.In.Center(this.p2Score,this.p2ScoreBox);
 
                 // Checks if any player hits the other one while attacking
                 this.player1.checkCollission(this.player2, delta);

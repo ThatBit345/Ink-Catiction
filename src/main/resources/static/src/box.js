@@ -71,7 +71,9 @@ class Box {
         if (other.sprite.x > this.position[0] && other.sprite.x <= this.position[0] + 40 && other.sprite.y + 32 > this.position[1] && other.sprite.y + 32 <= this.position[1]+40) {
             this.player = other.name;
 			this.setNewColor(other.color);
+			return true;
         }
+		return false;
     }
 
 	setPlayer(player)
