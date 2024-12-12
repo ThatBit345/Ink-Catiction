@@ -53,10 +53,10 @@ class ChatRoom extends Phaser.Scene
 		}
 
 		// Bottom bar
-		this.chatBar = this.add.nineslice(500, 650, 'button_normal', undefined, 316, 32, 4, 4, 4, 4, undefined, undefined);
+		this.chatBar = this.add.nineslice(640, 650, 'button_normal', undefined, 230, 32, 4, 4, 4, 4, undefined, undefined);
 		this.chatBar.scale = 3;
 		this.sendButton = new Button(this.onSend, 'Send', '64px', this, 1120, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
-		//this.backButton = new Button(this.onBack, 'Back', '64px', this, 1120, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		this.backButton = new Button(this.onBack, 'Back', '64px', this, 160, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 	}
 
 	update(time, delta)
@@ -83,7 +83,7 @@ class ChatRoom extends Phaser.Scene
 	chatTest(scene)
 	{
 		const users = ["Bit", "Stanley", "Potato man", "Somebody", "Yes"];
-		const messages = ["Hello!", "Bye!", "Door stuck!", "Patata subacuatica en monopatín", "Banana rotate"];
+		const messages = ["Hello!", "Bye!", "Door stuck!", "Patata subacuática en monopatín", "Banana rotate"];
 
 		let user = users[Math.floor(Math.random() * users.length)];
 		let message = messages[Math.floor(Math.random() * messages.length)];

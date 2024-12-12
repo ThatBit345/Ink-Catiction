@@ -1,6 +1,7 @@
 import Grid from './grid.js';
 import Player from './player.js';
 import Powerup from './powerup.js';
+import Button from './button.js';
 
 class Game extends Phaser.Scene {
     constructor() {
@@ -49,20 +50,21 @@ class Game extends Phaser.Scene {
     }
 
     create(data) {
+		this.gamePaused = false;
+
 		this.background = this.add.image(640, 360, 'background');
 		this.background.depth = -10;
 
 		this.p1ScoreBox = this.add.image(85,50,'score_box');
 		this.p1ScoreBox.scaleX = 5.0;
 		this.p1ScoreBox.scaleY = 3.0;
-		this.p1Score = this.add.text(20, 10, '000', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous', align: 'center' });
+		this.p1Score = this.add.text(20, 10, '0', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous', align: 'center' });
 		Phaser.Display.Align.In.Center(this.p1Score,this.p1ScoreBox);
-
 
 		this.p2ScoreBox = this.add.image(1195,50,'score_box');
 		this.p2ScoreBox.scaleX = 5.0;
 		this.p2ScoreBox.scaleY = 3.0;
-		this.p2Score = this.add.text(1187, 10, '00', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous' , align: 'center'});
+		this.p2Score = this.add.text(1187, 10, '0', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous' , align: 'center'});
 		Phaser.Display.Align.In.Center(this.p2Score,this.p2ScoreBox);
 
 		this.timer_back = this.add.image(640, -100, 'timer_back');
@@ -90,7 +92,19 @@ class Game extends Phaser.Scene {
         this.player2 = this.physics.add.existing(new Player(this, 1152, 215, this.player2_character, 2, this.keys2, this.velocity2, this.player2_ink));
         this.player2.setCollideWorldBounds(true);
 
-        //this.collission = this.physics.add.collider(this.player1.sprite, this.player2.sprite);
+		// Pause menu configuration
+
+		/*this.pauseMenuBg = this.add.image(640,360,'panel');
+		this.pauseMenuBg.depth = 4;
+		this.pauseMenuBg.scale = 12.0;
+
+		this.pauseMenu = [this.pauseMenuBg];
+		this.pauseMenu.forEach(elem => {
+			elem.setVisible(false);
+			elem.setActive(false);
+		});*/
+
+		//this.resumeButton = new Button(this.onPause(this.pauseMenu), 'II', '64px', this, 1240, 680, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 22, 22);
 
         // PowerUps Configuration
         this.powerups = [[200, 100], [200, 200], [200, 300]];
@@ -380,6 +394,26 @@ class Game extends Phaser.Scene {
 			ease: 'Cubic.inOut',
 			onComplete: scene.toResults
 		});
+	}
+
+	undefinedButton()
+	{
+		console.log("Undefined button");
+	}
+
+	onPause(pauseMenu)
+	{
+		pauseMenu.forEach(elem => {
+			elem.setVisible(true);
+			elem.setActive(true);
+		});
+		/*let elem;
+		for(let i = 0; i < this.pauseMenu.length; i++) {
+			elem = this.pauseMenu[i];
+			elem.setVisible(true);
+			elem.setActive(true);
+		}*/
+
 	}
 }
 
