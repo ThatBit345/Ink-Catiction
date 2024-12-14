@@ -4,5 +4,6 @@ class ChatEntry extends Phaser.Text
 	{
 		super();
 	}
+	
 }
 export default ChatEntry;

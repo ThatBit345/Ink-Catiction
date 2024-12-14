@@ -43,7 +43,7 @@ public class UserController {
             Optional<User> user = this.userDAO.getUser(username);
 
             if (user.isPresent()) {
-                return ResponseEntity.ok(new UserDTO(user.get()));
+                return ResponseEntity.ok(new UserDTO(user.getUsername())).build();
             } else {
                 return ResponseEntity.notFound().build();
             }
@@ -84,7 +84,7 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
 
-            this.apiStatusService.hasSeen(user));
+            this.apiStatusService.hasSeen(user.getUsername());
             this.userDAO.updateUser(user);
             return ResponseEntity.noContent().build();
         }
@@ -105,7 +105,7 @@ public class UserController {
         }
 
         synchronized (this.userDAO) {
-            this.apiStatusService.hasSeen(username));
+            this.apiStatusService.hasSeen(username);
 
             Optional<User> optionalUser = this.userDAO.getUser(username);
             if (optionalUser.isPresent()) {
