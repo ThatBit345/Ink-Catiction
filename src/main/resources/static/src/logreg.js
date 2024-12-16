@@ -88,7 +88,7 @@ class LogReg extends Phaser.Scene
 
 	onConfirm()
 	{
-		const baseUrl = "/api/users/";
+		const baseUrl = `${window.location.origin}/api/users/`;
 
 		let username = this.scene.usernameBox.submitText();
 		let password = this.scene.passwordBox.submitText();

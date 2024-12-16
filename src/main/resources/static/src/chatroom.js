@@ -1,4 +1,5 @@
 import Button from './button.js';
+import TextEntry from './textentry.js'
 
 let lastTimestamp = 0;
 let messageLog;
@@ -35,6 +36,7 @@ class ChatRoom extends Phaser.Scene
 	create(data)
 	{
 		const textNormal = {color: '#E5B770', fontSize: '32px', fontFamily: 'Metamorphous'};
+		const textPlaceholder = {color: '#B87F27', fontSize: '32px', fontFamily: 'Metamorphous'};
 		const textDark = {color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous'};
 
 		this.add.image(640, 360, 'background');
@@ -53,14 +55,17 @@ class ChatRoom extends Phaser.Scene
 		}
 
 		// Bottom bar
-		this.chatBar = this.add.nineslice(640, 650, 'button_normal', undefined, 230, 32, 4, 4, 4, 4, undefined, undefined);
-		this.chatBar.scale = 3;
-		this.sendButton = new Button(this.onSend, 'Send', '64px', this, 1120, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
-		this.backButton = new Button(this.onBack, 'Back', '64px', this, 160, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		//this.chatBar = this.add.nineslice(640, 650, 'button_normal', undefined, 230, 32, 4, 4, 4, 4, undefined, undefined);
+		this.chatBar = new TextEntry(this, 640, 650, 260, 25, 'button_normal', 'button_highlighted', "Enter message...", textDark, textPlaceholder);
 
-		// Chat Text bar
-		const inputField = document.getElementById('text-input');
-		inputField.style.visibility = 'visible';
+		this.sendButton = new Button(this.onSend, 'Send', '32px', this, 1160, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 60, 25);
+		this.backButton = new Button(this.onBack, 'Back', '32px', this, 120, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 60, 25);
+	
+		this.input.on('pointerdown', function (pointer)
+        {
+			this.chatBar.checkForSelection();
+
+        }, this);
 	}
 
 	update(time, delta)
@@ -71,6 +76,15 @@ class ChatRoom extends Phaser.Scene
 			console.log("Updated log");
 			this.updateTimer -= this.updateCycleDuration;
 			this.fetchMessages(this);
+
+			let userCounter = this.userCounter;
+			const baseUrl = `${window.location.origin}/api/status/connected-users`;
+
+			$.get(baseUrl).done(function(data){
+				console.log(data);
+				userCounter.text = data.connectedUsers;
+			})
+
 		}
 	}
 
@@ -81,11 +95,14 @@ class ChatRoom extends Phaser.Scene
 
 	onSend()
 	{
-		//this.scene.chatTest(this.scene);
-		const inputField = document.getElementById('text-input');
-		const userText = inputField.value; // Capturar el texto
-		console.log(inputField.value);
-        inputField.value = ''; // Limpiar el campo de texto
+		let scene = this.scene;
+		let user = this.scene.registry.get('user');
+		let message = scene.chatBar.submitText();
+
+		const baseUrl = `${window.location.origin}/api/chat`;
+		$.post(baseUrl, { user: user, message: message }).done(function(){
+			scene.fetchMessages(scene);
+		});
 	}
 
 	chatTest(scene)
@@ -98,12 +115,6 @@ class ChatRoom extends Phaser.Scene
 
 		scene.postMessage(user, message);
 		scene.fetchMessages(scene);
-	}
-
-	postMessage(user, message)
-	{
-		const baseUrl = `${window.location.origin}/api/chat`;
-		$.post(baseUrl, { user: user, message: message });
 	}
 
 	fetchMessages(scene)

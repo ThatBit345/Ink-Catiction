@@ -17,7 +17,7 @@ public class ApiStatusController {
 
     public ApiStatusController(ApiStatusService apiStatusService){
         this.apiStatusService = apiStatusService;
-        this.seenThreshold = 120000; // Two minutes
+        this.seenThreshold = 60000; // One minute in ms
     }
 
     @GetMapping("/connected-users")

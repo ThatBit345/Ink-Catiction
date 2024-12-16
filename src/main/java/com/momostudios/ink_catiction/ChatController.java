@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -21,6 +22,9 @@ public class ChatController
 	private final AtomicInteger lastId = new AtomicInteger(0);
 
 	private final int MAX_MESSAGE_HISTORY = 11;
+
+    @Autowired
+    private ApiStatusService apiStatusService;
 
 	@GetMapping()
 	public ChatResponse GetMessages(@RequestParam int since)
@@ -51,6 +55,8 @@ public class ChatController
 	{
 		synchronized(messages)
 		{
+			this.apiStatusService.hasSeen(user);
+
 			// Get current time
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
