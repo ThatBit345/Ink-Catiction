@@ -1,7 +1,27 @@
-canvas 
-{
+canvas {
 	padding: 10px;
 	border: 5px;
 	border-color: #452600;
 	border-style: groove;
 }
+
+body {
+	background-color: black;
+}
+
+.form {
+	position: fixed;
+	width: 650px;              
+	height: 75px;  
+
+	background-color: transparent;
+	border-color: transparent;
+	
+	top: 600px;
+	left: 200px;
+	z-index: 10;
+	font-size: 32px;
+	font-family: 'Metamorphous' ;
+	visibility: hidden;
+}
+
