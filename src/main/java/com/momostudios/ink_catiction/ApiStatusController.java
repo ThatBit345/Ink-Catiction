@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
-@RequestMapping("/api/status/")
+@RequestMapping("/api/status")
 public class ApiStatusController {
     @Autowired
     private final ApiStatusService apiStatusService;

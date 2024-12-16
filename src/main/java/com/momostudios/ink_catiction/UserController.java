@@ -54,6 +54,34 @@ public class UserController {
         }
     }
 
+	/**
+     * GET /api/users/{username}/{password}
+     * 
+     * @param username
+     * @param password
+     * @return
+     */
+    @GetMapping("/{username}/{password}")
+    public ResponseEntity<UserDTO> logIn(@PathVariable String username, @PathVariable String password) {
+        synchronized (this.userDAO) {
+
+            Optional<User> user = this.userDAO.getUser(username);
+
+            if (user.isPresent()) 
+			{
+				if(user.get().getPassword().equals(password)){
+					return ResponseEntity.ok(new UserDTO(user.get()));
+				} else {
+					return ResponseEntity.badRequest().build();
+				}
+            } 
+			else 
+			{
+                return ResponseEntity.notFound().build();
+            }
+        }
+    }
+
     /**
      * DELETE /api/users/{username}
      * 

@@ -94,6 +94,12 @@ class LogReg extends Phaser.Scene
 		let password = this.scene.passwordBox.submitText();
 
 		let getUrl = baseUrl + username;
+		let loginUrl = baseUrl + username + "/" + password;
+		let scene = this.scene;
+
+		registerErrorText.visible = false;
+		loginErrorText.visible = false;
+		loginPasswordErrorText.visible = false;
 
 		if(this.scene.mode == 'reg')
 		{
@@ -110,12 +116,32 @@ class LogReg extends Phaser.Scene
 					processData: false,
 					type: 'POST',
 					url: baseUrl
+				}).done(function(){
+
+					scene.registry.set('user', username);
+					scene.scene.start('Menu');
 				});
 			});
 		}
 		else if(this.scene.mode == 'log')
 		{
-			console.log("LOG IN");
+			$.get(loginUrl).done(function(data){
+
+				console.log("Logged into user: " + data.username);
+				scene.registry.set('user', data.username);
+				scene.scene.start('Menu');
+				
+			}).fail(function(jqXHR, textStatus){
+
+				if(jqXHR.status == 400)
+				{
+					loginPasswordErrorText.visible = true;
+				}
+				else
+				{
+					loginErrorText.visible = true;
+				}
+			});
 		}
 	}
 }
