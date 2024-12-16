@@ -57,6 +57,10 @@ class ChatRoom extends Phaser.Scene
 		this.chatBar.scale = 3;
 		this.sendButton = new Button(this.onSend, 'Send', '64px', this, 1120, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 		this.backButton = new Button(this.onBack, 'Back', '64px', this, 160, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+
+		// Chat Text bar
+		const inputField = document.getElementById('text-input');
+		inputField.style.visibility = 'visible';
 	}
 
 	update(time, delta)
@@ -77,7 +81,11 @@ class ChatRoom extends Phaser.Scene
 
 	onSend()
 	{
-		this.scene.chatTest(this.scene);
+		//this.scene.chatTest(this.scene);
+		const inputField = document.getElementById('text-input');
+		const userText = inputField.value; // Capturar el texto
+		console.log(inputField.value);
+        inputField.value = ''; // Limpiar el campo de texto
 	}
 
 	chatTest(scene)

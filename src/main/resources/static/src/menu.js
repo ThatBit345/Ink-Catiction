@@ -210,6 +210,10 @@ class Menu extends Phaser.Scene
 			this.player2SplashNameplate,
 			this.startGameButton
 		]
+
+		// Sphaguetti temporal code
+		const text_chat = document.getElementById('text-input');
+		text_chat.style.visibility = 'hidden';
 	}
 
 	update(time, delta)
