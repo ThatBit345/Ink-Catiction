@@ -10,13 +10,13 @@ public class InkCatictionApplication {
 	/*
 	// Para que las dependencias se inyecten solas
 	@Bean
-	public ApiStatusServide getStatusService() {
+	public ApiStatusService getStatusService() {
 	
 	}
 	*/
 
 	public static void main(String[] args) {
+		System.out.println( "Working dir: " + System.getProperty("user.dir"));
 		SpringApplication.run(InkCatictionApplication.class, args);
 	}
-
 }

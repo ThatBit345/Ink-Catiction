@@ -6,4 +6,9 @@ public class UserDTO {
    public UserDTO(User user){
     username = user.getUsername();
    }
+
+   public String getUsername()
+   {
+		return this.username;
+   }
 }

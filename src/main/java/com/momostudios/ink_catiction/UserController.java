@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.websocket.server.PathParam;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/api/users")
 public class UserController {
 
-    // @Autowired
+    @Autowired
     private UserDAO userDAO;
 
     @Autowired
@@ -40,10 +42,12 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String username) {
         synchronized (this.userDAO) {
+			System.out.println("GET: " + username);
+
             Optional<User> user = this.userDAO.getUser(username);
 
             if (user.isPresent()) {
-                return ResponseEntity.ok(new UserDTO(user.getUsername())).build();
+                return ResponseEntity.ok(new UserDTO(user.get()));
             } else {
                 return ResponseEntity.notFound().build();
             }
@@ -51,7 +55,7 @@ public class UserController {
     }
 
     /**
-     * DELETE /api/users/username/
+     * DELETE /api/users/{username}
      * 
      * @param username
      * @return
@@ -73,7 +77,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
+    public ResponseEntity<?> registerUser(@RequestBody User user) 
+	{
         if (user.getUsername() == null || user.getPassword() == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -84,6 +89,7 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
 
+			System.out.println("Registered new user: " + user.getUsername());
             this.apiStatusService.hasSeen(user.getUsername());
             this.userDAO.updateUser(user);
             return ResponseEntity.noContent().build();

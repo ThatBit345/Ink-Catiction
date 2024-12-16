@@ -23,12 +23,10 @@ public class UserDAO {
     // Also, in spring we should use Hibernate or similar which simplifies 
     // the mapping between instances and the repositories.
 
-    @Autowired
-    @Qualifier("usersPath")
     private String usersPath;
 
-    public UserDAO(String usersPath) {
-        this.usersPath = usersPath;
+    public UserDAO() {
+        this.usersPath = System.getProperty("user.dir");
     }
 
     @Autowired

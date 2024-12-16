@@ -13,12 +13,11 @@ public class ApiStatusController {
     @Autowired
     private final ApiStatusService apiStatusService;
 
-    @Autowired
     private final long seenThreshold;
 
-    public ApiStatusController(ApiStatusService apiStatusService, long seenThreshold){
+    public ApiStatusController(ApiStatusService apiStatusService){
         this.apiStatusService = apiStatusService;
-        this.seenThreshold = seenThreshold;
+        this.seenThreshold = 120000; // Two minutes
     }
 
     @GetMapping("/connected-users")
