@@ -39,17 +39,21 @@ class Menu extends Phaser.Scene
 
 		// Misc
 		this.load.image('chat_icon', '../assets/ui/spr_chat_icon.png');
+		this.load.image('black_fade', '../assets/ui/spr_black.png');
 	}
 
 	create(data)
 	{
+		this.sound.setVolume(this.registry.get('volume'));
+
 		const textTitle = {color: '#E5B770', fontSize: '48px', fontFamily: 'Metamorphous'};
 		const textNormal = {color: '#E5B770', fontSize: '32px', fontFamily: 'Metamorphous'};
+		const textDark = {color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous'};
+		const textError = {color: '#A51818', fontSize: '32px', fontFamily: 'Metamorphous'};
 		const textTitleDark = {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'};
 		const inputTextNormal = {color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous'};
 		const inputTextPlaceholder = {color: '#B87F27', fontSize: '32px', fontFamily: 'Metamorphous'};
 		
-		this.registry.set('volume', 1);
 		this.online = this.registry.get('online');
 
 		// Background assets
@@ -88,7 +92,7 @@ class Menu extends Phaser.Scene
 		this.settingsBackButton = new Button(this.onSettingsBack, 'Back', '64px', this, 160, 1440 + 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 		this.settingsTitle = this.add.text(60, 1440 + 60, 'Settings', textTitle);
 		this.volumeLabel = this.add.text(160, 1440 + 160, 'Volume', textTitle);
-		this.volumeText = this.add.text(260, 1440 + 240, '10', textNormal);
+		this.volumeText = this.add.text(260, 1440 + 240, Math.round(this.registry.get('volume') * 10), textNormal);
 		this.volumeDownButton = new Button(this.onMasterDecrease, '-', '40px', this, 200, 1440 + 260, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 16, 16);
 		this.volumeUpButton = new Button(this.onMasterIncrease, '+', '40px', this, 360, 1440 + 260, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 16, 16);
 		
@@ -175,6 +179,29 @@ class Menu extends Phaser.Scene
 
 		this.startGameButton = new Button(this.onStartGame, 'Start!', '40px', this, 640 - 2560, 425, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 24);
 		this.startGameButton.toggleEnable();
+
+		// Black fade
+		this.blackFade = this.add.image(640, 360, 'black_fade');
+		this.blackFade.setInteractive();
+		this.blackFade.visible = false;
+		this.blackFade.alpha = 0;
+
+		// Connection error popup
+		this.connectionErrorShown = false;
+		this.connectionErrorPanel = this.add.nineslice(640, 360, 'button_normal', undefined, 300, 125, 4, 4, 4, 4, undefined, undefined);
+		this.connectionErrorPanel.scale = 3;
+		this.connectionErrorLabel = this.add.text(450, 200, 'An error has occured!', textError);
+		this.connectionErrorTextP1 = this.add.text(225, 250, 'There was a problem connecting to the server,', textDark);
+		this.connectionErrorTextP2 = this.add.text(230, 300, 'connection will be reestablished automatically.', textDark);
+		this.connectionErrorTextP3 = this.add.text(290, 350, 'Until then, online functions are disabled.', textDark);		
+		this.connectionErrorButton = new Button(this.dismissError, 'Ok', '40px', this, 640, 470, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 24);
+
+		this.connectionErrorPanel.visible = false;
+		this.connectionErrorLabel.visible = false;
+		this.connectionErrorTextP1.visible = false;
+		this.connectionErrorTextP2.visible = false;
+		this.connectionErrorTextP3.visible = false;
+		this.connectionErrorButton.visible = false;
 
 		// Elements to tween ---------------------------
 		this.elements = [
@@ -269,6 +296,8 @@ class Menu extends Phaser.Scene
 		$.get(baseUrl, function (data) {}).done(function()
 		{
 			scene.registry.set('connected', true);
+			scene.connectionErrorShown = false;
+
 			scene.chatButton.visible = true;
 			scene.chatIcon.visible = true;
 			scene.changePasswordBox.visible = true;
@@ -289,7 +318,36 @@ class Menu extends Phaser.Scene
 			scene.deleteAccountConfirm.visible = false;
 			scene.deleteAccountConfirmButton.visible = false;
 			scene.deleteAccountDenyButton.visible = false;
+
+			// Show the error prompt
+			if(!scene.connectionErrorShown)
+			{
+				scene.connectionErrorShown = true;
+
+				scene.blackFade.visible = true;
+				scene.blackFade.alpha = 0.25;
+				
+				scene.connectionErrorPanel.visible = true;
+				scene.connectionErrorLabel.visible = true;
+				scene.connectionErrorTextP1.visible = true;
+				scene.connectionErrorTextP2.visible = true;
+				scene.connectionErrorTextP3.visible = true;
+				scene.connectionErrorButton.visible = true;
+			}
 		});
+	}
+
+	dismissError()
+	{
+		this.scene.blackFade.visible = false;
+		this.scene.blackFade.alpha = 0;
+
+		this.scene.connectionErrorPanel.visible = false;
+		this.scene.connectionErrorLabel.visible = false;
+		this.scene.connectionErrorTextP1.visible = false;
+		this.scene.connectionErrorTextP2.visible = false;
+		this.scene.connectionErrorTextP3.visible = false;
+		this.scene.connectionErrorButton.visible = false;
 	}
 
 	// #region Main Menu Functions ---------------------
@@ -377,6 +435,22 @@ class Menu extends Phaser.Scene
 	// #region Settings Functions ----------------------
 	onSettingsBack()
 	{
+		// If we have connection, update the volume on the server's storage
+		if(this.scene.registry.get('connected'))
+		{
+			let volume = this.scene.sound.volume;
+			const baseUrl = '/api/users/' + this.scene.registry.get('user') + "/volume";
+
+			$.ajax({
+				contentType: 'application/json',
+				data: JSON.stringify({volume:volume}),
+				dataType: 'json',
+				processData: false,
+				type: 'PUT',
+				url: baseUrl
+			});
+		}
+
 		this.scene.add.tween({
 			targets: this.scene.elements,
 			duration: 1000,

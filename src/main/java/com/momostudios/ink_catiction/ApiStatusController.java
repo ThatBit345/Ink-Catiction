@@ -27,7 +27,7 @@ public class ApiStatusController {
     }
 
 	@GetMapping("/ping")
-	public ResponseEntity<String> pingServer(){
+	public ResponseEntity<?> pingServer(){
 		return ResponseEntity.ok().build();
 	}
     

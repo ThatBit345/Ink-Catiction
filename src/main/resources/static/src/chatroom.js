@@ -12,7 +12,7 @@ class ChatRoom extends Phaser.Scene
 
 		this.log = [];
 		this.updateTimer = 0;
-		this.updateCycleDuration = 1000; // 1 second
+		this.updateCycleDuration = 500; // 0.5 second
 	}
 
 	init(data)
@@ -70,22 +70,18 @@ class ChatRoom extends Phaser.Scene
 
 	update(time, delta)
 	{
-		this.updateTimer += delta;
-		if(this.updateTimer > this.updateCycleDuration)
-		{
-			console.log("Updated log");
-			this.updateTimer -= this.updateCycleDuration;
-			this.fetchMessages(this);
+		//this.updateTimer -= this.updateCycleDuration;
+		this.fetchMessages(this);
 
-			let userCounter = this.userCounter;
-			const baseUrl = '/api/status/connected-users';
+		let userCounter = this.userCounter;
+		const baseUrl = '/api/status/connected-users';
+		let scene = this;
 
-			$.get(baseUrl).done(function(data){
-				console.log(data);
-				userCounter.text = data.connectedUsers;
-			})
-
-		}
+		$.get(baseUrl).done(function(data){
+			userCounter.text = data.connectedUsers;
+		}).fail(function(){
+			scene.scene.start('Menu');
+		});
 	}
 
 	onBack()
@@ -99,8 +95,16 @@ class ChatRoom extends Phaser.Scene
 		let user = this.scene.registry.get('user');
 		let message = scene.chatBar.submitText();
 
-		const baseUrl = '/api/chat';
-		$.post(baseUrl, { user: user, message: message }).always(function(){
+		const baseUrl = '/api/chat/';
+		$.ajax({
+			contentType: 'application/json',
+			data: JSON.stringify({user:user, message:message}),
+			dataType: 'json',
+			processData: false,
+			type: 'POST',
+			url: baseUrl
+		}).done(function(){
+
 			scene.fetchMessages(scene);
 		});
 	}
@@ -119,8 +123,8 @@ class ChatRoom extends Phaser.Scene
 
 	fetchMessages(scene)
 	{
-		const baseUrl = `${window.location.origin}/api/chat`;
-		$.get(baseUrl, { since: lastTimestamp }, function (data) {
+		const baseUrl = '/api/chat/' + lastTimestamp;
+		$.get(baseUrl, function (data) {
 			messageLog = data.messages;
 		});
 

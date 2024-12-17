@@ -127,8 +127,8 @@ public class UserController {
     /**
      * PUT /api/users/{username}/password
      * 
-     * @param id
-     * @param entity
+     * @param username
+     * @param passwordUpdate
      * @return
      */
     @PutMapping("/{username}/password")
@@ -155,7 +155,42 @@ public class UserController {
         }
     }
 
+	/**
+     * PUT /api/users/{username}/volume
+     * 
+     * @param username
+     * @param volumeUpdate
+     * @return
+     */
+    @PutMapping("/{username}/volume")
+    public ResponseEntity<?> updateVolume(@PathVariable String username,
+            @RequestBody volumeUpdateRequest volumeUpdate) {
+        if (volumeUpdate.volume() > 1 || volumeUpdate.volume() < 0) {
+			return ResponseEntity.badRequest().build();
+        }
+
+        synchronized (this.userDAO) {
+            this.apiStatusService.hasSeen(username);
+
+            Optional<User> optionalUser = this.userDAO.getUser(username);
+            if (optionalUser.isPresent()) {
+                var user = optionalUser.get();
+                user.setVolume(volumeUpdate.volume);
+                this.userDAO.updateUser(user);
+                return ResponseEntity.noContent().build();
+
+            } else {
+                return ResponseEntity.noContent().build();
+
+            }
+        }
+    }
+
     record passwordUpdateRequest(String password) {
+
+    }
+
+	record volumeUpdateRequest(float volume) {
 
     }
 }

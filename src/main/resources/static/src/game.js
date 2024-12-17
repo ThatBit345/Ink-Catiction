@@ -46,7 +46,7 @@ class Game extends Phaser.Scene {
 		this.load.image('end_back_fill', '../assets/ui/spr_end_back_fill.png');
 
         this.load.image('ink', '../assets/ink_10x.png');
-		this.load.image('background', '../assets/map_catacombs.png');
+		this.load.image('map', '../assets/map_catacombs.png');
 
         // Final Sprites
         this.load.spritesheet('agata', '../assets/agata_spritesheet.png', { frameWidth: 78, frameHeight: 88 });
@@ -57,7 +57,7 @@ class Game extends Phaser.Scene {
     create(data) {
 		this.gamePaused = false;
 
-		this.background = this.add.image(640, 360, 'background');
+		this.background = this.add.image(640, 360, 'map');
 		this.background.depth = -10;
 
 		this.p1ScoreBox = this.add.image(85,50,'score_box');

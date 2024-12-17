@@ -26,7 +26,7 @@ public class UserDAO {
     private String usersPath;
 
     public UserDAO() {
-        this.usersPath = System.getProperty("user.dir");
+        this.usersPath = System.getProperty("user.dir") + "/users";
     }
 
     @Autowired
@@ -75,6 +75,10 @@ public class UserDAO {
     // Method to update the User in the JSON file
     public boolean updateUser(User updatedUser) {
         try {
+			// Check for directory
+			File dir = new File(this.usersPath);
+			if(!dir.exists()) dir.mkdirs();
+
             // Construct the file path dynamically based on the username
             String filePath = this.usersPath + "/" + updatedUser.getUsername() + ".json";
             File file = new File(filePath);
