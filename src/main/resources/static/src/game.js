@@ -83,8 +83,7 @@ class Game extends Phaser.Scene {
         this.grid = new Grid(this, 'ink', this.p1Score, this.p2Score);
 
         this.initTime = 0;
-        //this.gameDuration = 88;
-        this.gameDuration = 10;
+        this.gameDuration = 88;
 
         // Player 1 Configuration
         this.keys1 = ["W", "A", "S", "D", "E"]
