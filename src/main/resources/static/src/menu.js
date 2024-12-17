@@ -1,4 +1,5 @@
 import Button from './button.js';
+import TextEntry from './textentry.js';
 
 class Menu extends Phaser.Scene
 {
@@ -45,9 +46,11 @@ class Menu extends Phaser.Scene
 		const textTitle = {color: '#E5B770', fontSize: '48px', fontFamily: 'Metamorphous'};
 		const textNormal = {color: '#E5B770', fontSize: '32px', fontFamily: 'Metamorphous'};
 		const textTitleDark = {color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous'};
-
-		console.log(this);
+		const inputTextNormal = {color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous'};
+		const inputTextPlaceholder = {color: '#B87F27', fontSize: '32px', fontFamily: 'Metamorphous'};
+		
 		this.registry.set('volume', 1);
+		this.online = this.registry.get('online');
 
 		// Background assets
 		this.splash = this.add.image(1000, 360, 'splash');
@@ -88,6 +91,20 @@ class Menu extends Phaser.Scene
 		this.volumeText = this.add.text(260, 1440 + 240, '10', textNormal);
 		this.volumeDownButton = new Button(this.onMasterDecrease, '-', '40px', this, 200, 1440 + 260, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 16, 16);
 		this.volumeUpButton = new Button(this.onMasterIncrease, '+', '40px', this, 360, 1440 + 260, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 16, 16);
+		
+		this.changePasswordLabel = this.add.text(160, 1440 + 300, 'Account', textTitle);
+		this.changePasswordBox = new TextEntry(this, 400, 1440 + 400, 160, 25, 'button_normal', 'button_highlighted', "New password...", inputTextNormal, inputTextPlaceholder);
+		this.changePasswordButton = new Button(this.onChangePassword, 'Change', '40px', this, 740, 1440 + 400, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 60, 25);
+		this.changePasswordConfirm = this.add.text(840, 1440 + 380, 'Changed', textNormal);
+		this.changePasswordConfirm.visible = false;
+		
+		this.deleteAccountButton = new Button(this.onDeleteAccount, 'Delete account', '40px', this, 400, 1440 + 500, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 160, 25);
+		this.deleteAccountConfirm = this.add.text(650, 1440 + 450, 'Are you sure?', textNormal);
+		this.deleteAccountConfirmButton = new Button(this.onDeleteConfirm, 'Yes', '40px', this, 700, 1440 + 520, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 20);
+		this.deleteAccountDenyButton = new Button(this.onDeleteDeny, 'No', '40px', this, 840, 1440 + 520, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 20);
+		this.deleteAccountConfirm.visible = false;
+		this.deleteAccountConfirmButton.visible = false;
+		this.deleteAccountDenyButton.visible = false;
 
 		// Character Select menu -----------------------
 		this.charBackLeft = this.add.image(640, -620, 'back_char_left');
@@ -176,6 +193,14 @@ class Menu extends Phaser.Scene
 			this.volumeText,
 			this.volumeDownButton,
 			this.volumeUpButton,
+			this.changePasswordBox,
+			this.changePasswordButton,
+			this.changePasswordLabel,
+			this.changePasswordConfirm,
+			this.deleteAccountButton,
+			this.deleteAccountConfirm,
+			this.deleteAccountConfirmButton,
+			this.deleteAccountDenyButton,
 			this.comsTitle1,
 			this.comsTitle2,
 			this.localButton,
@@ -211,9 +236,25 @@ class Menu extends Phaser.Scene
 			this.startGameButton
 		]
 
-		// Sphaguetti temporal code
-		const text_chat = document.getElementById('text-input');
-		text_chat.style.visibility = 'hidden';
+		this.input.on('pointerdown', function (pointer)
+        {
+			this.changePasswordBox.checkForSelection();
+
+        }, this);
+
+		if(this.online == false) // In offline mode, disable all online features
+		{
+			this.chatButton.visible = false;
+			this.chatIcon.visible = false;
+			this.changePasswordBox.visible = false;
+			this.changePasswordButton.visible = false;
+			this.changePasswordLabel.visible = false;
+			this.changePasswordConfirm.visible = false;
+			this.deleteAccountButton.visible = false;
+			this.deleteAccountConfirm.visible = false;
+			this.deleteAccountConfirmButton.visible = false;
+			this.deleteAccountDenyButton.visible = false;
+		} 
 	}
 
 	update(time, delta)
@@ -345,6 +386,58 @@ class Menu extends Phaser.Scene
 		this.scene.sound.setVolume(volume);
 		this.scene.registry.set('volume', volume);
 		this.scene.volumeText.text = Math.round(volume * 10);
+	}
+
+	onChangePassword()
+	{
+		const baseUrl = '/api/users/' + this.scene.registry.get('user') + "/password";
+		let password = this.scene.changePasswordBox.submitText();
+		let scene = this.scene;
+
+		$.ajax({
+			contentType: 'application/json',
+			data: JSON.stringify({password:password}),
+			dataType: 'json',
+			processData: false,
+			type: 'PUT',
+			url: baseUrl
+		}).done(function(){
+
+			scene.changePasswordConfirm.visible = true;
+		});
+	}
+
+	onDeleteAccount()
+	{
+		this.scene.deleteAccountConfirm.visible = true;
+		this.scene.deleteAccountConfirmButton.visible = true;
+		this.scene.deleteAccountDenyButton.visible = true;
+	}
+
+	onDeleteConfirm()
+	{
+		const baseUrl = '/api/users/' + this.scene.registry.get('user');
+		let scene = this.scene;
+
+		$.ajax({
+			contentType: 'application/json',
+			dataType: 'json',
+			processData: false,
+			type: 'DELETE',
+			url: baseUrl
+		}).always(function(){
+
+			scene.registry.set('user', '');
+			scene.registry.set('connected', false);
+			scene.scene.start('LogReg');
+		});
+	}
+
+	onDeleteDeny()
+	{
+		this.scene.deleteAccountConfirm.visible = false;
+		this.scene.deleteAccountConfirmButton.visible = false;
+		this.scene.deleteAccountDenyButton.visible = false;
 	}
 	// #endregion
 

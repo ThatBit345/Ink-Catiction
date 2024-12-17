@@ -131,11 +131,11 @@ public class UserController {
      * @param entity
      * @return
      */
-    @PutMapping("/{username}/password/")
+    @PutMapping("/{username}/password")
     public ResponseEntity<?> updatePassword(@PathVariable String username,
             @RequestBody passwordUpdateRequest passwordUpdate) {
         if (passwordUpdate.password() == null) {
-
+			return ResponseEntity.badRequest().build();
         }
 
         synchronized (this.userDAO) {

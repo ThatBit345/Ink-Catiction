@@ -78,7 +78,7 @@ class ChatRoom extends Phaser.Scene
 			this.fetchMessages(this);
 
 			let userCounter = this.userCounter;
-			const baseUrl = `${window.location.origin}/api/status/connected-users`;
+			const baseUrl = '/api/status/connected-users';
 
 			$.get(baseUrl).done(function(data){
 				console.log(data);
@@ -99,8 +99,8 @@ class ChatRoom extends Phaser.Scene
 		let user = this.scene.registry.get('user');
 		let message = scene.chatBar.submitText();
 
-		const baseUrl = `${window.location.origin}/api/chat`;
-		$.post(baseUrl, { user: user, message: message }).done(function(){
+		const baseUrl = '/api/chat';
+		$.post(baseUrl, { user: user, message: message }).always(function(){
 			scene.fetchMessages(scene);
 		});
 	}

@@ -28,6 +28,9 @@ class LogReg extends Phaser.Scene
 	}
 
 	create() {
+		this.registry.set('user', '');
+		this.registry.set('online', false);
+
 		const textNormal = {color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous'};
 		const textPlaceholder = {color: '#B87F27', fontSize: '32px', fontFamily: 'Metamorphous'};
 		const textError = {color: '#A51818', fontSize: '32px', fontFamily: 'Metamorphous'};
@@ -56,6 +59,7 @@ class LogReg extends Phaser.Scene
 
 		this.registerButton = new Button(this.onRegister, 'Register', '32px', this, 380, 270, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 60, 20);
 		this.confirmButton = new Button(this.onConfirm, 'Confirm', '32px', this, 260, 590, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 140, 20);
+		this.offlineButton = new Button(this.onStartOffline, 'Offline mode', '32px', this, 260, 660, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 140, 20);
 		
 		registerErrorText = this.add.text(50, 640, "User already exists!", textError);
 		registerErrorText.visible = false;
@@ -74,6 +78,11 @@ class LogReg extends Phaser.Scene
         }, this);
 	}
 
+	onStartOffline()
+	{
+		this.scene.scene.start('Menu');
+	}
+
 	onRegister() {
 		this.scene.registerButton.toggleEnable();
 		this.scene.logInButton.toggleEnable();
@@ -88,7 +97,7 @@ class LogReg extends Phaser.Scene
 
 	onConfirm()
 	{
-		const baseUrl = `${window.location.origin}/api/users/`;
+		const baseUrl = '/api/users/';
 
 		let username = this.scene.usernameBox.submitText();
 		let password = this.scene.passwordBox.submitText();
@@ -119,6 +128,7 @@ class LogReg extends Phaser.Scene
 				}).done(function(){
 
 					scene.registry.set('user', username);
+					scene.registry.set('online', true);
 					scene.scene.start('Menu');
 				});
 			});
@@ -129,6 +139,7 @@ class LogReg extends Phaser.Scene
 
 				console.log("Logged into user: " + data.username);
 				scene.registry.set('user', data.username);
+				scene.registry.set('online', true);
 				scene.scene.start('Menu');
 				
 			}).fail(function(jqXHR, textStatus){
