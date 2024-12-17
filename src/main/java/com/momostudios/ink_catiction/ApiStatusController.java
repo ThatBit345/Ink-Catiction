@@ -25,6 +25,11 @@ public class ApiStatusController {
         int numberOfUsersConnected = this.apiStatusService.numberOfUsersConnected(this.seenThreshold);
         return ResponseEntity.ok(new connectedUsersResponse(numberOfUsersConnected));
     }
+
+	@GetMapping("/ping")
+	public ResponseEntity<String> pingServer(){
+		return ResponseEntity.ok().build();
+	}
     
     record connectedUsersResponse(long connectedUsers){
 

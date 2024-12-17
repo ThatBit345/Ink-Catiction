@@ -259,7 +259,37 @@ class Menu extends Phaser.Scene
 
 	update(time, delta)
 	{
-		
+		if(this.online == false) return; // Do not retry connection if on Offline Mode
+
+		let scene = this;
+
+		const baseUrl = '/api/status/ping';
+
+		// Check connection
+		$.get(baseUrl, function (data) {}).done(function()
+		{
+			scene.registry.set('connected', true);
+			scene.chatButton.visible = true;
+			scene.chatIcon.visible = true;
+			scene.changePasswordBox.visible = true;
+			scene.changePasswordButton.visible = true;
+			scene.changePasswordLabel.visible = true;
+			scene.deleteAccountButton.visible = true;
+
+		}).fail(function(){
+
+			scene.registry.set('connected', false);
+			scene.chatButton.visible = false;
+			scene.chatIcon.visible = false;
+			scene.changePasswordBox.visible = false;
+			scene.changePasswordButton.visible = false;
+			scene.changePasswordLabel.visible = false;
+			scene.changePasswordConfirm.visible = false;
+			scene.deleteAccountButton.visible = false;
+			scene.deleteAccountConfirm.visible = false;
+			scene.deleteAccountConfirmButton.visible = false;
+			scene.deleteAccountDenyButton.visible = false;
+		});
 	}
 
 	// #region Main Menu Functions ---------------------
@@ -393,6 +423,8 @@ class Menu extends Phaser.Scene
 		const baseUrl = '/api/users/' + this.scene.registry.get('user') + "/password";
 		let password = this.scene.changePasswordBox.submitText();
 		let scene = this.scene;
+
+		if(password == '') return;
 
 		$.ajax({
 			contentType: 'application/json',
