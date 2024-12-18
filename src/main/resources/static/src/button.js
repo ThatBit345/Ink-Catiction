@@ -51,8 +51,8 @@ class Button extends Phaser.GameObjects.Container
 	{
 		if(this.enabled) 
 		{
-			this.callback();
 			this.nslice.setTexture(this.highlighted_texture);
+			this.callback();
 		}
 	}
 

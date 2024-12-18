@@ -80,6 +80,7 @@ class LogReg extends Phaser.Scene
 
 	onStartOffline()
 	{
+		this.scene.offlineButton.toggleEnable();
 		this.scene.registry.set('user', '');
 		this.scene.registry.set('online', false);
 		this.scene.registry.set('volume', 1);
@@ -109,6 +110,7 @@ class LogReg extends Phaser.Scene
 		let loginUrl = baseUrl + "login";
 		let scene = this.scene;
 
+		scene.confirmButton.toggleEnable();
 		registerErrorText.visible = false;
 		loginErrorText.visible = false;
 		loginPasswordErrorText.visible = false;
@@ -134,6 +136,9 @@ class LogReg extends Phaser.Scene
 					scene.registry.set('online', true);
 					scene.registry.set('volume', 1);
 					scene.scene.start('Menu');
+				}).fail(function(){
+					
+					scene.confirmButton.toggleEnable();
 				});
 			});
 		}
@@ -163,6 +168,7 @@ class LogReg extends Phaser.Scene
 				{
 					loginErrorText.visible = true;
 				}
+				scene.confirmButton.toggleEnable();
 			});
 		}
 	}
