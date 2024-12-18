@@ -20,6 +20,8 @@ class LogReg extends Phaser.Scene
 		this.load.image('back_char_left', '../assets/ui/spr_menu_char_left.png');
 		this.load.image('back_char_right', '../assets/ui/spr_menu_char_right.png');
 
+		this.load.image('throbber', '../assets/ui/spr_throbber.png');
+
 		// Button sprites
 		this.load.image('button_normal', '../assets/ui/spr_button_normal.png');
 		this.load.image('button_highlighted', '../assets/ui/spr_button_highlighted.png');
@@ -38,6 +40,20 @@ class LogReg extends Phaser.Scene
 		// Background assets
 		this.splash = this.add.image(1000, 360, 'splash');
 		this.backgroundSlice = this.add.image(640, 1080-360, 'back');
+
+		// Throbber
+		this.throbber = this.add.image(520, 590, 'throbber');
+		this.throbber.scale = 3;
+		this.throbber.depth = 10;
+		this.throbber.visible = false;
+
+		this.throbber_shadow = this.add.image(524, 594, 'throbber');
+		this.throbber_shadow.scale = 3;
+		this.throbber_shadow.depth = 9;
+		this.throbber_shadow.setTint("0x301100");
+		this.throbber_shadow.visible = false;
+
+		this.throbber_rotation = 0;
 
 		// Game Title -----------------------------------
 		this.title1 = this.add.text(50, 50, 'Ink', {color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous'});
@@ -78,6 +94,15 @@ class LogReg extends Phaser.Scene
         }, this);
 	}
 
+	update(time, delta)
+	{
+		this.throbber_rotation += 0.005 * delta;
+		if(this.throbber_rotation > 2 * 3.1415) this.throbber_rotation -= 2 * 3.1415;
+
+		this.throbber.setRotation(this.throbber_rotation);
+		this.throbber_shadow.setRotation(this.throbber_rotation);
+	}
+
 	onStartOffline()
 	{
 		this.scene.offlineButton.toggleEnable();
@@ -107,6 +132,7 @@ class LogReg extends Phaser.Scene
 		let password = this.scene.passwordBox.submitText();
 
 		let getUrl = baseUrl + username;
+		let registerUrl = baseUrl + "register";
 		let loginUrl = baseUrl + "login";
 		let scene = this.scene;
 
@@ -117,9 +143,15 @@ class LogReg extends Phaser.Scene
 
 		if(this.scene.mode == 'reg')
 		{
+			scene.throbber_rotation = 0;
+			scene.throbber.visible = true;
+			scene.throbber_shadow.visible = true;
+
 			$.get(getUrl, function (data) {}).done(function()
 			{
 				registerErrorText.visible = true;
+				scene.throbber.visible = false;
+				scene.throbber_shadow.visible = false;
 
 			}).fail(function(){
 				
@@ -129,7 +161,7 @@ class LogReg extends Phaser.Scene
 					dataType: 'json',
 					processData: false,
 					type: 'POST',
-					url: baseUrl
+					url: registerUrl
 				}).done(function(){
 
 					scene.registry.set('user', username);
@@ -139,11 +171,17 @@ class LogReg extends Phaser.Scene
 				}).fail(function(){
 					
 					scene.confirmButton.toggleEnable();
+					scene.throbber.visible = false;
+					scene.throbber_shadow.visible = false;
 				});
 			});
 		}
 		else if(this.scene.mode == 'log')
 		{
+			scene.throbber_rotation = 0;
+			scene.throbber.visible = true;
+			scene.throbber_shadow.visible = true;
+
 			$.ajax({
 				contentType: 'application/json',
 				data: JSON.stringify({username:username, password:password, volume:1.0}),
@@ -168,7 +206,10 @@ class LogReg extends Phaser.Scene
 				{
 					loginErrorText.visible = true;
 				}
+				
 				scene.confirmButton.toggleEnable();
+				scene.throbber.visible = false;
+				scene.throbber_shadow.visible = false;
 			});
 		}
 	}

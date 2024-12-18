@@ -24,7 +24,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequestMapping("/api/users")
 public class UserController {
 
-
     @Autowired
     private UserDAO userDAO;
 
@@ -104,12 +103,12 @@ public class UserController {
     }
 
     /**
-     * POST /api/users/
+     * POST /api/users/register
      * 
      * @param user
      * @return
      */
-    @PostMapping("/")
+    @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) 
 	{
         if (user.getUsername() == null || user.getPassword() == null) {

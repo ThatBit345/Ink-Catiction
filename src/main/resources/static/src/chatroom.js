@@ -91,6 +91,20 @@ class ChatRoom extends Phaser.Scene
 			this.chatBar.checkForSelection();
 
         }, this);
+		
+		const user = this.registry.get('user');
+		const baseUrl = '/api/chat/';
+		$.ajax({
+			contentType: 'application/json',
+			data: JSON.stringify({user:"System", message:"User [" + user + "] joined the chat!"}),
+			dataType: 'json',
+			processData: false,
+			type: 'POST',
+			url: baseUrl
+		}).done(function(){
+
+			scene.fetchMessages(scene);
+		});
 	}
 
 	update(time, delta)
@@ -132,6 +146,18 @@ class ChatRoom extends Phaser.Scene
 
 	onBack()
 	{
+		const user = this.scene.registry.get('user');
+		const baseUrl = '/api/chat/';
+
+		$.ajax({
+			contentType: 'application/json',
+			data: JSON.stringify({user:"System", message:"User [" + user + "] left the chat!"}),
+			dataType: 'json',
+			processData: false,
+			type: 'POST',
+			url: baseUrl
+		});
+
 		this.scene.scene.start("Menu");
 	}
 
