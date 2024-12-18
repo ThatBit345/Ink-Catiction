@@ -19,6 +19,7 @@ El documento de diseño es un elemento vivo que evoluciona junto con el juego. E
  	- Correcciones menores en el documento respecto a la anterior versión 
 - V3.0 19/12/2024. 
 	- Ampliación y corrección del apartado de efectos de sonido
+ 	- Actualización del diagrama de estados
 
 ## Introducción
 ### Motivación
@@ -145,13 +146,13 @@ Elementos de aparición **opcional** pero pueden ayudan a enriquecer la experien
 ## Interfaces
 En este apartado se refleja todo el proceso que los jugadores podrán llevar a cabo a la hora de interactuar con el juego en cada momento. Al iniciar el juego se presentará un *Menú Principal* que podrá conducir a una partida, a un *Menú de Ajustes*, o bien de vuelta al sistema operativo. Si se selecciona la opción de juego, se deberá elegir el tipo de conexión y posteriormente los personajes con los que se va a realizar la partida. A partir de aquí se genera el Game-Loop del juego donde se realizan tres rondas en las que los jugadores reaparecen de forma infinita cada vez que son eliminados hasta que se acaba el tiempo. Una vez completadas las tres rondas, se determina el ganador dando paso a los mensajes de victoria y derrota, y ofreciendo la opción de regresar de nuevo al *Menú Principal*, donde se puede repetir este mismo proceso de nuevo.
 
-El conjunto de interfaces que existirán en el videojuego se relacionarán entre sí de acuerdo con el siguiente diagrama de flujo:
+El conjunto de interfaces que existirán en el videojuego se relacionarán entre sí de acuerdo con el siguiente diagrama de flujo que se ha actualizado para la tercera entrega con las nuevas pantallas de registro y chat:
 
-![diagrama flujo](https://github.com/user-attachments/assets/be39cc30-8a6a-4918-b18a-a2fa5949e273)
+![diagrama flujo_actualizado](https://github.com/user-attachments/assets/f1f60969-0b47-436b-8719-536f082e3b0f)
 
 A continuación se mostrarán los bocetos y conceptos iniciales de las interfaces con las que el usuario podrá interactuar en el juego. Estos bocetos están elaborados en escala de grises, de tal manera que sólo representan los elementos interactivos relevantes y no representan los colores finales que se utilizarán en el juego. Estos bocetos pueden no representar la estructura final, puesto que el equipo podrá realizar ajustes de las mismas en función de las necesidades del diseño. Junto a los bocetos se incluye la interfaz implementada para la segunda entrega.
-### Pantalla de Registro e Inicio de sesión
 
+### Pantalla de Registro e Inicio de sesión
 Esta pantalla no se tuvo en cuenta en la primera entrega, por lo que no se mostrará un boceto de la misma, únicamente el resultado final. Esta deberá contar con los siguientes elementos:
 - Botón *Login* que permita a los usuarios ya registrados iniciar sesión.
 - Botón *Register* donde los nuevos jugadores podrán registrarse.
