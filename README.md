@@ -28,7 +28,7 @@ El documento de diseño es un elemento vivo que evoluciona junto con el juego. E
  	- Correcciones menores en el documento respecto a la anterior versión 
 - V3.0 19/12/2024. 
 	- Ampliación y corrección del apartado de efectos de sonido
- 	- Actualización del diagrama de estados
+ 	- Actualización del diagrama de estados y adición del diagrama de clases
   	- Actualización de imágenes
   	- Instrucciones de uso del servidor
 
@@ -84,6 +84,11 @@ En el mapa se distribuirán una serie de *Power Ups* que aparecerán aleatoria y
 - **Ataques ilimitados:** el jugador recibirá por 5 segundos un número ilimitado de ataques que no afectará a la barra de resistencia.
 - **Bomba de pintura:** se produce una explosión que cubre de tinta todo lo que hay alrededor del jugador en un radio determinado, pintando de una sola vez una mayor zona del mapa.
 <img width="1599" alt="cats" src="https://github.com/user-attachments/assets/47f7369c-6c55-426c-ab74-e9ce256d546b">
+
+## Diagrama de clases
+La implementación de las clases que han permitido un correcto funcionamiento del servidor se han reflejado en un diagrama cuya distinción de clases viene dada por una leyenda de colores: 
+![imagen](https://github.com/user-attachments/assets/2972376e-2737-453d-8ad7-1991200681e4)
+
 
 ## Mapas
 El espacio consta de una dimensión en 2D con una estructura tipo mapa de baldosas. Este espacio estará limitado al espacio de la pantalla, y el POV que tendrán los jugadores del mapa será de una cámara 2D en perspectiva cenital, con las sprites representadas en picado para una mejor legibilidad de los personajes.
