@@ -42,8 +42,6 @@ public class UserController {
     @GetMapping("/{username}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String username) {
         synchronized (this.userDAO) {
-			System.out.println("GET: " + username);
-
             Optional<User> user = this.userDAO.getUser(username);
 
             if (user.isPresent()) {
@@ -70,6 +68,7 @@ public class UserController {
             if (user.isPresent()) 
 			{
 				if(user.get().getPassword().equals(password)){
+					System.out.println("User [" + username + "] logged in.");
 					return ResponseEntity.ok(new UserDTO(user.get()));
 				} else {
 					return ResponseEntity.badRequest().build();
@@ -92,6 +91,7 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable String username) {
         boolean removed = this.userDAO.deleteUser(username);
         if (removed) {
+			System.out.println("User [" + username + "] deleted.");
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
@@ -117,7 +117,7 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
 
-			System.out.println("Registered new user: " + user.getUsername());
+			System.out.println("User [" + user.getUsername() + "] registered.");
             this.apiStatusService.hasSeen(user.getUsername());
             this.userDAO.updateUser(user);
             return ResponseEntity.noContent().build();
