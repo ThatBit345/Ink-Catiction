@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -22,48 +26,62 @@ public class ChatController
 
 	private final int MAX_MESSAGE_HISTORY = 11;
 
-	@GetMapping()
-	public ChatResponse GetMessages(@RequestParam int since)
+    @Autowired
+    private ApiStatusService apiStatusService;
+
+	/**
+     * GET /api/chat/{since}
+     * 
+     * @param since
+     * @return
+     */
+	@GetMapping("/{since}")
+	public ResponseEntity<ChatResponse> GetMessages(@PathVariable int since)
 	{
 		List<String> responseMessages = new ArrayList<String>();
-		//int latestId = since;
 
 		synchronized(messages)
 		{
 			for (Message message : this.messages) 
 			{
-				//if(message.id() > since)
-				//{
-					String response = String.format("[%s] %s: %s", 
-						message.timestamp(), message.user(), message.message());
+				String response = String.format("[%s] %s: %s", 
+					message.timestamp(), message.user(), message.message());
 
-					responseMessages.add(response);
-					//latestId = message.id();
-				//}
+				responseMessages.add(response);
 			}
 		}
 
-		return new ChatResponse(responseMessages, 0);
+		return ResponseEntity.ok(new ChatResponse(responseMessages, 0));
 	}
 
-	@PostMapping()
-	public void PostMessage(@RequestParam String user, @RequestParam String message)
+	/**
+     * POST /api/chat/
+     * 
+     * @param user
+     * @return
+     */
+	@PostMapping("/")
+	public ResponseEntity<?> PostMessage(@RequestBody MessageRequest request)
 	{
 		synchronized(messages)
 		{
+			this.apiStatusService.hasSeen(request.user());
+
 			// Get current time
 			Date date = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
 			String timestamp = sdf.format(date);
 
-			Message entry = new Message(timestamp, user, message, lastId.incrementAndGet());
-			System.out.println("Received message " + lastId + " with contents: [" + user + "]:[" + message + "]");
+			Message entry = new Message(timestamp, request.user(), request.message(), lastId.incrementAndGet());
+			System.out.println("Received message " + lastId + " with contents: [" + request.user() + "]:[" + request.message() + "]");
 			this.messages.add(entry);
 
 			if(this.messages.size() > MAX_MESSAGE_HISTORY)
 			{
 				this.messages.remove(0);
 			}
+
+			return ResponseEntity.noContent().build();
 		}
 	}
 

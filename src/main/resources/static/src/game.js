@@ -40,8 +40,13 @@ class Game extends Phaser.Scene {
 		this.load.image('timer_back', '../assets/ui/spr_timer_back.png');
 		this.load.image('panel', '../assets/ui/spr_button_normal.png');
 
+		this.load.image('end_transition_left', '../assets/ui/spr_end_back_transition_left.png');
+		this.load.image('end_transition_center', '../assets/ui/spr_end_back_transition_center.png');
+		this.load.image('end_transition_right', '../assets/ui/spr_end_back_transition_right.png');
+		this.load.image('end_back_fill', '../assets/ui/spr_end_back_fill.png');
+
         this.load.image('ink', '../assets/ink_10x.png');
-		this.load.image('background', '../assets/map_catacombs.png');
+		this.load.image('map', '../assets/map_catacombs.png');
 
         // Final Sprites
         this.load.spritesheet('agata', '../assets/agata_spritesheet.png', { frameWidth: 78, frameHeight: 88 });
@@ -52,7 +57,7 @@ class Game extends Phaser.Scene {
     create(data) {
 		this.gamePaused = false;
 
-		this.background = this.add.image(640, 360, 'background');
+		this.background = this.add.image(640, 360, 'map');
 		this.background.depth = -10;
 
 		this.p1ScoreBox = this.add.image(85,50,'score_box');
@@ -79,6 +84,7 @@ class Game extends Phaser.Scene {
 
         this.initTime = 0;
         this.gameDuration = 88;
+		//this.gameDuration = 14;
 
         // Player 1 Configuration
         this.keys1 = ["W", "A", "S", "D", "E"]
@@ -123,6 +129,16 @@ class Game extends Phaser.Scene {
 		Phaser.Display.Align.In.Center(this.timeText, this.timer_back);
         
 		// End animation setup
+		this.end_back_trans_left = this.add.image(213, 360 + 720, 'end_transition_left');
+		this.end_back_trans_left.depth = 11;
+		this.end_back_trans_center = this.add.image(426 + 213, -360, 'end_transition_center');
+		this.end_back_trans_center.depth = 11;
+		this.end_back_trans_right = this.add.image(852 + 213, 360 + 720, 'end_transition_right');
+		this.end_back_trans_right.depth = 11;
+		this.end_back_fill = this.add.image(640, 360, 'end_back_fill');
+		this.end_back_fill.depth = 10;
+		this.end_back_fill.alpha = 0;
+
 		this.endcard_upper = this.add.image(-922, 1117, 'endcard');
 		this.endcard_upper.angle = -28.6;
 		this.endcard_upper.depth = 10;
@@ -391,6 +407,32 @@ class Game extends Phaser.Scene {
 			duration: 1000,
 			x: -881.8,
 			y: 1192.9,
+			ease: 'Cubic.inOut',
+			onComplete: scene.backgroundSlide
+		});
+	}
+
+	backgroundSlide()
+	{
+		let scene = this.parent.scene;
+
+		scene.add.tween({
+			targets: [scene.end_back_trans_left, scene.end_back_trans_center, scene.end_back_trans_right],
+			duration: 1000,
+			y: 360,
+			ease: 'Cubic.inOut',
+			onComplete: scene.fadeCatBackground
+		});
+	}
+
+	fadeCatBackground()
+	{
+		let scene = this.parent.scene;
+
+		scene.add.tween({
+			targets: scene.end_back_fill,
+			duration: 1000,
+			alpha: 1,
 			ease: 'Cubic.inOut',
 			onComplete: scene.toResults
 		});

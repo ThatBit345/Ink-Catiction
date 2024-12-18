@@ -242,6 +242,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2));
         //return Math.abs(x1 - x2) + Math.abs(y1 - y2);
     }
+
+	getCharacter()
+	{
+		return this.texture;
+	}
 }
 
 export default Player;
