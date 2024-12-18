@@ -190,7 +190,7 @@ class Menu extends Phaser.Scene
 		this.connectionErrorShown = false;
 		this.connectionErrorPanel = this.add.nineslice(640, 360, 'button_normal', undefined, 300, 125, 4, 4, 4, 4, undefined, undefined);
 		this.connectionErrorPanel.scale = 3;
-		this.connectionErrorLabel = this.add.text(450, 200, 'An error has occured!', textError);
+		this.connectionErrorLabel = this.add.text(450, 200, 'An error has occurred!', textError);
 		this.connectionErrorTextP1 = this.add.text(225, 250, 'There was a problem connecting to the server,', textDark);
 		this.connectionErrorTextP2 = this.add.text(230, 300, 'connection will be reestablished automatically.', textDark);
 		this.connectionErrorTextP3 = this.add.text(290, 350, 'Until then, online functions are disabled.', textDark);		
