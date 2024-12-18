@@ -8,6 +8,15 @@ Trabajo desarrollado para la asignatura de _Juegos en Red_.
 - Sara María Romero Bermejo -> @SaraRomBer -> sm.romero.2022@alumnos.urjc.es
 - Samuel Retamero Salado -> @Samuelovich -> s.retamero.2022@alumnos.urjc.es
 
+# Compilación y ejecución
+Para compilar el projecto se necesita un JDK de Java 17.
+
+## Windows
+Para ejecutar el juego en Windows los pasos son:
+1. En la carpeta raíz, utiliza el siguiente comando para compilar el proyecto: `./mvnw.cmd package`
+2. Una vez compilado, en la carpeta target, utilizar este comando para abrir el servidor: `java -jar ink-catiction-0.0.1-SNAPSHOT.jar`
+3. En el navegador, acceder con la dirección IP del servidor y el puerto 8080, por ejemplo, la dirección `127.0.0.1:8080` para acceder desde el ordenador que tiene el servidor abierto.
+
 # GDD
 ## Historial de versiones
 El documento de diseño es un elemento vivo que evoluciona junto con el juego. En este apartado se verán reflejados los cambios más relevantes realizados en el mismo respecto a sus distintas versiones.
@@ -21,6 +30,7 @@ El documento de diseño es un elemento vivo que evoluciona junto con el juego. E
 	- Ampliación y corrección del apartado de efectos de sonido
  	- Actualización del diagrama de estados
   	- Actualización de imágenes
+  	- Instrucciones de uso del servidor
 
 ## Introducción
 ### Motivación
