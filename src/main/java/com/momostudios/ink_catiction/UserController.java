@@ -58,25 +58,23 @@ public class UserController {
     }
 
 	/**
-     * GET /api/users/{username}/{password}
+     * POST /api/users/login
      * 
-     * @param username
-     * @param password
+     * @param user
      * @return
      */
-    // Debería ser un post
-    @GetMapping("/{username}/{password}")
-    public ResponseEntity<UserDTO> logIn(@PathVariable String username, @PathVariable String password) {
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> logIn(@RequestBody User user) {
         synchronized (this.userDAO) {
 
-            Optional<User> user = this.userDAO.getUser(username);
+            Optional<User> storedUser = this.userDAO.getUser(user.getUsername());
 
-            if (user.isPresent()) 
+            if (storedUser.get().getUsername() != null && storedUser.get().getPassword() != null) 
 			{
-                boolean success = encoder.matches(password, user.get().getPassword());
+                boolean success = encoder.matches(user.getPassword(), storedUser.get().getPassword());
 				if(success){
-					System.out.println("User [" + username + "] logged in.");
-					return ResponseEntity.ok(new UserDTO(user.get()));
+					System.out.println("User [" + storedUser.get().getUsername() + "] logged in.");
+					return ResponseEntity.ok(new UserDTO(storedUser.get()));
 				} else {
 					return ResponseEntity.badRequest().build();
 				}

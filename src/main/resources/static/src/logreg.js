@@ -106,7 +106,7 @@ class LogReg extends Phaser.Scene
 		let password = this.scene.passwordBox.submitText();
 
 		let getUrl = baseUrl + username;
-		let loginUrl = baseUrl + username + "/" + password;
+		let loginUrl = baseUrl + "login";
 		let scene = this.scene;
 
 		registerErrorText.visible = false;
@@ -139,14 +139,20 @@ class LogReg extends Phaser.Scene
 		}
 		else if(this.scene.mode == 'log')
 		{
-			$.get(loginUrl).done(function(data){
+			$.ajax({
+				contentType: 'application/json',
+				data: JSON.stringify({username:username, password:password, volume:1.0}),
+				dataType: 'json',
+				processData: false,
+				type: 'POST',
+				url: loginUrl
+			}).done(function(data){
 
 				console.log("Logged into user: " + data.username);
 				scene.registry.set('user', data.username);
 				scene.registry.set('volume', data.volume);
 				scene.registry.set('online', true);
 				scene.scene.start('Menu');
-				
 			}).fail(function(jqXHR, textStatus){
 
 				if(jqXHR.status == 400)

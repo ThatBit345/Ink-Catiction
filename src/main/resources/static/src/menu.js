@@ -720,7 +720,20 @@ class Menu extends Phaser.Scene
 
 	onStartGame()
 	{
-		this.scene.scene.start('Game', {player1: this.scene.player1, player2: this.scene.player2});
+		this.scene.add.tween({
+			targets: this.scene.blackFade,
+			duration: 1000,
+			alpha: 1,
+			ease: 'Cubic.out',
+			onComplete: this.scene.onFadeEnd
+		});
+	}
+
+	onFadeEnd()
+	{
+		let scene = this.parent.scene;
+
+		scene.scene.start('Game', {player1: scene.player1, player2: scene.player2});
 	}
 
 	onCharacterBack()
