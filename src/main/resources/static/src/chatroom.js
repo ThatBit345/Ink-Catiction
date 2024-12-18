@@ -23,6 +23,7 @@ class ChatRoom extends Phaser.Scene
 	preload()
 	{
 		this.load.image('background', '../assets/ui/spr_chatroom_back.png');
+		this.load.image('black_fade', '../assets/ui/spr_black.png');
 
 		this.load.image('user_icon', '../assets/ui/spr_chatroom_usericon.png');
 
@@ -38,6 +39,7 @@ class ChatRoom extends Phaser.Scene
 		const textNormal = {color: '#E5B770', fontSize: '32px', fontFamily: 'Metamorphous'};
 		const textPlaceholder = {color: '#B87F27', fontSize: '32px', fontFamily: 'Metamorphous'};
 		const textDark = {color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous'};
+		const textError = {color: '#A51818', fontSize: '32px', fontFamily: 'Metamorphous'};
 
 		this.add.image(640, 360, 'background');
 
@@ -61,6 +63,29 @@ class ChatRoom extends Phaser.Scene
 		this.sendButton = new Button(this.onSend, 'Send', '32px', this, 1160, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 60, 25);
 		this.backButton = new Button(this.onBack, 'Back', '32px', this, 120, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 60, 25);
 	
+		// Black fade
+		this.blackFade = this.add.image(640, 360, 'black_fade');
+		this.blackFade.setInteractive();
+		this.blackFade.visible = false;
+		this.blackFade.alpha = 0;
+
+		// Connection error popup
+		this.connectionErrorShown = false;
+		this.connectionErrorPanel = this.add.nineslice(640, 360, 'button_normal', undefined, 300, 125, 4, 4, 4, 4, undefined, undefined);
+		this.connectionErrorPanel.scale = 3;
+		this.connectionErrorLabel = this.add.text(450, 200, 'An error has occurred!', textError);
+		this.connectionErrorTextP1 = this.add.text(225, 250, 'There was a problem connecting to the server,', textDark);
+		this.connectionErrorTextP2 = this.add.text(230, 300, 'connection will be reestablished automatically.', textDark);
+		this.connectionErrorTextP3 = this.add.text(290, 350, 'Until then, online functions are disabled.', textDark);		
+		this.connectionErrorButton = new Button(this.dismissError, 'Ok', '40px', this, 640, 470, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 24);
+
+		this.connectionErrorPanel.visible = false;
+		this.connectionErrorLabel.visible = false;
+		this.connectionErrorTextP1.visible = false;
+		this.connectionErrorTextP2.visible = false;
+		this.connectionErrorTextP3.visible = false;
+		this.connectionErrorButton.visible = false;
+
 		this.input.on('pointerdown', function (pointer)
         {
 			this.chatBar.checkForSelection();
@@ -80,8 +105,29 @@ class ChatRoom extends Phaser.Scene
 		$.get(baseUrl).done(function(data){
 			userCounter.text = data.connectedUsers;
 		}).fail(function(){
-			scene.scene.start('Menu');
+			scene.registry.set('connected', false);
+
+			// Show the error prompt
+			if(!scene.connectionErrorShown)
+			{
+				scene.connectionErrorShown = true;
+	
+				scene.blackFade.visible = true;
+				scene.blackFade.alpha = 0.25;
+					
+				scene.connectionErrorPanel.visible = true;
+				scene.connectionErrorLabel.visible = true;
+				scene.connectionErrorTextP1.visible = true;
+				scene.connectionErrorTextP2.visible = true;
+				scene.connectionErrorTextP3.visible = true;
+				scene.connectionErrorButton.visible = true;
+			}
 		});
+	}
+
+	dismissError()
+	{
+		this.scene.scene.start('Menu');
 	}
 
 	onBack()

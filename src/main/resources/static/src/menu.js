@@ -40,6 +40,9 @@ class Menu extends Phaser.Scene
 		// Misc
 		this.load.image('chat_icon', '../assets/ui/spr_chat_icon.png');
 		this.load.image('black_fade', '../assets/ui/spr_black.png');
+
+		this.load.image('status_connected', '../assets/ui/spr_status_connected.png');
+		this.load.image('status_disconnected', '../assets/ui/spr_status_disconnected.png');
 	}
 
 	create(data)
@@ -180,6 +183,9 @@ class Menu extends Phaser.Scene
 		this.startGameButton = new Button(this.onStartGame, 'Start!', '40px', this, 640 - 2560, 425, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 24);
 		this.startGameButton.toggleEnable();
 
+		this.statusIndicator = this.add.image(35, 35, 'status_connected');
+		this.statusIndicator.scale = 3;
+
 		// Black fade
 		this.blackFade = this.add.image(640, 360, 'black_fade');
 		this.blackFade.setInteractive();
@@ -281,6 +287,7 @@ class Menu extends Phaser.Scene
 			this.deleteAccountConfirm.visible = false;
 			this.deleteAccountConfirmButton.visible = false;
 			this.deleteAccountDenyButton.visible = false;
+			this.statusIndicator.visible = false;
 		} 
 	}
 
@@ -305,6 +312,8 @@ class Menu extends Phaser.Scene
 			scene.changePasswordLabel.visible = true;
 			scene.deleteAccountButton.visible = true;
 
+			scene.statusIndicator.setTexture('status_connected');
+
 		}).fail(function(){
 
 			scene.registry.set('connected', false);
@@ -318,6 +327,8 @@ class Menu extends Phaser.Scene
 			scene.deleteAccountConfirm.visible = false;
 			scene.deleteAccountConfirmButton.visible = false;
 			scene.deleteAccountDenyButton.visible = false;
+
+			scene.statusIndicator.setTexture('status_disconnected');
 
 			// Show the error prompt
 			if(!scene.connectionErrorShown)
