@@ -40,6 +40,7 @@ class Menu extends Phaser.Scene
 		// Misc
 		this.load.image('chat_icon', '../assets/ui/spr_chat_icon.png');
 		this.load.image('black_fade', '../assets/ui/spr_black.png');
+		this.load.image('throbber', '../assets/ui/spr_throbber.png');
 
 		this.load.image('status_connected', '../assets/ui/spr_status_connected.png');
 		this.load.image('status_disconnected', '../assets/ui/spr_status_disconnected.png');
@@ -112,6 +113,20 @@ class Menu extends Phaser.Scene
 		this.deleteAccountConfirm.visible = false;
 		this.deleteAccountConfirmButton.visible = false;
 		this.deleteAccountDenyButton.visible = false;
+		
+		// Throbber
+		this.throbber = this.add.image(880, 1440 + 400, 'throbber');
+		this.throbber.scale = 3;
+		this.throbber.depth = 10;
+		this.throbber.visible = false;
+
+		this.throbber_shadow = this.add.image(884, 1440 + 404, 'throbber');
+		this.throbber_shadow.scale = 3;
+		this.throbber_shadow.depth = 9;
+		this.throbber_shadow.setTint("0x301100");
+		this.throbber_shadow.visible = false;
+
+		this.throbber_rotation = 0;
 
 		// Character Select menu -----------------------
 		this.charBackLeft = this.add.image(640, -620, 'back_char_left');
@@ -230,6 +245,8 @@ class Menu extends Phaser.Scene
 			this.changePasswordButton,
 			this.changePasswordLabel,
 			this.changePasswordConfirm,
+			this.throbber,
+			this.throbber_shadow,
 			this.deleteAccountButton,
 			this.deleteAccountConfirm,
 			this.deleteAccountConfirmButton,
@@ -294,6 +311,12 @@ class Menu extends Phaser.Scene
 	update(time, delta)
 	{
 		if(this.online == false) return; // Do not retry connection if on Offline Mode
+
+		this.throbber_rotation += 0.005 * delta;
+		if(this.throbber_rotation > 2 * 3.1415) this.throbber_rotation -= 2 * 3.1415;
+
+		this.throbber.setRotation(this.throbber_rotation);
+		this.throbber_shadow.setRotation(this.throbber_rotation);
 
 		let scene = this;
 
@@ -508,8 +531,21 @@ class Menu extends Phaser.Scene
 		const baseUrl = '/api/users/' + this.scene.registry.get('user') + "/password";
 		let password = this.scene.changePasswordBox.submitText();
 		let scene = this.scene;
+		
+		scene.changePasswordConfirm.visible = false;
+		scene.changePasswordButton.toggleEnable();
 
-		if(password == '') return;
+		if(password == '')
+		{
+			scene.throbber.visible = false;
+			scene.throbber_shadow.visible = false;
+			scene.changePasswordButton.toggleEnable();
+			return;
+		}
+		
+		scene.throbber.visible = true;
+		scene.throbber_shadow.visible = true;
+		scene.throbber_rotation = 0;
 
 		$.ajax({
 			contentType: 'application/json',
@@ -520,7 +556,15 @@ class Menu extends Phaser.Scene
 			url: baseUrl
 		}).done(function(){
 
+			scene.throbber.visible = false;
+			scene.throbber_shadow.visible = false;
 			scene.changePasswordConfirm.visible = true;
+			scene.changePasswordButton.toggleEnable();
+		}).fail(function(){
+			
+			scene.throbber.visible = false;
+			scene.throbber_shadow.visible = false;
+			scene.changePasswordButton.toggleEnable();
 		});
 	}
 

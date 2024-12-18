@@ -109,7 +109,14 @@ class ChatRoom extends Phaser.Scene
 
 	update(time, delta)
 	{
-		//this.updateTimer -= this.updateCycleDuration;
+		if(this.updateTimer <= this.updateCycleDuration) 
+		{
+			this.updateTimer += delta; 
+			return;
+		}
+
+		this.updateTimer -= this.updateCycleDuration;
+
 		this.fetchMessages(this);
 
 		let userCounter = this.userCounter;

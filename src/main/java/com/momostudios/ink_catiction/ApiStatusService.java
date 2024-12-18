@@ -16,7 +16,10 @@ public class ApiStatusService {
     }
 
     public void hasSeen(String usrname/*, long timestamp */) {
-        this.lastSeen.put(usrname,System.currentTimeMillis());
+		// Ignore system messages from showing as an active user
+        if(usrname.matches("System")) return;
+		
+		this.lastSeen.put(usrname,System.currentTimeMillis());
     }
 
     public List<String> isConnected(long threshold) {       
