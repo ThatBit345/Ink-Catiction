@@ -80,9 +80,9 @@ class LogReg extends Phaser.Scene
 
 	onStartOffline()
 	{
-		scene.registry.set('user', '');
-		scene.registry.set('online', false);
-		scene.registry.set('volume', 1);
+		this.scene.registry.set('user', '');
+		this.scene.registry.set('online', false);
+		this.scene.registry.set('volume', 1);
 		this.scene.scene.start('Menu');
 	}
 
