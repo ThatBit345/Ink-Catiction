@@ -1,5 +1,5 @@
 # Ink Catiction
-Juego competitivo donde dos gatos intentan pintar más terreno que su rival en una competición para hacerse con el reino.
+Juego competitivo donde dos gatos luchan por pintar más terreno que su rival en una competición por hacerse con la corona del reino.
 
 Trabajo desarrollado para la asignatura de _Juegos en Red_.
 ## Equipo:
@@ -17,6 +17,9 @@ El documento de diseño es un elemento vivo que evoluciona junto con el juego. E
 	- Añadidas las imágenes de arte de personajes, paletas y _sprites_ a sus respectivos apartados
 	- Añadidas las nuevas versiones de las interfaces
  	- Correcciones menores en el documento respecto a la anterior versión 
+- V3.0 19/12/2024. 
+	- Ampliación y corrección del apartado de efectos de sonido
+ 	- Actualización del diagrama de estados
 
 ## Introducción
 ### Motivación
@@ -30,6 +33,8 @@ El título cuenta con las siguientes características principales:
 - **Mecánicas variadas:** cuenta con mecánicas inspiradas en *Splatoon*, como la condición de victoria de aquel jugador que haya pintado una mayor zona de la pantalla, así como mecánicas originales que le darán más personalidad al juego.
 - **Uso del modelo cliente/servidor**, ya que está pensado para ser jugado desde dos máquinas distintas conectadas a la misma red que acceden al juego que se encuentra almacenado en otro dispositivo que actúa de servidor.
 - **Uso del framework Phaser 3** para desarrollar el videojuego mediante Javascript.
+- Uso de la interfaz de programación **REST**.
+
 ### Género
 *Ink Catiction* es un juego de acción en formato multijugador competitivo en el que dos jugadores deberán enfrentarse y tomar todo el control de un territorio posible. Tiene diferentes aspectos de juegos de estrategia, como el uso de potenciadores que habrá repartidos por el mapa.
 ### Público objetivo
@@ -141,11 +146,27 @@ Elementos de aparición **opcional** pero pueden ayudan a enriquecer la experien
 ## Interfaces
 En este apartado se refleja todo el proceso que los jugadores podrán llevar a cabo a la hora de interactuar con el juego en cada momento. Al iniciar el juego se presentará un *Menú Principal* que podrá conducir a una partida, a un *Menú de Ajustes*, o bien de vuelta al sistema operativo. Si se selecciona la opción de juego, se deberá elegir el tipo de conexión y posteriormente los personajes con los que se va a realizar la partida. A partir de aquí se genera el Game-Loop del juego donde se realizan tres rondas en las que los jugadores reaparecen de forma infinita cada vez que son eliminados hasta que se acaba el tiempo. Una vez completadas las tres rondas, se determina el ganador dando paso a los mensajes de victoria y derrota, y ofreciendo la opción de regresar de nuevo al *Menú Principal*, donde se puede repetir este mismo proceso de nuevo.
 
-El conjunto de interfaces que existirán en el videojuego se relacionarán entre sí de acuerdo con el siguiente diagrama de flujo:
+El conjunto de interfaces que existirán en el videojuego se relacionarán entre sí de acuerdo con el siguiente diagrama de flujo que se ha actualizado para la tercera entrega con las nuevas pantallas de registro y chat:
 
-![diagrama flujo](https://github.com/user-attachments/assets/be39cc30-8a6a-4918-b18a-a2fa5949e273)
+![diagrama flujo_actualizado](https://github.com/user-attachments/assets/f1f60969-0b47-436b-8719-536f082e3b0f)
 
 A continuación se mostrarán los bocetos y conceptos iniciales de las interfaces con las que el usuario podrá interactuar en el juego. Estos bocetos están elaborados en escala de grises, de tal manera que sólo representan los elementos interactivos relevantes y no representan los colores finales que se utilizarán en el juego. Estos bocetos pueden no representar la estructura final, puesto que el equipo podrá realizar ajustes de las mismas en función de las necesidades del diseño. Junto a los bocetos se incluye la interfaz implementada para la segunda entrega.
+
+### Pantalla de Registro e Inicio de sesión
+Esta pantalla no se tuvo en cuenta en la primera entrega, por lo que no se mostrará un boceto de la misma, únicamente el resultado final. Esta deberá contar con los siguientes elementos:
+- Botón *Login* que permita a los usuarios ya registrados iniciar sesión.
+- Botón *Register* donde los nuevos jugadores podrán registrarse.
+- Dos áreas o campos tipo formulario que el usuario pueda rellenar con los nombres "*game*" y "*password*" para iniciar sesión.
+- Una imagen artística 2d tipo *splash art* que también se utilizará en el Menú Principal.
+
+### Pantalla de chat
+Esta pantalla también es una implementación de la tercera entrega. Contará con los siguientes elementos. 
+- Área de mensajes en la que se podrán visualizar tanto los mensajes propios como los mensajes enviados por otros usuarios que también se encuentren conectados.
+- Área de escritura donde el usuaio podrá escribir mensajes que podrá intercambiar.
+- Botón *Send* que permita a los usuarios mandar mensajes al chat.
+- Indicador del número de usuarios que se encuentran conectados al chat.
+- Botón *Back* que permita que el usuario se desconecte del chat y regrese al Menú Principal.
+
 ### Pantalla de Menú Principal
 
 ![menu principal](https://github.com/user-attachments/assets/0fc19040-3e92-489f-bb2a-5b548fe5abca)
@@ -153,11 +174,12 @@ A continuación se mostrarán los bocetos y conceptos iniciales de las interface
 ![menu_principal implementado](https://github.com/user-attachments/assets/11569ea4-239c-40d2-a786-b6432f6976fc)
 
 Esta pantalla contará con los siguientes elementos:
-- Botón *Jugar*, que conducirá a la *Pantalla de Selección de Tipo de Conexión*.
-- Botón *Ajustes*, que conducirá a la *Pantalla de Configuración*.
-- Botón *Salir*, que devuelve al usuario al sistema operativo.
+- Botón *Play*, que conducirá a la *Pantalla de Selección de Tipo de Conexión*.
+- Botón *Settings*, que conducirá a la *Pantalla de Configuración*.
+- Botón *Credits* que muestre los nombres de los autores del juego.
 - Una imagen artística 2d tipo *splash art* que sirva como portada de presentación del juego.
-- Se debe incluir la versión en la que se encuentra el juego
+- Se debe incluir la versión en la que se encuentra el juego.
+
 ### Pantalla de Selección del tipo de conexión
 
 ![tipo de conexion](https://github.com/user-attachments/assets/40ab20a7-0538-41bd-959e-143e16847f92)
@@ -169,6 +191,7 @@ Esta pantalla contará con los siguientes elementos:
 - Un botón *Juego en línea* que conduzca a la *Pantalla de Selección de Personajes*.
 - Un botón *Volver* que devuelva al jugador al *Menú Principal*.
 - Una imagen artística 2d tipo splash art que bien puede ser la utilizada en el *Menú Principal* o una versión alternativa de la misma.
+
 ### Pantalla de Selección de personajes
 
 ![seleccion de personajes](https://github.com/user-attachments/assets/aa155bf4-cc37-46f3-bb70-dbbda7f8aa49)
@@ -182,6 +205,7 @@ La *Pantalla de Selección de Personajes* contará con los siguientes elementos:
 - Un botón *Listo* que fija la selección de personaje para cada jugador. 
 - Un botón *Volver* que regrese al *Menú de Selección de Tipo de Conexión*.
 - Un fondo artístico en 2D que represente algún escenario o mapa presente en el juego.
+
 ### Pantalla de Juego
 
 ![juego](https://github.com/user-attachments/assets/dad9fa4f-1f80-404c-82a2-9a2c9b2a441f)
@@ -194,6 +218,7 @@ En esta pantalla se mostrarán los siguientes elementos:
 - Círculo hueco en el que aparecerá el icono del potenciador que recoja el jugador en un momento dado. El círculo se quedará hueco de nuevo una vez se acabe el efecto del potenciador.
 - Temporizador que marque el tiempo restante hasta que se acabe la ronda (en minutos).
 - Panel con un contador situado bajo el temporizador que marca la victoria de cada jugador en función de la ronda (por ejemplo, si un jugador que utiliza el personaje de tinta azul gana la ronda 1 se mostrará el primer círculo del panel iluminado del mismo color).
+
 ### Pantalla de Configuración
 
 ![configuracion](https://github.com/user-attachments/assets/a37041ef-9ff7-45a7-aa0e-630e07f5089d)
@@ -201,6 +226,7 @@ En esta pantalla se mostrarán los siguientes elementos:
 
 
 Este boceto representa vagamente la idea de cómo debería ser la pantalla de configuración, compuesta por tres desplegables para las categorías: general, audio y vídeo. En el boceto se muestran tres ejemplos de ajustes genéricos que se podrán emplear en los ajustes, como por ejemplo pueden ser los sliders o los botones. En este caso, la selección de los ajustes más apropiados queda a cargo del apartado de programación.
+
 ### Pantalla de Resultados
 
 ![resultados](https://github.com/user-attachments/assets/9870232e-0cdc-4cc8-b831-348e45352a03)
@@ -228,12 +254,20 @@ Durante toda la partida se incluirán distintas bandas sonoras para añadir ambi
 - **Banda sonora de victoria:** esta música debe ser alegre ya que le debe indicar al jugador la victoria de la partida, sin embargo, no tiene que ser tan alegre como para que el jugador se vuelva arrogante. Esta banda sonora también deberá animar al jugador a jugar de nuevo.
 - **Banda sonora de derrota:** la música que se plantea emplear en esta pantalla es una música con un tono triste debido a que tiene que mostrarle al jugador que el juego no ha acabado bien, pero también tiene que tener un tono animado para que el jugador quiera volver a jugar al videojuego y, de ese modo, darle esperanza de que pueda ganar la siguiente partida.
 ### Efectos de sonido
-Para mejorar la experiencia lúdica de los jugadores se incluirá retroalimentación mediante sonidos a lo largo de toda la partida e incluso en los propios menús del juego. Se propone incluir los siguientes efectos sonoros en el videojuego:
+Para mejorar la experiencia lúdica de los jugadores se incluirá retroalimentación mediante sonidos a lo largo de toda la partida e incluso en los propios menús del juego. Estos efectos han sido y serán creados mediante la herramienta 'SFXR' Se propone incluir los siguientes efectos sonoros en el videojuego:
+**Efectos de interfaz:**
 - ***Efecto al presionar un botón:*** este sonido deberá de ser breve y no muy llamativo ya que este debe de ser suficiente para que el jugador entienda que ha llevado a cabo la acción, pero sin sacarlo demasiado del juego.
+- **Efecto al comenzar una partida:** se reproducirá durante la cuenta atrás y emitirá un pitido o sonido llamativo cuando la partida comience.
+- **Efecto al finalizar la partida:** se emitirá acompañando a la animación de *Game Over* cuando la cuenta atrás llegue a cero, señalizando el fin de la partida.
+**Efectos de partida:** aquellos efectos de sonido que se reproducirán durante el tiempo de juego.
 - ***Efecto al atacar:*** se usarán dos sonidos distintos para los ataques a melé, diferenciándose dependiendo de si el atacante ha afectado al atacado o si no.
 	- ***Ataque exitoso:*** este sonido debe ser breve y sonar grave, representando que se ha golpeado algo exitosamente.
 	- ***Ataque fallido:*** este sonido debe ser breve y sonar similar a una ráfaga de aire.
-- ***Efecto al usar los Power Ups:*** al conseguir un *Power Up* el jugador recibirá un sonido que indicará la obtención de dicho poder. Este efecto no dependerá del tipo de poder conseguido, sino que será el mismo para todos.
-	- ***Efecto de aumento de velocidad:*** este efecto debe recordar brevemente a la música que suena cuando en títulos como *Mario Bros* se obtiene un *Power Up* de *Estrella*. Debe ser animado y que refleje este cambio en la velocidad del personaje.
-	- ***Efecto de ataques ilimitados:*** emitirá un sonido que recuerda al afilado de un arma, como si el personaje se estuviese preparando para lanzar una lluvia de estocadas continuada.
-	- ***Efecto de bomba de pintura:*** el sonido seleccionado para este *Power Up* no será como el sonido de una bomba, sino que pretenderá imitar el sonido de una gota de pintura al caer. También, se tiene como referencia el sonido que hace una gota de agua al caer en un medio líquido.
+- **Efecto al recibir daño:** emite un sonido similar al de los juegos 8-bit cuando un personaje recibe un golpe.
+- ***Efecto al obtener Power Ups:*** se emitirá un sonido que indicará que se ha obtenido uno de estos. Este efecto sonoro que será el mismo para todos los tipos de *Power Ups.*
+- **Efectos de *Power Ups:*** se reproducirán mientras dure el *Power Up* para enfatizar la distinción entre los distintos tipos.
+	- ***Efecto de aumento de velocidad:*** debe ser animado y recordar a la música que suena en títulos como *Mario Bros* cuando se obtiene un *Power Up* de *Estrella*. 
+	- ***Efecto de ataques ilimitados:*** debe emitir un sonido que recuerde al afilado de un arma.
+	- ***Efecto de bomba de pintura:*** debe imitar el sonido de una explosión.
+### Anexo
+- **Música de fondo de partida:**  8-Bit Music On by moodmode (https://pixabay.com/music/video-games-8-bit-music-on-245249/)
