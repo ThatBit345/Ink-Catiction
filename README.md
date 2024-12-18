@@ -20,6 +20,7 @@ El documento de diseño es un elemento vivo que evoluciona junto con el juego. E
 - V3.0 19/12/2024. 
 	- Ampliación y corrección del apartado de efectos de sonido
  	- Actualización del diagrama de estados
+  	- Actualización de imágenes
 
 ## Introducción
 ### Motivación
@@ -153,6 +154,9 @@ El conjunto de interfaces que existirán en el videojuego se relacionarán entre
 A continuación se mostrarán los bocetos y conceptos iniciales de las interfaces con las que el usuario podrá interactuar en el juego. Estos bocetos están elaborados en escala de grises, de tal manera que sólo representan los elementos interactivos relevantes y no representan los colores finales que se utilizarán en el juego. Estos bocetos pueden no representar la estructura final, puesto que el equipo podrá realizar ajustes de las mismas en función de las necesidades del diseño. Junto a los bocetos se incluye la interfaz implementada para la segunda entrega.
 
 ### Pantalla de Registro e Inicio de sesión
+
+![acceso_cuenta](https://github.com/user-attachments/assets/a3e25ca9-ccb2-49f0-a6ac-0a55afbe0676)
+
 Esta pantalla no se tuvo en cuenta en la primera entrega, por lo que no se mostrará un boceto de la misma, únicamente el resultado final. Esta deberá contar con los siguientes elementos:
 - Botón *Login* que permita a los usuarios ya registrados iniciar sesión.
 - Botón *Register* donde los nuevos jugadores podrán registrarse.
@@ -160,6 +164,9 @@ Esta pantalla no se tuvo en cuenta en la primera entrega, por lo que no se mostr
 - Una imagen artística 2d tipo *splash art* que también se utilizará en el Menú Principal.
 
 ### Pantalla de chat
+
+![chat](https://github.com/user-attachments/assets/10f028e3-4f08-4ea0-9ca3-30e077b966af)
+
 Esta pantalla también es una implementación de la tercera entrega. Contará con los siguientes elementos. 
 - Área de mensajes en la que se podrán visualizar tanto los mensajes propios como los mensajes enviados por otros usuarios que también se encuentren conectados.
 - Área de escritura donde el usuaio podrá escribir mensajes que podrá intercambiar.
@@ -210,7 +217,7 @@ La *Pantalla de Selección de Personajes* contará con los siguientes elementos:
 
 ![juego](https://github.com/user-attachments/assets/dad9fa4f-1f80-404c-82a2-9a2c9b2a441f)
 
-![juego_implementado](https://github.com/user-attachments/assets/2b3121ca-ee98-4d22-8c74-109bc610d2b2)
+![juego_implementado](https://github.com/user-attachments/assets/68db30a4-23a9-4fe7-9d45-4b607748e958)
 
 En esta pantalla se mostrarán los siguientes elementos:
 - Panel de las vidas correspondientes para cada jugador, que estarán representadas por tres instancias de un icono (ej: corazones). Cuando un personaje reciba un golpe, uno de los iconos aparecerá vacío.
@@ -222,8 +229,8 @@ En esta pantalla se mostrarán los siguientes elementos:
 ### Pantalla de Configuración
 
 ![configuracion](https://github.com/user-attachments/assets/a37041ef-9ff7-45a7-aa0e-630e07f5089d)
-![configuracion_implementado](https://github.com/user-attachments/assets/5261cdfc-0fe7-40d1-b6a7-9ea340498db9)
 
+![configuracion_implementado](https://github.com/user-attachments/assets/82649e4f-7a86-47a8-8a33-e49ff1a7f477)
 
 Este boceto representa vagamente la idea de cómo debería ser la pantalla de configuración, compuesta por tres desplegables para las categorías: general, audio y vídeo. En el boceto se muestran tres ejemplos de ajustes genéricos que se podrán emplear en los ajustes, como por ejemplo pueden ser los sliders o los botones. En este caso, la selección de los ajustes más apropiados queda a cargo del apartado de programación.
 
@@ -231,7 +238,7 @@ Este boceto representa vagamente la idea de cómo debería ser la pantalla de co
 
 ![resultados](https://github.com/user-attachments/assets/9870232e-0cdc-4cc8-b831-348e45352a03)
 
-![resultados_implementado](https://github.com/user-attachments/assets/087fe347-4541-451f-90f3-7212b4a4ed93)
+![resultados_implementado](https://github.com/user-attachments/assets/05b7fae7-9aab-413e-9262-29bfc098b551)
 
 Este boceto representa cómo se vería la pantalla final tras finalizar el juego, con los siguientes elementos:
 - Un mensaje de victoria y derrota, según se haya ganado o perdido.
