@@ -167,9 +167,9 @@ Esta pantalla no se tuvo en cuenta en la primera entrega, por lo que no se mostr
 
 ![chat](https://github.com/user-attachments/assets/10f028e3-4f08-4ea0-9ca3-30e077b966af)
 
-Esta pantalla también es una implementación de la tercera entrega. Contará con los siguientes elementos. 
+Esta pantalla también es una implementación de la tercera entrega, por lo que sólo cuenta con una versión final. Contará con los siguientes elementos:
 - Área de mensajes en la que se podrán visualizar tanto los mensajes propios como los mensajes enviados por otros usuarios que también se encuentren conectados.
-- Área de escritura donde el usuaio podrá escribir mensajes que podrá intercambiar.
+- Área de escritura donde el usuario podrá escribir mensajes que podrá intercambiar con otros usuarios que se encuentren conectados al servidor.
 - Botón *Send* que permita a los usuarios mandar mensajes al chat.
 - Indicador del número de usuarios que se encuentran conectados al chat.
 - Botón *Back* que permita que el usuario se desconecte del chat y regrese al Menú Principal.
@@ -181,9 +181,9 @@ Esta pantalla también es una implementación de la tercera entrega. Contará co
 ![menu_principal implementado](https://github.com/user-attachments/assets/11569ea4-239c-40d2-a786-b6432f6976fc)
 
 Esta pantalla contará con los siguientes elementos:
-- Botón *Play*, que conducirá a la *Pantalla de Selección de Tipo de Conexión*.
-- Botón *Settings*, que conducirá a la *Pantalla de Configuración*.
-- Botón *Credits* que muestre los nombres de los autores del juego.
+- Botón *Jugar*, que conducirá a la *Pantalla de Selección de Tipo de Conexión*.
+- Botón *Ajustes*, que conducirá a la *Pantalla de Configuración*.
+- Botón *Créditos* que muestre los nombres de los autores del juego.
 - Una imagen artística 2d tipo *splash art* que sirva como portada de presentación del juego.
 - Se debe incluir la versión en la que se encuentra el juego.
 
@@ -194,9 +194,9 @@ Esta pantalla contará con los siguientes elementos:
 ![tipo_de_conexion_implementado](https://github.com/user-attachments/assets/483c2d83-2b5a-4172-bb74-067f0e16b148)
 
 Esta pantalla contará con los siguientes elementos:
-- Un botón *Juego local* que conduzca a la *Pantalla de Selección de Personajes*. 
-- Un botón *Juego en línea* que conduzca a la *Pantalla de Selección de Personajes*.
-- Un botón *Volver* que devuelva al jugador al *Menú Principal*.
+- Botón *Juego local* que conduzca a la *Pantalla de Selección de Personajes*. 
+- Botón *Juego en línea* que conduzca a la *Pantalla de Selección de Personajes*.
+- Botón *Volver* que devuelva al jugador al *Menú Principal*.
 - Una imagen artística 2d tipo splash art que bien puede ser la utilizada en el *Menú Principal* o una versión alternativa de la misma.
 
 ### Pantalla de Selección de personajes
@@ -230,21 +230,30 @@ En esta pantalla se mostrarán los siguientes elementos:
 
 ![configuracion](https://github.com/user-attachments/assets/a37041ef-9ff7-45a7-aa0e-630e07f5089d)
 
-![configuracion_implementado](https://github.com/user-attachments/assets/82649e4f-7a86-47a8-8a33-e49ff1a7f477)
-
 Este boceto representa vagamente la idea de cómo debería ser la pantalla de configuración, compuesta por tres desplegables para las categorías: general, audio y vídeo. En el boceto se muestran tres ejemplos de ajustes genéricos que se podrán emplear en los ajustes, como por ejemplo pueden ser los sliders o los botones. En este caso, la selección de los ajustes más apropiados queda a cargo del apartado de programación.
 
+![configuracion_implementado](https://github.com/user-attachments/assets/82649e4f-7a86-47a8-8a33-e49ff1a7f477)
+
+A continuación se muestra la implementación realizada por el equipo de programación. Por el momento sólo se ha considerado necesario permitir que el jugador pueda controlar su volumen, aunque más adelante se plantea la posibilidad de añadir otros ajustes de personalización. Por otro lado, también se han añadido las siguientes funcionalidades:
+- Sección *Cuenta*: contiene aquellos ajustes de gestión de usuarios que pueden ser modificados por el jugador.
+	- Un campo de texto acompañado de un botón *Cambiar* que permita modificar la contraseña en caso de haber iniciado sesión.
+	- Un botón *Borrar Cuenta* que permita eliminar la cuenta del usuario.
+- Un botón *Volver* que permita regresar al *Menú Principal*.
 ### Pantalla de Resultados
 
 ![resultados](https://github.com/user-attachments/assets/9870232e-0cdc-4cc8-b831-348e45352a03)
-
-![resultados_implementado](https://github.com/user-attachments/assets/05b7fae7-9aab-413e-9262-29bfc098b551)
 
 Este boceto representa cómo se vería la pantalla final tras finalizar el juego, con los siguientes elementos:
 - Un mensaje de victoria y derrota, según se haya ganado o perdido.
 - Una *sprite* de victoria o derrota del personaje utilizado, según se haya ganado o perdido.
 - Un panel con datos curiosos o relevantes de la partida. En el boceto se muestran los siguientes, pero la elección final queda a cargo del apartado de programación.
 - Un botón *Volver*, que devuelve al jugador al *Menú Principal*.
+
+Por el momento se ha implementado la pantalla que se muestra a continuación, aunque se espera añadir más elementos propuestos en el boceto en futuras entregas.
+
+![resultados_implementado](https://github.com/user-attachments/assets/05b7fae7-9aab-413e-9262-29bfc098b551)
+
+
 En caso de que la partida haya sido jugada en multijugador local, la pantalla se dividirá en dos y se mostrará una versión comprimida de dicha pantalla con las estadísticas de cada jugador en sus respectivas mitades:
 
 ![resultados partidos](https://github.com/user-attachments/assets/7a8e517e-5e6a-4b90-9af6-77478fde4d26)
