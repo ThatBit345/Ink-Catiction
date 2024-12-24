@@ -80,8 +80,8 @@ class Menu extends Phaser.Scene
 		this.comsTitle1 = this.add.text(680 - 1280, 80, 'Choose your', textTitle);
 		this.comsTitle2 = this.add.text(730 - 1280, 150, 'connection type', textTitle);
 		this.localButton = new Button(this.onLocal, 'Local Play', '64px', this, 900 - 1280, 340, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 172, 32);
-		this.onlineButton = new Button(this.undefinedButton, 'Online Play', '64px', this, 820 - 1280, 460, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 172, 32);
-		this.onlineButton.toggleEnable();
+		this.onlineButton = new Button(this.onOnline, 'Online Play', '64px', this, 820 - 1280, 460, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 172, 32);
+		//this.onlineButton.toggleEnable();
 		this.comsBackButton = new Button(this.onCommsBack, 'Back', '64px', this, 160 - 1280, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 		
 		// Credits menu --------------------------------
@@ -636,6 +636,24 @@ class Menu extends Phaser.Scene
 			x: '+=380',
 			ease: 'Cubic.inOut'
 		});
+	}
+
+	onOnline()
+	{
+		this.scene.blackFade.visible = true;
+		this.scene.add.tween({
+			targets: this.scene.blackFade,
+			duration: 1000,
+			alpha: 1,
+			onComplete: this.scene.toLobby
+		});
+	}
+
+	toLobby()
+	{
+		let scene = this.parent.scene;
+
+		scene.scene.start("Lobby");
 	}
 
 	onCommsBack()

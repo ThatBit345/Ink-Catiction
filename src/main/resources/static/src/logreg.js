@@ -21,6 +21,7 @@ class LogReg extends Phaser.Scene
 		this.load.image('back_char_right', '../assets/ui/spr_menu_char_right.png');
 
 		this.load.image('throbber', '../assets/ui/spr_throbber.png');
+		this.load.image('show', '../assets/ui/spr_show_icon.png');
 
 		// Button sprites
 		this.load.image('button_normal', '../assets/ui/spr_button_normal.png');
@@ -71,7 +72,10 @@ class LogReg extends Phaser.Scene
 		this.passwordText = this.add.text(50, 435, 'Password:', {color: '#E5B770', fontSize: '20px', fontFamily: 'Metamorphous'});
 		//this.passwordBox = this.add.nineslice(50, 470, 'button_normal', undefined, 140, 25, 4, 4, 4, 4, undefined, undefined).setOrigin(0,0);
 		//this.passwordBox.scale = 3;
-		this.passwordBox = new TextEntry(this, 260, 510, 140, 25, 'button_normal', 'button_highlighted', "Enter a password...", textNormal, textPlaceholder);
+		this.passwordBox = new TextEntry(this, 260, 510, 140, 25, 'button_normal', 'button_highlighted', "Enter a password...", textNormal, textPlaceholder, true);
+		this.showPassword = new Button(this.onTogglePassword, "", '1px', this, 520, 510, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 25, 25)
+		this.showIcon = this.add.image(520, 510, 'show');
+		this.showIcon.scale = 3;
 
 		this.registerButton = new Button(this.onRegister, 'Register', '32px', this, 380, 270, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 60, 20);
 		this.confirmButton = new Button(this.onConfirm, 'Confirm', '32px', this, 260, 590, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 140, 20);
@@ -101,6 +105,11 @@ class LogReg extends Phaser.Scene
 
 		this.throbber.setRotation(this.throbber_rotation);
 		this.throbber_shadow.setRotation(this.throbber_rotation);
+	}
+
+	onTogglePassword()
+	{
+		this.scene.passwordBox.togglePassword();
 	}
 
 	onStartOffline()

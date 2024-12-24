@@ -3,6 +3,7 @@ import ChatRoom from './chatroom.js';
 import Game from './game.js';
 import Endgame from './endgame.js';
 import LogReg from './logreg.js';
+import Lobby from './lobby.js';
 
 var fontConfig = {
 
@@ -35,7 +36,7 @@ var startGame = function(){
 				}
 			}
 		},
-		scene: [LogReg ,Menu, ChatRoom, Game, Endgame]
+		scene: [LogReg ,Menu, ChatRoom, Lobby, Game, Endgame]
 	}
 
 	new Phaser.Game(config);

@@ -1,6 +1,6 @@
 class TextEntry extends Phaser.GameObjects.Container
 {
-	constructor(scene, x, y, width, height, normal_texture, selected_texture, placeholder, text_format, placeholder_format)
+	constructor(scene, x, y, width, height, normal_texture, selected_texture, placeholder, text_format, placeholder_format, password)
 	{
 		super(scene, x, y, undefined);
 
@@ -11,6 +11,9 @@ class TextEntry extends Phaser.GameObjects.Container
 		this.placeholderText = placeholder;
 		this.normal_texture = normal_texture;
 		this.selected_texture = selected_texture;
+		this.enteredText = "";
+		if(password == undefined) this.password = false;
+		else this.password = password;
 
 		this.nslice = scene.add.nineslice(0, 0, normal_texture, undefined, width, height, 4, 4, 4, 4, undefined, undefined);
 		this.nslice.scale = 3;
@@ -34,11 +37,22 @@ class TextEntry extends Phaser.GameObjects.Container
 			
 			if (event.keyCode === 8 && this.text.text.length > 0)
 			{
-				this.text.text = this.text.text.substr(0, this.text.text.length - 1);
+				//this.text.text = this.text.text.substr(0, this.text.text.length - 1);
+				this.enteredText = this.enteredText.substr(0, this.text.text.length - 1);
 			}
 			else if (event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode <= 90))
 			{
-				this.text.text += event.key;
+				//this.text.text += event.key;
+				this.enteredText += event.key;
+			}
+
+			if(this.password)
+			{
+				this.text.text = "*".repeat(this.enteredText.length);
+			}
+			else
+			{
+				this.text.text = this.enteredText;
 			}
 
 			this.placeholder.visible = this.text.text == "";
@@ -69,6 +83,20 @@ class TextEntry extends Phaser.GameObjects.Container
 		this.placeholder.visible = true;
 
 		return entry;
+	}
+
+	togglePassword()
+	{
+		this.password = !this.password;
+		
+		if(this.password)
+		{
+			this.text.text = "*".repeat(this.enteredText.length);
+		}
+		else
+		{
+			this.text.text = this.enteredText;
+		}
 	}
 }
 export default TextEntry;
