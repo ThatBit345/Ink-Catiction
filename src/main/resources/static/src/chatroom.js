@@ -143,6 +143,12 @@ class ChatRoom extends Phaser.Scene
 				scene.connectionErrorTextP3.visible = true;
 				scene.connectionErrorButton.visible = true;
 			}
+
+			// Clear chat log
+			for (let index = 0; index < messageLog.length; index++) 
+			{
+				scene.log[index].text = "";
+			}
 		});
 	}
 
@@ -164,6 +170,12 @@ class ChatRoom extends Phaser.Scene
 			type: 'POST',
 			url: baseUrl
 		});
+
+		// Clear chat log
+		for (let index = 0; index < messageLog.length; index++) 
+		{
+			scene.log[index].text = "";
+		}
 
 		this.scene.scene.start("Menu");
 	}
