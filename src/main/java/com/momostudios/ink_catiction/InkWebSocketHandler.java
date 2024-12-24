@@ -205,7 +205,7 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 						{
 							if(otherPlayer.character.matches(character))
 							{
-								SendToClient(session, "Y", Arrays.asList(currPlayer.session.getId(), "no"));
+								SendToClient(session, "Y", "no");
 								break;
 							}
 						}

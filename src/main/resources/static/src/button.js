@@ -63,6 +63,20 @@ class Button extends Phaser.GameObjects.Container
 		if(this.enabled) this.nslice.setTexture(this.normal_texture);
 		else this.nslice.setTexture(this.disabled_texture);
 	}
+
+	disable()
+	{
+		this.enabled = false;
+
+		this.nslice.setTexture(this.disabled_texture);
+	}
+
+	enable()
+	{
+		this.enabled = true;
+
+		this.nslice.setTexture(this.normal_texture);
+	}
 }
 
 export default Button;
