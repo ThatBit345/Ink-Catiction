@@ -1,30 +1,36 @@
+import PlayerStats from './playerStats.js'
+
 class Player extends Phaser.Physics.Arcade.Sprite {
    
     constructor(scene, x, y, texture, number, keys, velocity, color){
         super(scene, x, y, 'Texture');
-
+        // Constructor
         this.scene = scene;
         this.texture = texture;
-
 		this.x = x;
 		this.y = y;
 
+        // Player Statistics
         this.name = `Player ${number}`;
         this.color = color;
         this.initialVelocity = velocity;
         this.velocity = velocity;
         this.lifes = 4;
         this.deaths = 0;
+        this.stat_x;
+        this.stat_y;
+        this.sphaghettiPos();
+        this.stats = new PlayerStats(this.scene, this.stat_x, this.stat_y, 'hearts', this.lifes);
+
+        // Animation and Control setup for player
         this.addKeys(keys);
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
         this.sprite.depth = 1;
         this.direction;
         this.getInitialDirection(number);
         this.createAnimations();
-
         this.isAnimating = false;
         this.isAttacking = false;
-
         console.log(`${this.name} currently playing ${this.texture}: created successfully!`);
         console.log(`Using controls ${keys}`);
 
@@ -34,7 +40,19 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.clock = 0;
         this.respawnclock = 0;
 
+        // SFX
 		this.hitSfx = this.scene.sound.add('hit');
+    }
+
+    sphaghettiPos(){
+        if(this.name == `Player 1`){
+            this.stat_x = 25;
+            this.stat_y = 125;
+        }
+        else {
+            this.stat_x = 1135;
+            this.stat_y = 125;
+        }
     }
 
     // Create PLayer configuration
@@ -191,6 +209,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         if(distance < 80 && this.isAttacking && this.cont < 1){
             this.runAnimation(other,`${other.texture}-hit`, 0, 0);
+            other.stats.loseLife(other.lifes);
 			this.hitSfx.play();
             console.log(`${this.name} attacked ${other.name}`);      
             this.cont++;
@@ -222,19 +241,20 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     deathSequence(other, a, b){
         if(other.respawnclock > 1 && other.respawnclock < 400){
-            this.runAnimation(other,`${other.texture}-hit`, 0, 0);  
+            other.runAnimation(other,`${other.texture}-hit`, 0, 0);  
         }
         if (other.respawnclock > a ) {   
-            this.runAnimation(other,`${other.texture}-die`, 0, 0);                     
+            other.runAnimation(other,`${other.texture}-die`, 0, 0);                     
         }
         if(other.respawnclock > b ) {
             other.sprite.x = other.x;
             other.sprite.y = other.y;
-            this.runAnimation(other,`${other.texture}-teleport`,0, 0);
+            other.runAnimation(other,`${other.texture}-teleport`,0, 0);
             other.lifes = 4;   
             other.respawnclock = 0;    
             other.deaths++;
-            console.log(other.deaths);      
+            console.log(other.deaths); 
+            other.stats.resetLifes();     
         } 
     }
 
