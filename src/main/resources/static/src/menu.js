@@ -25,11 +25,19 @@ class Menu extends Phaser.Scene
 		// Character icons
 		this.load.image('agata_icon', '../assets/character_icons/icon_agata.png');
 		this.load.image('frank_icon', '../assets/character_icons/icon_frank.png');
+		this.load.image('gwynn_icon', '../assets/character_icons/icon_gwynn.png');
+		this.load.image('roach_icon', '../assets/character_icons/icon_roach.png');
+		this.load.image('stregobor_icon', '../assets/character_icons/icon_stregobor.png');
+		this.load.image('yenna_icon', '../assets/character_icons/icon_yenna.png');
 		this.load.image('lock_icon', '../assets/character_icons/icon_locked.png');
 
 		// Character splash
 		this.load.image('agata_splash', '../assets/character_splash/agata_splash.png');
 		this.load.image('frank_splash', '../assets/character_splash/frank_splash.png');
+		this.load.image('gwynn_splash', '../assets/character_splash/gwynn_splash.png');
+		this.load.image('roach_splash', '../assets/character_splash/roach_splash.png');
+		this.load.image('stregobor_splash', '../assets/character_splash/stregobor_splash.png');
+		this.load.image('yenna_splash', '../assets/character_splash/yenna_splash.png');
 
 		// Button sprites
 		this.load.image('button_normal', '../assets/ui/spr_button_normal.png');
@@ -147,28 +155,24 @@ class Menu extends Phaser.Scene
 		this.char2Icon = this.add.image(640 - 2560, 525, 'frank_icon');
 		this.char2Icon.scale = 3;
 
-		// Empty
-		this.char3Button = new Button(this.onSelectCharacter, ' ', '64px', this, 760 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char3Button.toggleEnable();
-		this.char3Icon = this.add.image(760 - 2560, 525, 'lock_icon');
+		// Gwynn
+		this.char3Button = new Button(this.onSelectGwynn, ' ', '64px', this, 760 - 2560, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char3Icon = this.add.image(760 - 2560, 525, 'gwynn_icon');
 		this.char3Icon.scale = 3;
 
-		// Empty
-		this.char4Button = new Button(this.onSelectCharacter, ' ', '64px', this, 520 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char4Button.toggleEnable();
-		this.char4Icon = this.add.image(520 - 2560, 645, 'lock_icon');
+		// Roach
+		this.char4Button = new Button(this.onSelectRoach, ' ', '64px', this, 520 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char4Icon = this.add.image(520 - 2560, 645, 'roach_icon');
 		this.char4Icon.scale = 3;
 
-		// Empty
-		this.char5Button = new Button(this.onSelectCharacter, ' ', '64px', this, 640 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char5Button.toggleEnable();
-		this.char5Icon = this.add.image(640 - 2560, 645, 'lock_icon');
+		// Stregobor
+		this.char5Button = new Button(this.onSelectStregobor, ' ', '64px', this, 640 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char5Icon = this.add.image(640 - 2560, 645, 'stregobor_icon');
 		this.char5Icon.scale = 3;
 
-		// Empty
-		this.char6Button = new Button(this.onSelectCharacter, ' ', '64px', this, 760 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char6Button.toggleEnable();
-		this.char6Icon = this.add.image(760 - 2560, 645, 'lock_icon');
+		// Yenna
+		this.char6Button = new Button(this.onSelectYenna, ' ', '64px', this, 760 - 2560, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char6Icon = this.add.image(760 - 2560, 645, 'yenna_icon');
 		this.char6Icon.scale = 3;
 
 		// Character splash art
@@ -791,6 +795,226 @@ class Menu extends Phaser.Scene
 		}
 	}
 
+	onSelectGwynn()
+	{
+		if(this.scene.player1 == undefined)
+		{
+			this.scene.player1 = 'gwynn';
+			console.log("Set player 1 to Gwynn");
+
+			// Set the character splash screen
+			this.scene.player1SplashBack.visible = true;
+			this.scene.player1Splash.visible = true;
+			this.scene.player1SplashNameplate.visible = true;
+
+			this.scene.player1Splash.setTexture('gwynn_splash');
+			this.scene.player1SplashNameplate.text = "Gwynn";
+			Phaser.Display.Align.In.Center(this.scene.player1SplashNameplate, this.scene.player1SplashBack);
+			this.scene.player1SplashNameplate.y = 50;
+
+			this.scene.char3Button.toggleEnable();
+	
+			// Tween the character splash screen into view
+			this.scene.add.tween({
+				targets: [this.scene.player1Splash, this.scene.player1SplashBack, this.scene.player1SplashNameplate],
+				duration: 1000,
+				x: '+=400',
+				ease: 'Cubic.inOut'
+			});
+		}
+		else if(this.scene.player2 == undefined)
+		{
+			this.scene.player2 = 'gwynn';
+			console.log("Set player 2 to Gwynn");
+
+			// Set the character splash screen
+			this.scene.player2SplashBack.visible = true;
+			this.scene.player2Splash.visible = true;
+			this.scene.player2SplashNameplate.visible = true;
+			
+			this.scene.player2Splash.setTexture('gwynn_splash');
+			this.scene.player2SplashNameplate.text = "Gwynn";
+			Phaser.Display.Align.In.Center(this.scene.player2SplashNameplate, this.scene.player2SplashBack);
+			this.scene.player2SplashNameplate.y = 50;
+
+			this.scene.char3Button.toggleEnable();
+	
+			// Tween the character splash screen into view
+			this.scene.add.tween({
+				targets: [this.scene.player2Splash, this.scene.player2SplashBack, this.scene.player2SplashNameplate],
+				duration: 1000,
+				x: '-=400',
+				ease: 'Cubic.inOut'
+			});
+			this.scene.startGameButton.toggleEnable();
+		}
+	}
+	
+	onSelectRoach()
+	{
+		if(this.scene.player1 == undefined)
+		{
+			this.scene.player1 = 'roach';
+			console.log("Set player 1 to Roach");
+
+			// Set the character splash screen
+			this.scene.player1SplashBack.visible = true;
+			this.scene.player1Splash.visible = true;
+			this.scene.player1SplashNameplate.visible = true;
+
+			this.scene.player1Splash.setTexture('roach_splash');
+			this.scene.player1SplashNameplate.text = "Roach";
+			Phaser.Display.Align.In.Center(this.scene.player1SplashNameplate, this.scene.player1SplashBack);
+			this.scene.player1SplashNameplate.y = 50;
+
+			this.scene.char4Button.toggleEnable();
+	
+			// Tween the character splash screen into view
+			this.scene.add.tween({
+				targets: [this.scene.player1Splash, this.scene.player1SplashBack, this.scene.player1SplashNameplate],
+				duration: 1000,
+				x: '+=400',
+				ease: 'Cubic.inOut'
+			});
+		}
+		else if(this.scene.player2 == undefined)
+		{
+			this.scene.player2 = 'roach';
+			console.log("Set player 2 to Roach");
+
+			// Set the character splash screen
+			this.scene.player2SplashBack.visible = true;
+			this.scene.player2Splash.visible = true;
+			this.scene.player2SplashNameplate.visible = true;
+			
+			this.scene.player2Splash.setTexture('roach_splash');
+			this.scene.player2SplashNameplate.text = "Roach";
+			Phaser.Display.Align.In.Center(this.scene.player2SplashNameplate, this.scene.player2SplashBack);
+			this.scene.player2SplashNameplate.y = 50;
+
+			this.scene.char4Button.toggleEnable();
+	
+			// Tween the character splash screen into view
+			this.scene.add.tween({
+				targets: [this.scene.player2Splash, this.scene.player2SplashBack, this.scene.player2SplashNameplate],
+				duration: 1000,
+				x: '-=400',
+				ease: 'Cubic.inOut'
+			});
+			this.scene.startGameButton.toggleEnable();
+		}
+	}
+	
+	onSelectStregobor()
+	{
+		if(this.scene.player1 == undefined)
+		{
+			this.scene.player1 = 'stregobor';
+			console.log("Set player 1 to Stregobor");
+
+			// Set the character splash screen
+			this.scene.player1SplashBack.visible = true;
+			this.scene.player1Splash.visible = true;
+			this.scene.player1SplashNameplate.visible = true;
+
+			this.scene.player1Splash.setTexture('stregobor_splash');
+			this.scene.player1SplashNameplate.text = "Stregobor";
+			Phaser.Display.Align.In.Center(this.scene.player1SplashNameplate, this.scene.player1SplashBack);
+			this.scene.player1SplashNameplate.y = 50;
+
+			this.scene.char5Button.toggleEnable();
+	
+			// Tween the character splash screen into view
+			this.scene.add.tween({
+				targets: [this.scene.player1Splash, this.scene.player1SplashBack, this.scene.player1SplashNameplate],
+				duration: 1000,
+				x: '+=400',
+				ease: 'Cubic.inOut'
+			});
+		}
+		else if(this.scene.player2 == undefined)
+		{
+			this.scene.player2 = 'stregobor';
+			console.log("Set player 2 to Stregobor");
+
+			// Set the character splash screen
+			this.scene.player2SplashBack.visible = true;
+			this.scene.player2Splash.visible = true;
+			this.scene.player2SplashNameplate.visible = true;
+			
+			this.scene.player2Splash.setTexture('stregobor_splash');
+			this.scene.player2SplashNameplate.text = "Stregobor";
+			Phaser.Display.Align.In.Center(this.scene.player2SplashNameplate, this.scene.player2SplashBack);
+			this.scene.player2SplashNameplate.y = 50;
+
+			this.scene.char5Button.toggleEnable();
+	
+			// Tween the character splash screen into view
+			this.scene.add.tween({
+				targets: [this.scene.player2Splash, this.scene.player2SplashBack, this.scene.player2SplashNameplate],
+				duration: 1000,
+				x: '-=400',
+				ease: 'Cubic.inOut'
+			});
+			this.scene.startGameButton.toggleEnable();
+		}
+	}
+
+	onSelectYenna()
+	{
+		if(this.scene.player1 == undefined)
+		{
+			this.scene.player1 = 'yenna';
+			console.log("Set player 1 to Yenna");
+
+			// Set the character splash screen
+			this.scene.player1SplashBack.visible = true;
+			this.scene.player1Splash.visible = true;
+			this.scene.player1SplashNameplate.visible = true;
+
+			this.scene.player1Splash.setTexture('yenna_splash');
+			this.scene.player1SplashNameplate.text = "Yennefer";
+			Phaser.Display.Align.In.Center(this.scene.player1SplashNameplate, this.scene.player1SplashBack);
+			this.scene.player1SplashNameplate.y = 50;
+
+			this.scene.char6Button.toggleEnable();
+	
+			// Tween the character splash screen into view
+			this.scene.add.tween({
+				targets: [this.scene.player1Splash, this.scene.player1SplashBack, this.scene.player1SplashNameplate],
+				duration: 1000,
+				x: '+=400',
+				ease: 'Cubic.inOut'
+			});
+		}
+		else if(this.scene.player2 == undefined)
+		{
+			this.scene.player2 = 'yenna';
+			console.log("Set player 2 to Yenna");
+
+			// Set the character splash screen
+			this.scene.player2SplashBack.visible = true;
+			this.scene.player2Splash.visible = true;
+			this.scene.player2SplashNameplate.visible = true;
+			
+			this.scene.player2Splash.setTexture('yenna_splash');
+			this.scene.player2SplashNameplate.text = "Yennefer";
+			Phaser.Display.Align.In.Center(this.scene.player2SplashNameplate, this.scene.player2SplashBack);
+			this.scene.player2SplashNameplate.y = 50;
+
+			this.scene.char6Button.toggleEnable();
+	
+			// Tween the character splash screen into view
+			this.scene.add.tween({
+				targets: [this.scene.player2Splash, this.scene.player2SplashBack, this.scene.player2SplashNameplate],
+				duration: 1000,
+				x: '-=400',
+				ease: 'Cubic.inOut'
+			});
+			this.scene.startGameButton.toggleEnable();
+		}
+	}
+
 	onStartGame()
 	{
 		this.scene.add.tween({
@@ -874,6 +1098,10 @@ class Menu extends Phaser.Scene
 		// Reset the character buttons and selection
 		if(!scene.char1Button.enabled) scene.char1Button.toggleEnable();
 		if(!scene.char2Button.enabled) scene.char2Button.toggleEnable();
+		if(!scene.char3Button.enabled) scene.char3Button.toggleEnable();
+		if(!scene.char4Button.enabled) scene.char4Button.toggleEnable();
+		if(!scene.char5Button.enabled) scene.char5Button.toggleEnable();
+		if(!scene.char6Button.enabled) scene.char6Button.toggleEnable();
 
 		scene.player1 = undefined;
 		scene.player2 = undefined;

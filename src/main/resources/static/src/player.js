@@ -25,6 +25,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // Animation and Control setup for player
         this.addKeys(keys);
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
+        this.sprite.setScale(3.5);
         this.sprite.depth = 1;
         this.direction;
         this.getInitialDirection(number);
