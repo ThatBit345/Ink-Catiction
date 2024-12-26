@@ -33,10 +33,10 @@ class Endgame extends Phaser.Scene {
 
 		//this.first = this.add.text(275, 250, 'First Place:', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
 		//this.second = this.add.text(275, 350, 'Second Place: ', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
-		console.log('Muertes personaje1: ' +this.players[0].deaths+ ' Muertes personaje2: '+this.players[1].deaths);
+		//console.log('Muertes personaje1: ' +this.players[0].deaths+ ' Muertes personaje2: '+this.players[1].deaths);
 
 		// Player 0 Win
-		if (this.ranking[0] > this.ranking[1] || (this.ranking[0] == this.ranking[1] && this.players[0].deaths < this.players[1].deaths)) 
+		if (this.ranking[0] > this.ranking[1])
 		{	
 			this.splash = this.add.image(640, 360, this.players[0].getCharacter() + "_splash");
 			this.splash.scale = 0.5;
@@ -47,7 +47,7 @@ class Endgame extends Phaser.Scene {
 			//this.second_name = this.add.text(675, 350, this.players[1].name +' ('+ this.ranking[1] +')', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
 		} 
 		// Player 1 Win
-		else if (this.ranking[0] < this.ranking[1] || (this.ranking[0] == this.ranking[1] && this.players[0].deaths > this.players[1].deaths)) 
+		else if (this.ranking[0] < this.ranking[1])
 		{
 			this.splash = this.add.image(640, 360, this.players[1].getCharacter() + "_splash");
 			this.splash.scale = 0.5;
