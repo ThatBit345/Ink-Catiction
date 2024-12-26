@@ -4,6 +4,7 @@ import Game from './game.js';
 import Endgame from './endgame.js';
 import LogReg from './logreg.js';
 import Lobby from './lobby.js';
+import OnlineGame from './onlinegame.js';
 
 var fontConfig = {
 
@@ -36,7 +37,7 @@ var startGame = function(){
 				}
 			}
 		},
-		scene: [LogReg ,Menu, ChatRoom, Lobby, Game, Endgame]
+		scene: [LogReg ,Menu, ChatRoom, Lobby, Game, OnlineGame, Endgame]
 	}
 
 	new Phaser.Game(config);

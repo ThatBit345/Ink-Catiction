@@ -149,6 +149,7 @@ class Lobby extends Phaser.Scene {
 		this.readyButton.disable();
 
 		this.socket = new WebSocket("ws://" + location.host + "/ws");
+		this.registry.set('socket', this.socket);
 		this.setupSocket();
 	}
 
@@ -256,7 +257,7 @@ class Lobby extends Phaser.Scene {
 		}
 		
 		this.readyButton.enable();
-		this.toggleButtons()
+		this.toggleButtons();
 	}
 
 	setPanel(character)
@@ -355,6 +356,18 @@ class Lobby extends Phaser.Scene {
 		else this.char2Button.enable();
 	}
 
+	toGame(data)
+	{
+		this.registry.set('id', data.id);
+		this.registry.set('character', data.character);
+		this.registry.set('pos', data.pos);
+		this.registry.set('other_character', data.other_character);
+		this.registry.set('other_pos', data.other_pos);
+		this.registry.set('powerups', data.powerups);
+
+		this.scene.start('OnlineGame');
+	}
+
 	// #region Communication ---------------------------
 	setupSocket() {
 		let scene = this;
@@ -382,6 +395,10 @@ class Lobby extends Phaser.Scene {
 				case 'Y':
 					if (data == "no") return;
 					else this.onOtherSelect(data);
+					break;
+
+				case 'G':
+					scene.toGame(data);
 					break;
 			}
 		}

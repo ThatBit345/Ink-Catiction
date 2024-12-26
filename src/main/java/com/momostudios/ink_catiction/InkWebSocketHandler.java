@@ -1,15 +1,8 @@
 package com.momostudios.ink_catiction;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ScheduledFuture;
+import java.util.*;
+import java.util.concurrent.*;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -31,6 +24,7 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 	private final Queue<WebSocketSession> waitingPlayers = new ConcurrentLinkedQueue<>();
 
 	private final ObjectMapper mapper = new ObjectMapper();
+	private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 	/**
 	 * Represents a player in-game, contains their WebSocket session, position 
@@ -41,8 +35,9 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 		WebSocketSession session;
 		double x;
 		double y;
-		String character;
-		int playerId;
+		PowerupType powerup;
+		int powerupDuration;
+		boolean initialized;
 
 		Player(WebSocketSession session)
 		{
@@ -103,7 +98,7 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 		int[][] map; // Matrix where a '1' means 'player 1' has that cell and '2' means 'player 2' has that cell.
 
 		int time = 88; // 88s
-		ScheduledFuture<?> timerMask;
+		ScheduledFuture<?> timerTask;
 
 		Game(Player p1, Player p2)
 		{
@@ -173,11 +168,114 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 		}
 	}
 
+	/**
+	 * Creates a game with two players.
+	 * @param lobby Lobby from which to transfer the players over.
+	 */
+	private void CreateGame(Lobby lobby)
+	{
+		Player player1 = new Player(lobby.player1.session);
+		Player player2 = new Player(lobby.player2.session);
+
+		Game game = new Game(player1, player2);
+
+		game.powerups[0] = new Powerup();
+		game.powerups[1] = new Powerup();
+		game.powerups[2] = new Powerup();
+
+		game.player1.x = 128;
+		game.player1.y = 215;
+
+		game.player2.x = 1152;
+		game.player2.y = 215;
+
+		List<List<Object>> powerups = Arrays.asList(
+                Arrays.asList(game.powerups[0].x, game.powerups[0].y, game.powerups[0].type), // Powerup 0
+                Arrays.asList(game.powerups[1].x, game.powerups[1].y, game.powerups[1].type), // Powerup 1
+                Arrays.asList(game.powerups[2].x, game.powerups[2].y, game.powerups[2].type) // Powerup 2
+        );
+
+		double[] pos1 = {game.player1.x, game.player1.y};
+		double[] pos2 = {game.player2.x, game.player2.y};
+
+		// Transfer from lobby to game
+		games.put(player1.session.getId(), game);
+		games.put(player2.session.getId(), game);
+
+		gamePlayers.put(player1.session.getId(), player1);
+		gamePlayers.put(player2.session.getId(), player2);
+
+		lobbies.remove(player1.session.getId());
+		lobbies.remove(player2.session.getId());
+
+		lobbyPlayers.remove(player1.session.getId());
+		lobbyPlayers.remove(player2.session.getId());
+
+		SendToClient(player1.session, "G", Map.of("id", 1, 
+													   "character", lobby.player1.character,
+													   "pos", pos1,
+													   "other_character", lobby.player2.character,
+													   "other_pos", pos2,
+													   "powerups", powerups));
+													   
+		SendToClient(player2.session, "G", Map.of("id", 2, 
+													   "character", lobby.player2.character,
+													   "pos", pos2,
+													   "other_character", lobby.player1.character,
+													   "other_pos", pos1,
+													   "powerups", powerups));
+	
+	}
+
+	private void TryGameInit(Game game)
+	{
+		if(!game.player1.initialized || !game.player2.initialized) return;
+
+		game.timerTask = scheduler.scheduleAtFixedRate( () -> {
+			GameTick(game);
+		}, 0, 1, TimeUnit.SECONDS);
+	}
+
+	/**
+     * Main game loop that ticks every second.
+     * Updates timer and spawns new powerups every 10 seconds.
+     * Message format 'T': Time update
+     */
+	private void GameTick(Game game)
+	{
+		game.time--;
+
+		SendToClient(game.player1.session, "T", game.time);
+		SendToClient(game.player2.session, "T", game.time);
+
+		if(game.time % 5 == 0)
+		{
+			RespawnPowerups(game);
+		}
+
+		if(game.time <= 0)
+		{
+			EndGame(game);
+		}
+	}
+
+	/** 
+	 * Respawns missing powerups
+	 * Message format 'S': Powerup spawn [x, y, type]
+	*/
+	private void RespawnPowerups(Game game)
+	{
+
+	}
+
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message)
 	{
 		try
 		{
+			String payload = message.getPayload();
+			char type = payload.charAt(0);
+			String data = payload.length() > 1 ? payload.substring(1) : "";
 
 			Lobby lobby = lobbies.get(session.getId());
 			if(lobby == null)
@@ -185,16 +283,30 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 				Game game = games.get(session.getId());
 				if(game == null) return;
 
+				Player currPlayer = game.player1.session.getId() == session.getId() ? game.player1 : game.player2;
+				Player otherPlayer = game.player1.session.getId() == session.getId() ? game.player2 : game.player1;
+
 				// GAME RELATED MESSAGES
+				switch (type) 
+				{
+					case 'G':
+						currPlayer.initialized = true;
+						TryGameInit(game);
+						break;
+					
+					case 'P':
+						double[] pos = mapper.readValue(data, double[].class);
+						currPlayer.x = pos[0];
+						currPlayer.y = pos[1];
+
+						SendToClient(otherPlayer.session, "P", Arrays.asList(currPlayer.x, currPlayer.y));
+				}
+
 			}
 			else // Player is in a lobby
 			{
 				LobbyPlayer currPlayer = lobby.player1.session.getId() == session.getId() ? lobby.player1 : lobby.player2;
 				LobbyPlayer otherPlayer = lobby.player1.session.getId() == session.getId() ? lobby.player2 : lobby.player1;
-
-				String payload = message.getPayload();
-				char type = payload.charAt(0);
-				String data = payload.length() > 1 ? payload.substring(1) : "";
 
 				switch(type)
 				{
@@ -211,7 +323,10 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 						}
 
 						currPlayer.character = character;
+						currPlayer.ready = true;
 						SendToClient(otherPlayer.session, "Y", currPlayer.character);
+
+						if(currPlayer.ready && otherPlayer.ready) CreateGame(lobby);
 						break;
 				}
 			}
@@ -269,7 +384,7 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 	/**
 	 * Close the lobby if any errors occur or any players leave.
 	 * Message format 'F': End game with scores [player1score, player2score]
-	 * @param lobby Lobby to be closed
+	 * @param game Game to be closed
 	 */
 	private void EndGame(Game game)
 	{
@@ -277,15 +392,20 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 		scores.add(10); // Player 1
 		scores.add(10); // Player 2
 
-		if(this.lobbies.containsKey(game.player1.session.getId()))
+		if(this.games.containsKey(game.player1.session.getId()))
 		{
 			SendToClient(game.player1.session, "F", scores);
 		}
 
-		if(this.lobbies.containsKey(game.player2.session.getId()))
+		if(this.games.containsKey(game.player2.session.getId()))
 		{
 			SendToClient(game.player2.session, "F", scores);
 		}
+
+		// Cancel timer and cleanup game resources
+        if (game.timerTask != null) {
+            game.timerTask.cancel(false);
+        }
 
 		games.remove(game.player1.session.getId());
 		games.remove(game.player2.session.getId());
