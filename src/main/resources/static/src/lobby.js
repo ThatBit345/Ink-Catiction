@@ -21,11 +21,19 @@ class Lobby extends Phaser.Scene {
 		// Character icons
 		this.load.image('agata_icon', '../assets/character_icons/icon_agata.png');
 		this.load.image('frank_icon', '../assets/character_icons/icon_frank.png');
+		this.load.image('gwynn_icon', '../assets/character_icons/icon_gwynn.png');
+		this.load.image('roach_icon', '../assets/character_icons/icon_roach.png');
+		this.load.image('stregobor_icon', '../assets/character_icons/icon_stregobor.png');
+		this.load.image('yenna_icon', '../assets/character_icons/icon_yenna.png');
 		this.load.image('lock_icon', '../assets/character_icons/icon_locked.png');
 
 		// Character splash
 		this.load.image('agata_splash', '../assets/character_splash/agata_splash.png');
 		this.load.image('frank_splash', '../assets/character_splash/frank_splash.png');
+		this.load.image('gwynn_splash', '../assets/character_splash/gwynn_splash.png');
+		this.load.image('roach_splash', '../assets/character_splash/roach_splash.png');
+		this.load.image('stregobor_splash', '../assets/character_splash/stregobor_splash.png');
+		this.load.image('yenna_splash', '../assets/character_splash/yenna_splash.png');
 
 		// Button sprites
 		this.load.image('button_normal', '../assets/ui/spr_button_normal.png');
@@ -88,37 +96,33 @@ class Lobby extends Phaser.Scene {
 		this.charBackButton = new Button(this.onBack, 'Back', '64px', this, 160, 650, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 
 		// Agata
-		this.char1Button = new Button(() => { this.onSelectCharacter("agata") }, ' ', '64px', this, 520, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char1Button = new Button(() => {this.onSelectCharacter("agata");}, ' ', '64px', this, 520, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
 		this.char1Icon = this.add.image(520, 525, 'agata_icon');
 		this.char1Icon.scale = 3;
-
+		
 		// Frank
-		this.char2Button = new Button(() => { this.onSelectCharacter("frank") }, ' ', '64px', this, 640, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char2Button = new Button(() => {this.onSelectCharacter("frank");}, ' ', '64px', this, 640, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
 		this.char2Icon = this.add.image(640, 525, 'frank_icon');
 		this.char2Icon.scale = 3;
 
-		// Empty
-		this.char3Button = new Button(() => { this.onSelectCharacter(undefined) }, ' ', '64px', this, 760, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char3Button.toggleEnable();
-		this.char3Icon = this.add.image(760, 525, 'lock_icon');
+		// Gwynn
+		this.char3Button = new Button(() => {this.onSelectCharacter("gwynn");}, ' ', '64px', this, 760, 525, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char3Icon = this.add.image(760, 525, 'gwynn_icon');
 		this.char3Icon.scale = 3;
 
-		// Empty
-		this.char4Button = new Button(() => { this.onSelectCharacter(undefined) }, ' ', '64px', this, 520, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char4Button.toggleEnable();
-		this.char4Icon = this.add.image(520, 645, 'lock_icon');
+		// Roach
+		this.char4Button = new Button(() => {this.onSelectCharacter("roach");}, ' ', '64px', this, 520, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char4Icon = this.add.image(520, 645, 'roach_icon');
 		this.char4Icon.scale = 3;
 
-		// Empty
-		this.char5Button = new Button(() => { this.onSelectCharacter(undefined) }, ' ', '64px', this, 640, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char5Button.toggleEnable();
-		this.char5Icon = this.add.image(640, 645, 'lock_icon');
+		// Stregobor
+		this.char5Button = new Button(() => {this.onSelectCharacter("stregobor");}, ' ', '64px', this, 640, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char5Icon = this.add.image(640, 645, 'stregobor_icon');
 		this.char5Icon.scale = 3;
 
-		// Empty
-		this.char6Button = new Button(() => { this.onSelectCharacter(undefined) }, ' ', '64px', this, 760, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.char6Button.toggleEnable();
-		this.char6Icon = this.add.image(760, 645, 'lock_icon');
+		// Yenna
+		this.char6Button = new Button(() => {this.onSelectCharacter("yenna");}, ' ', '64px', this, 760, 645, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.char6Icon = this.add.image(760, 645, 'yenna_icon');
 		this.char6Icon.scale = 3;
 
 		// Character splash art
@@ -354,6 +358,18 @@ class Lobby extends Phaser.Scene {
 		
 		if(this.character == "frank" || this.otherCharacter == "frank") this.char2Button.disable();
 		else this.char2Button.enable();
+
+		if(this.character == "gwynn" || this.otherCharacter == "gwynn") this.char3Button.disable();
+		else this.char3Button.enable();
+		
+		if(this.character == "roach" || this.otherCharacter == "roach") this.char4Button.disable();
+		else this.char4Button.enable();
+
+		if(this.character == "stregobor" || this.otherCharacter == "stregobor") this.char5Button.disable();
+		else this.char5Button.enable();
+		
+		if(this.character == "yenna" || this.otherCharacter == "yenna") this.char6Button.disable();
+		else this.char6Button.enable();
 	}
 
 	toGame(data)

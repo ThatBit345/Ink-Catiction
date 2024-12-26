@@ -17,6 +17,7 @@ class OnlinePlayer extends Phaser.Physics.Arcade.Sprite {
         this.initialVelocity = 200;
         this.velocity = 200;
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
+        this.sprite.setScale(3.5);
         this.sprite.depth = 1;
         this.direction;
         this.getInitialDirection(x);

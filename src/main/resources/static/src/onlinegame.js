@@ -39,9 +39,21 @@ class OnlineGame extends Phaser.Scene
 		this.load.image('map', '../assets/map_catacombs.png');
 
         // Final Sprites
-        this.load.spritesheet('agata', '../assets/agata_spritesheet.png', { frameWidth: 78, frameHeight: 88 });
-        this.load.spritesheet('frank', '../assets/frank_spritesheet.png', { frameWidth: 78, frameHeight: 88 });
-        this.load.spritesheet('powerups', '../assets/powerups_spritesheet.png', { frameWidth: 16, frameHeight: 24 });
+        this.load.spritesheet('agata', '../assets/spritesheets/sprsheet_agata.png', { frameWidth: 22, frameHeight: 22 });
+        this.load.spritesheet('frank', '../assets/spritesheets/sprsheet_frankcatstein.png', { frameWidth: 22, frameHeight: 22 });
+		this.load.spritesheet('gwynn', '../assets/spritesheets/sprsheet_gwynn.png', { frameWidth: 22, frameHeight: 22 });
+        this.load.spritesheet('roach', '../assets/spritesheets/sprsheet_sardinilla.png', { frameWidth: 22, frameHeight: 22 });
+		this.load.spritesheet('stregobor', '../assets/spritesheets/sprsheet_stregobor.png', { frameWidth: 22, frameHeight: 22 });
+        this.load.spritesheet('yenna', '../assets/spritesheets/sprsheet_yenna.png', { frameWidth: 22, frameHeight: 22 });
+		
+		this.load.spritesheet('heart_agata', '../assets/spritesheets/spr_heart_agata.png', { frameWidth: 9, frameHeight: 9 });
+        this.load.spritesheet('heart_frank', '../assets/spritesheets/spr_heart_frank.png', { frameWidth: 9, frameHeight: 9 });
+		this.load.spritesheet('heart_gwynn', '../assets/spritesheets/spr_heart_gwynn.png', { frameWidth: 9, frameHeight: 9 });
+		this.load.spritesheet('heart_roach', '../assets/spritesheets/spr_heart_roach.png', { frameWidth: 9, frameHeight: 9 });
+		this.load.spritesheet('heart_stregobor', '../assets/spritesheets/spr_heart_stregobor.png', { frameWidth: 9, frameHeight: 9 });
+		this.load.spritesheet('heart_yenna', '../assets/spritesheets/spr_heart_yenna.png', { frameWidth: 9, frameHeight: 9 });
+
+		this.load.spritesheet('powerups', '../assets/spritesheets/powerups_spritesheet.png', { frameWidth: 16, frameHeight: 24 });
 	}
 
 	create()
@@ -420,6 +432,7 @@ class OnlineGame extends Phaser.Scene
 		}
 	}
 
+	// #region Helper functions ------------------------
 	getPlayerColor(character) {
         switch (character) {
             case 'agata':
@@ -427,6 +440,18 @@ class OnlineGame extends Phaser.Scene
 
             case 'frank':
                 return "0xFAD927";
+
+			case 'gwynn':
+				return "0x27e8fa";
+	
+			case 'roach':
+				return "0xff9d3b";
+
+			case 'stregobor':
+				return "0x2A42C9";
+		
+			case 'yenna':
+				return "0x5d0aa6";
         }
 
         return "0xFFFFFF";
