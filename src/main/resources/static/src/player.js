@@ -20,7 +20,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.stat_x;
         this.stat_y;
         this.sphaghettiPos();
-        this.stats = new PlayerStats(this.scene, this.stat_x, this.stat_y, 'hearts', this.lifes);
+        this.stats = new PlayerStats(this.scene, this.stat_x, this.stat_y, `heart_${this.texture}`, this.lifes);
 
         // Animation and Control setup for player
         this.addKeys(keys);
@@ -47,11 +47,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     sphaghettiPos(){
         if(this.name == `Player 1`){
-            this.stat_x = 25;
+            this.stat_x = 33;
             this.stat_y = 125;
         }
         else {
-            this.stat_x = 1135;
+            this.stat_x = 1143;
             this.stat_y = 125;
         }
     }
@@ -113,7 +113,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.anims.create({
             key: `${this.texture}-die`,
-            frames: this.scene.anims.generateFrameNumbers(`${this.texture}`, { start: 40, end: 48 }),
+            frames: this.scene.anims.generateFrameNumbers(`${this.texture}`, { start: 43, end: 50 }),
             frameRate: 8,
             repeat: 0
         });

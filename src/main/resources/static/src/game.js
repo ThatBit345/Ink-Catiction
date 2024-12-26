@@ -49,15 +49,22 @@ class Game extends Phaser.Scene {
 		this.load.image('map', '../assets/map_catacombs.png');
 
         // Final Sprites
-        this.load.spritesheet('agata', '../assets/character_spritesheets/sprsheet_agata.png', { frameWidth: 22, frameHeight: 22 });
-        this.load.spritesheet('frank', '../assets/character_spritesheets/sprsheet_frankcatstein.png', { frameWidth: 22, frameHeight: 22 });
-		this.load.spritesheet('gwynn', '../assets/character_spritesheets/sprsheet_gwynn.png', { frameWidth: 22, frameHeight: 22 });
-        this.load.spritesheet('roach', '../assets/character_spritesheets/sprsheet_sardinilla.png', { frameWidth: 22, frameHeight: 22 });
-		this.load.spritesheet('stregobor', '../assets/character_spritesheets/sprsheet_stregobor.png', { frameWidth: 22, frameHeight: 22 });
-        this.load.spritesheet('yenna', '../assets/character_spritesheets/sprsheet_yenna.png', { frameWidth: 22, frameHeight: 22 });
+        this.load.spritesheet('agata', '../assets/spritesheets/sprsheet_agata.png', { frameWidth: 22, frameHeight: 22 });
+        this.load.spritesheet('frank', '../assets/spritesheets/sprsheet_frankcatstein.png', { frameWidth: 22, frameHeight: 22 });
+		this.load.spritesheet('gwynn', '../assets/spritesheets/sprsheet_gwynn.png', { frameWidth: 22, frameHeight: 22 });
+        this.load.spritesheet('roach', '../assets/spritesheets/sprsheet_sardinilla.png', { frameWidth: 22, frameHeight: 22 });
+		this.load.spritesheet('stregobor', '../assets/spritesheets/sprsheet_stregobor.png', { frameWidth: 22, frameHeight: 22 });
+        this.load.spritesheet('yenna', '../assets/spritesheets/sprsheet_yenna.png', { frameWidth: 22, frameHeight: 22 });
 
-		this.load.spritesheet('hearts', '../assets/hearts-Sheet.png', { frameWidth: 9, frameHeight: 9 });
-        this.load.spritesheet('powerups', '../assets/powerups_spritesheet.png', { frameWidth: 16, frameHeight: 24 });
+		//this.load.spritesheet('hearts', '../assets/hearts-Sheet.png', { frameWidth: 9, frameHeight: 9 });
+		this.load.spritesheet('heart_agata', '../assets/spritesheets/spr_heart_agata.png', { frameWidth: 9, frameHeight: 9 });
+        this.load.spritesheet('heart_frank', '../assets/spritesheets/spr_heart_frank.png', { frameWidth: 9, frameHeight: 9 });
+		this.load.spritesheet('heart_gwynn', '../assets/spritesheets/spr_heart_gwynn.png', { frameWidth: 9, frameHeight: 9 });
+		this.load.spritesheet('heart_roach', '../assets/spritesheets/spr_heart_roach.png', { frameWidth: 9, frameHeight: 9 });
+		this.load.spritesheet('heart_stregobor', '../assets/spritesheets/spr_heart_stregobor.png', { frameWidth: 9, frameHeight: 9 });
+		this.load.spritesheet('heart_yenna', '../assets/spritesheets/spr_heart_yenna.png', { frameWidth: 9, frameHeight: 9 });
+
+		this.load.spritesheet('powerups', '../assets/spritesheets/powerups_spritesheet.png', { frameWidth: 16, frameHeight: 24 });
     }
 
     create(data) {
@@ -72,11 +79,22 @@ class Game extends Phaser.Scene {
 		this.p1Score = this.add.text(20, 10, '0', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous', align: 'center' });
 		Phaser.Display.Align.In.Center(this.p1Score,this.p1ScoreBox);
 
+		this.p1lifeBox = this.add.image(85,130,'score_box');
+		this.p1lifeBox.scaleX = 5.0;
+		this.p1lifeBox.scaleY = 2.0;
+		this.p1lifeBox.depth = 5;
+
 		this.p2ScoreBox = this.add.image(1195,50,'score_box');
 		this.p2ScoreBox.scaleX = 5.0;
 		this.p2ScoreBox.scaleY = 3.0;
 		this.p2Score = this.add.text(1187, 10, '0', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous' , align: 'center'});
 		Phaser.Display.Align.In.Center(this.p2Score,this.p2ScoreBox);
+
+		this.p2lifeBox = this.add.image(1195,130,'score_box');
+		this.p2lifeBox.scaleX = 5.0;
+		this.p2lifeBox.scaleY = 2.0;
+		this.p2lifeBox.depth = 5;
+
 
 		this.timer_back = this.add.image(640, -100, 'timer_back');
 		this.timer_back.scale = 4;

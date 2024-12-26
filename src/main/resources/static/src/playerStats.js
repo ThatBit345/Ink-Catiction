@@ -16,7 +16,7 @@ class PlayerStats {
     var l;
        for(var i = 0; i < this.lifes; i++){
             this.arr_lifes.push(l = new Life(this.scene, x_pos, this.y, this.texture));
-            x_pos += 40;
+            x_pos += 35;
        }
     }
 
@@ -28,7 +28,7 @@ class PlayerStats {
         var x_pos = this.x;
         for(var i = 0; i < this.lifes; i++ ){
             this.arr_lifes[i] = new Life(this.scene, x_pos, this.y, this.texture);
-            x_pos += 40;
+            x_pos += 35;
         }
     }
 
@@ -42,6 +42,7 @@ class Life extends Phaser.Physics.Arcade.Sprite {
 		this.y = y;
         this.texture = texture;
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
+        this.sprite.depth = 10;
         this.sprite.setScale(4);
         this.createAnimations();
     }
