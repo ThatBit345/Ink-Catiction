@@ -1,5 +1,6 @@
 import Grid from './grid.js';
 import Player from './player.js';
+import PlayerStats from './playerStats.js'
 import Powerup from './powerup.js';
 import Button from './button.js';
 
@@ -49,6 +50,7 @@ class Game extends Phaser.Scene {
 		this.load.image('map', '../assets/map_catacombs.png');
 
         // Final Sprites
+		this.load.spritesheet('hearts', '../assets/hearts-Sheet.png', { frameWidth: 9, frameHeight: 9 });
         this.load.spritesheet('agata', '../assets/agata_spritesheet.png', { frameWidth: 78, frameHeight: 88 });
         this.load.spritesheet('frank', '../assets/frank_spritesheet.png', { frameWidth: 78, frameHeight: 88 });
         this.load.spritesheet('powerups', '../assets/powerups_spritesheet.png', { frameWidth: 16, frameHeight: 24 });
@@ -91,6 +93,7 @@ class Game extends Phaser.Scene {
         this.velocity1 = 200;
         this.player1 = this.physics.add.existing(new Player(this, 128, 215, this.player1_character, 1, this.keys1, this.velocity1, this.player1_ink));
         this.player1.setCollideWorldBounds(true);
+		
 
         // Player 2 Configuration
         this.keys2 = ["UP", "LEFT", "DOWN", "RIGHT", "M"]
