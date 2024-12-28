@@ -33,15 +33,19 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 	private static class Player
 	{
 		WebSocketSession session;
+		int num;
 		double x;
 		double y;
+		String character;
 		PowerupType powerup;
 		int powerupDuration;
 		boolean initialized;
 
-		Player(WebSocketSession session)
+		Player(WebSocketSession session, int num, String character)
 		{
 			this.session = session;
+			this.num = num;
+			this.character = character;
 		}
 	}
 
@@ -174,8 +178,8 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 	 */
 	private void CreateGame(Lobby lobby)
 	{
-		Player player1 = new Player(lobby.player1.session);
-		Player player2 = new Player(lobby.player2.session);
+		Player player1 = new Player(lobby.player1.session, 1, lobby.player1.character);
+		Player player2 = new Player(lobby.player2.session, 2, lobby.player2.character);
 
 		Game game = new Game(player1, player2);
 
@@ -268,6 +272,18 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 
 	}
 
+	private void UpdateGrid(Game game, double x, double y, int playerNum)
+	{
+		int[][] grid = game.map;
+
+		// Align positions to the grid starting at (80,180) with cells of dimensions 40x40 units.
+		int gridX = (int) Math.floor((x - 80) / 40);
+		int gridY = (int) Math.floor((y - 180) / 40);
+
+		if(gridX < 0 || gridY < 0 || gridX > 28 || gridY > 14) return; // OoB
+		grid[gridX][gridY] = playerNum;
+	}
+
 	@Override
 	public void handleTextMessage(WebSocketSession session, TextMessage message)
 	{
@@ -299,7 +315,10 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 						currPlayer.x = pos[0];
 						currPlayer.y = pos[1];
 
+						UpdateGrid(game, currPlayer.x, currPlayer.y, currPlayer.num);
+
 						SendToClient(otherPlayer.session, "P", Arrays.asList(currPlayer.x, currPlayer.y));
+						break;
 				}
 
 			}
@@ -388,18 +407,31 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 	 */
 	private void EndGame(Game game)
 	{
+		int[][] grid = game.map;
+		int p1score = 0;
+		int p2score = 0;
+
+		for (int x = 0; x < grid.length; x++) 
+		{
+			for (int y = 0; y < grid[x].length; y++) 
+			{
+				if(grid[x][y] == 1) p1score++;
+				else if(grid[x][y] == 2) p2score++;
+			}
+		}
+
 		List<Integer> scores = new ArrayList();
-		scores.add(10); // Player 1
-		scores.add(10); // Player 2
+		scores.add(p1score); // Player 1
+		scores.add(p2score); // Player 2
 
 		if(this.games.containsKey(game.player1.session.getId()))
 		{
-			SendToClient(game.player1.session, "F", scores);
+			SendToClient(game.player1.session, "F", Arrays.asList(scores, game.player1.character, game.player2.character));
 		}
 
 		if(this.games.containsKey(game.player2.session.getId()))
 		{
-			SendToClient(game.player2.session, "F", scores);
+			SendToClient(game.player2.session, "F", Arrays.asList(scores, game.player1.character, game.player2.character));
 		}
 
 		// Cancel timer and cleanup game resources

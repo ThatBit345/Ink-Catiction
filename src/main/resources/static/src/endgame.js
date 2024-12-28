@@ -38,7 +38,7 @@ class Endgame extends Phaser.Scene {
 		// Player 0 Win
 		if (this.ranking[0] > this.ranking[1])
 		{	
-			this.splash = this.add.image(640, 360, this.players[0].getCharacter() + "_splash");
+			this.splash = this.add.image(640, 360, this.players[0] + "_splash");
 			this.splash.scale = 0.5;
 
 			this.title = this.add.text(1280, 80, player1WinText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
@@ -49,7 +49,7 @@ class Endgame extends Phaser.Scene {
 		// Player 1 Win
 		else if (this.ranking[0] < this.ranking[1])
 		{
-			this.splash = this.add.image(640, 360, this.players[1].getCharacter() + "_splash");
+			this.splash = this.add.image(640, 360, this.players[1] + "_splash");
 			this.splash.scale = 0.5;
 			
 			this.title = this.add.text(1280, 80, player2WinText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });

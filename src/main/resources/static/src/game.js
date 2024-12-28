@@ -332,7 +332,7 @@ class Game extends Phaser.Scene {
         //let p2score = ranking[1];
         //console.log('p1 score: ' + p1score);
         //console.log('p2 score: ' + p2score);
-        scene.scene.start('Endgame', [ranking, scene.player1, scene.player2]); 
+        scene.scene.start('Endgame', [ranking, scene.player1.getCharacter(), scene.player2.getCharacter()]); 
 	}
 
     countDown(timer, title) {

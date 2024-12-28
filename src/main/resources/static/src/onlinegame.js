@@ -371,7 +371,7 @@ class OnlineGame extends Phaser.Scene
 		scene.socket.close();
 		scene.registry.set('socket', undefined);
 
-        scene.scene.start('Endgame', [scene.endData, scene.player, scene.player2]); 
+        scene.scene.start('Endgame', scene.endData); 
 	}
 
 	// #region Network updates -------------------------
