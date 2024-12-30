@@ -1,6 +1,7 @@
 import Menu from './menu.js';
 import ChatRoom from './chatroom.js';
 import Game from './game.js';
+import Tutorial from './tutorial.js';
 import Endgame from './endgame.js';
 import LogReg from './logreg.js';
 import Lobby from './lobby.js';
@@ -38,7 +39,7 @@ var startGame = function(){
 				}
 			}
 		},
-		scene: [LogReg ,Menu, ChatRoom, Lobby, Game, OnlineGame, Endgame, Pause]
+		scene: [LogReg ,Menu, ChatRoom, Lobby, Game, OnlineGame, Endgame, Pause, Tutorial]
 	}
 
 	new Phaser.Game(config);

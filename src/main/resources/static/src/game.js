@@ -191,17 +191,12 @@ class Game extends Phaser.Scene {
 		if (this.initTime == 0) {
 			this.initTime = this.setInitTime(time);
 		}
-		//console.log('Time: ' +time);
+		
 		this.timer = (time / 1000) - this.initTime;
 		if (this.timer < this.gameDuration) {
-			if (this.isPaused) {
-				this.timeText.text = this.saveTime;
-				this.timer = this.saveTime;
-			}
 
 			this.countDown(this.timer, this.startTimeText);
 			Phaser.Display.Align.In.Center(this.startTimeText, this.start_timer_back);
-			this.isPaused = false;
 
 			// Warmup period
 			if (this.timer < 1) {
@@ -214,7 +209,18 @@ class Game extends Phaser.Scene {
 			}
 			// Game period
 			else {
+				if (this.isPaused) {
+					//this.timeText.setText(this.saveTime);
+					this.timer.setTime();
+					this.pauseButton.setVisible(true);
+					this.isPaused = false;
+					console.log("Timer: " +this.timer);
+					console.log("SaveTime: " +this.saveTime);
+				}
+				console.log("Timer after if: " +this.timer);
+
 				if (!this.timer_dropped) {
+				
 					this.timer_dropped = true;
 					this.start_timer_back.visible = false;
 
@@ -285,10 +291,10 @@ class Game extends Phaser.Scene {
 	}
 
 	onPause() {
-		this.saveTime = this.scene.timeText.text;
-		this.isPaused = true;
-		//this.scene.pauseButton.setVisible(false);
-		
+		this.scene.saveTime = this.scene.timeText.text;
+		this.scene.isPaused = true;
+		this.scene.pauseButton.setVisible(false);
+
 		this.scene.scene.launch("Pause");
 		this.scene.scene.pause("Game");
 	}

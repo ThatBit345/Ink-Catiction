@@ -76,9 +76,10 @@ class Menu extends Phaser.Scene
 		this.title1 = this.add.text(50, 50, 'Ink', {color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous'});
 		this.title2 = this.add.text(50, 126, 'Catiction', {color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous'});
 		this.ver = this.add.text(50, 660, 'ver 0.1.0', {color: '#E5B770', fontSize: '24px', fontFamily: 'Metamorphous'});
-		this.playButton = new Button(this.onPlay, 'Play', '64px', this, 250, 340, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
-		this.optionsButton = new Button(this.onSettings, 'Settings', '64px', this, 310, 460, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
-		this.creditsButton = new Button(this.onCredits, 'Credits', '64px', this, 370, 580, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
+		this.playButton = new Button(this.onPlay, 'Play', '64px', this, 250, 300, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
+		this.optionsButton = new Button(this.onSettings, 'Settings', '64px', this, 310, 420, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
+		this.creditsButton = new Button(this.onCredits, 'Credits', '64px', this, 370, 540, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
+		this.tutorialButton = new Button(this.onTutorial, 'Tutorial', '64px', this, 430, 660, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
 		
 		this.chatButton = new Button(this.onChat, '', '64px', this, 500, 340, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
 		this.chatIcon = this.add.image(500, 340, 'chat_icon');
@@ -287,7 +288,8 @@ class Menu extends Phaser.Scene
 			this.player2Splash,
 			this.player1SplashNameplate,
 			this.player2SplashNameplate,
-			this.startGameButton
+			this.startGameButton,
+			this.tutorialButton
 		]
 
 		this.input.on('pointerdown', function (pointer)
@@ -421,6 +423,11 @@ class Menu extends Phaser.Scene
 	{
 		let scene = this.parent.scene;
 		scene.scene.start("ChatRoom");
+	}
+
+	onTutorial()
+	{
+		this.scene.scene.start("Tutorial");
 	}
 
 	onSettings()
