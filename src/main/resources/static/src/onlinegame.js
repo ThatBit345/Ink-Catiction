@@ -1,6 +1,8 @@
 import Player from "./player.js";
 import OnlinePlayer from "./onlineplayer.js";
 import Grid from "./grid.js";
+import OnlinePowerup from "./onlinepowerup.js";
+import Powerup from "./powerup.js";
 
 class OnlineGame extends Phaser.Scene
 {
@@ -149,6 +151,11 @@ class OnlineGame extends Phaser.Scene
 		this.endcard_text_lower = this.add.text(2193, -481.1, "Over!", { color: '#452600', fontSize: '30pt', fontFamily: 'Metamorphous' });
 		this.endcard_text_lower.angle = -28.6;
 		this.endcard_text_lower.depth = 10;
+
+		// PowerUps Configuration
+		this.powerup1 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[0][0], this.powerups[0][1], 'powerups', this.powerups[0][2]));
+		this.powerup2 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[1][0], this.powerups[1][1], 'powerups', this.powerups[1][2]));
+		this.powerup3 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[2][0], this.powerups[2][2], 'powerups', this.powerups[2][2]));	
 	}
 
 	update(time, delta)
@@ -194,8 +201,23 @@ class OnlineGame extends Phaser.Scene
 			// Update both players basic movement
 			this.player.updateMovement(this.player.velocity);
 			this.other.calculateMovement();
-	
+
 			this.sendMessage('P', [this.player.sprite.x, this.player.sprite.y]);
+
+			// Update the powerups
+			var newPos = this.getRandomPosition();
+
+			this.powerup1.updatePowerup(this.player, newPos[0],newPos[1], delta, this.grid);
+			this.powerup2.updatePowerup(this.player, newPos[0],newPos[1], delta, this.grid);
+			this.powerup3.updatePowerup(this.player, newPos[0],newPos[1], delta, this.grid);
+	
+			this.powerup1.updatePowerup(this.other, newPos[0],newPos[1], delta, this.grid);
+			this.powerup2.updatePowerup(this.other, newPos[0],newPos[1], delta, this.grid);
+			this.powerup3.updatePowerup(this.other, newPos[0],newPos[1], delta, this.grid);
+
+			this.sendMessage('S', [this.powerup1.x, this.powerup1.y]);
+			this.sendMessage('S', [this.powerup2.x, this.powerup2.y]);
+			this.sendMessage('S', [this.powerup3.x, this.powerup3.y]);
 
 			let scores = this.grid.countColors();
 			let playerScoreBox = this.playerId == 1 ? this.p1Score : this.p2Score;
@@ -374,6 +396,30 @@ class OnlineGame extends Phaser.Scene
         scene.scene.start('Endgame', scene.endData); 
 	}
 
+	getRandomPosition()
+	{
+		let x, y;
+
+		x = (Math.random() * (31 - 1) + 1) * 40;
+		y = (Math.random() * (17 - 1) + 1) * 40;
+
+		// Clamp values to the map's range
+		if(x < 100) x = 100;
+		else if (x > 1180) x = 1180;
+
+		if(y < 180) y = 180;
+		else if(y > 680) y = 680;
+
+		return [x, y];
+	}
+
+	powerupSpawn(data) 
+	{
+		this.powerup1 = data[0];
+		this.powerup2 = data[1];
+		this.powerup3 = data[2];
+	}
+
 	// #region Network updates -------------------------
 	updatePosition(data)
 	{
@@ -412,6 +458,8 @@ class OnlineGame extends Phaser.Scene
 				case 'F':
 					scene.endSequence(data);
 					break;
+				case 'S':
+					scene.powerupSpawn(data);
 			}
 		}
 

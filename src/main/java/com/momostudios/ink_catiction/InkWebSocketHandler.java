@@ -1,6 +1,7 @@
 package com.momostudios.ink_catiction;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -80,8 +81,10 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 		Powerup()
 		{
             Random rand = new Random();
-            this.x = rand.nextInt(1700) + 100; // 100-1800 range
-            this.y = rand.nextInt(500) + 180; // 180-680 range
+            //this.x = rand.nextInt(1700) + 100; // 100-1800 range
+            this.x = (int)Math.floor(Math.random()*(1800-100+1)+100); // 100-1800 range
+            //this.y = rand.nextInt(500) + 180; // 180-680 range
+            this.y = (int)Math.floor(Math.random()*(680-180+1)+180); // 180-680 range
 
 			int type = rand.nextInt(PowerupType.values().length);
 			this.type = PowerupType.values()[type]; // Random type
@@ -269,8 +272,14 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 	*/
 	private void RespawnPowerups(Game game)
 	{
-	
 		
+		Powerup powerup1 = new Powerup();
+		Powerup powerup2 = new Powerup();
+		Powerup powerup3 = new Powerup();
+
+		SendToClient(game.player2.session, "S", Arrays.asList(powerup1.x, powerup1.y, powerup1.type));
+		SendToClient(game.player2.session, "S", Arrays.asList(powerup2.x, powerup2.y, powerup2.type));
+		SendToClient(game.player2.session, "S", Arrays.asList(powerup3.x, powerup3.y, powerup3.type));
 	}
 
 	private void UpdateGrid(Game game, double x, double y, int playerNum)

@@ -12,6 +12,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         // Player Statistics
         this.name = `Player ${number}`;
+        //this.name = 'Player 1';
         this.color = color;
         this.initialVelocity = velocity;
         this.velocity = velocity;

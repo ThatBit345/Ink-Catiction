@@ -1,12 +1,15 @@
-class Powerup extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, texture){
+class OnlinePowerup extends Phaser.Physics.Arcade.Sprite {
+    constructor(scene, x, y, texture, type){
         super(scene, x, y, 'Texture');
 
         this.scene = scene;
 
-		let pos = this.getPosition();
+		let pos = [x,y];
         this.x = x;
         this.y = y;
+
+		this.serverX = x;
+		this.serverY = y;
 
         this.texture = texture;
 
@@ -14,8 +17,8 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.sprite.setScale(3);
 
         this.wielder = undefined; //checks which player picked the PowerUp
-        this.type;
-        this.generateRandomType();
+        //this.type = this.generateRandomType();
+        this.type = type;
 
         // Power Up duration
         this.time = 0;
@@ -82,7 +85,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         }       
     }
 
-    updatePowerup(player, delta, grid){
+    updatePowerup(player,x,y, delta, grid){
         this.sprite.anims.play(`${this.type}`, true);  
 
         var distance = this.manhattanDistance(this.sprite.x, this.sprite.y, player.sprite.x, player.sprite.y);
@@ -105,10 +108,15 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
             this.applyPowerup(player, delta, grid);
         }
         if (this.duration > 10000 && this.wielder == player) {
-            this.respawn(delta);
+            this.respawn(delta,x,y);
         }
         
     }
+
+	newPosition(data) {
+		this.serverX = data[0];
+		this.serverY = data[1];
+	}
 
     applyPowerup(player, delta, grid){
         switch(this.type){
@@ -117,6 +125,8 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
                 this.duration += delta;
                 if(this.duration > 5000){        
                     player.velocity = 200;
+				//this.sendMessage('S', [this.powerup3.x, this.powerup3.y]);
+
                 }
             break;
             case 'Power':
@@ -146,12 +156,12 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
                     }
                 }
                 break;
-            default: console.log(`Type ${type} not implemented`); 
+            default: console.log(`Type ${this.type} not implemented`); 
         }
     }
 
-    respawn(delta){
-        this.sprite.setVisible(true);
+    respawn(delta,x,y){
+        /*this.sprite.setVisible(true);
         this.generateRandomType();
         this.sprite.enable = true;
         this.picked = false;
@@ -160,13 +170,13 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.exploded = false;
 		this.wielder = undefined;
 
-		var pos = this.getPosition();
+		var pos = [x,y];
 
 		this.x = pos[0];
 		this.y = pos[1];
 
 		this.sprite.x = pos[0];
-		this.sprite.y = pos[1];
+		this.sprite.y = pos[1];*/
     }
 
     manhattanDistance(powerx, powery, playerx, playery){
@@ -174,5 +184,5 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
     }
 }
 
-export default Powerup
+export default OnlinePowerup;
 
