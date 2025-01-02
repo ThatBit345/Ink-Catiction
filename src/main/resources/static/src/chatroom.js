@@ -94,6 +94,9 @@ class ChatRoom extends Phaser.Scene
 		
 		const user = this.registry.get('user');
 		const baseUrl = '/api/chat/';
+
+		let scene = this.scene;
+
 		$.ajax({
 			contentType: 'application/json',
 			data: JSON.stringify({user:"System", message:"User [" + user + "] joined the chat!"}),
@@ -104,6 +107,7 @@ class ChatRoom extends Phaser.Scene
 		}).done(function(){
 
 			scene.fetchMessages(scene);
+
 		});
 	}
 
@@ -174,7 +178,7 @@ class ChatRoom extends Phaser.Scene
 		// Clear chat log
 		for (let index = 0; index < messageLog.length; index++) 
 		{
-			scene.log[index].text = "";
+			this.scene.log[index].text = "";
 		}
 
 		this.scene.scene.start("Menu");

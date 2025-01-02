@@ -81,8 +81,8 @@ class Menu extends Phaser.Scene
 		this.creditsButton = new Button(this.onCredits, 'Credits', '64px', this, 370, 540, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
 		this.tutorialButton = new Button(this.onTutorial, 'Tutorial', '64px', this, 430, 660, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 128, 32);
 		
-		this.chatButton = new Button(this.onChat, '', '64px', this, 500, 340, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
-		this.chatIcon = this.add.image(500, 340, 'chat_icon');
+		this.chatButton = new Button(this.onChat, '', '64px', this, 500, 300, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
+		this.chatIcon = this.add.image(500, 300, 'chat_icon');
 		this.chatIcon.scale = 3;
 
 		// Local/Online menu ---------------------------

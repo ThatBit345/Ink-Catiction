@@ -269,7 +269,8 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 	*/
 	private void RespawnPowerups(Game game)
 	{
-
+	
+		
 	}
 
 	private void UpdateGrid(Game game, double x, double y, int playerNum)
