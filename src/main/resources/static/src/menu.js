@@ -182,7 +182,7 @@ class Menu extends Phaser.Scene
 		this.player1SplashBack.visible = false;
 
 		this.player1Splash = this.add.image(-200 - 2560, 325, 'agata_splash');
-		this.player1Splash.scale = 0.25;
+		this.player1Splash.scale = 0.23;
 		this.player1Splash.visible = false;
 
 		this.player1SplashNameplate = this.add.text(-200 - 2560, 100, 'NAME', textTitleDark);
@@ -193,7 +193,7 @@ class Menu extends Phaser.Scene
 		this.player2SplashBack.visible = false;
 
 		this.player2Splash = this.add.image(1480 - 2560, 325, 'frank_splash');
-		this.player2Splash.scale = 0.25;
+		this.player2Splash.scale = 0.23;
 		this.player2Splash.flipX = true;
 		this.player2Splash.visible = false;
 
