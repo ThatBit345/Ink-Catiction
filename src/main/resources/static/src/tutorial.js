@@ -47,7 +47,8 @@ class Tutorial extends Phaser.Scene
 	}
 
 	onBack() {
-		this.scene.scene.start('Menu');
+		this.scene.scene.sleep("Tutorial");
+		this.scene.scene.start('Pause');
 	}
 }
 

@@ -211,9 +211,10 @@ class Game extends Phaser.Scene {
 			else {
 				if (this.isPaused) {
 					//this.timeText.setText(this.saveTime);
-					this.timer.setTime();
+					//this.timer.setTime();
 					this.pauseButton.setVisible(true);
 					this.isPaused = false;
+					this.bgm.resume();
 					console.log("Timer: " +this.timer);
 					console.log("SaveTime: " +this.saveTime);
 				}
@@ -291,6 +292,7 @@ class Game extends Phaser.Scene {
 	}
 
 	onPause() {
+		this.scene.bgm.pause();
 		this.scene.saveTime = this.scene.timeText.text;
 		this.scene.isPaused = true;
 		this.scene.pauseButton.setVisible(false);

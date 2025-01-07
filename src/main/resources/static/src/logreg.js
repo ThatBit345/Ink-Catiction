@@ -15,7 +15,12 @@ class LogReg extends Phaser.Scene
 	preload()
 	{
 		// Background UI
-		this.load.image('splash', '../assets/ui/spr_menu_splash.png');
+			// spr splashes pairing characters
+		//this.load.image('splash', '../assets/ui/spr_menu_splash.png');
+		this.load.image('splash1', '../assets/ui/spr_menu_splash1.png');
+		this.load.image('splash2', '../assets/ui/spr_menu_splash2.png');
+		this.load.image('splash3', '../assets/ui/spr_menu_splash3.png');
+
 		this.load.image('back', '../assets/ui/spr_menu_back.png');
 		this.load.image('back_char_left', '../assets/ui/spr_menu_char_left.png');
 		this.load.image('back_char_right', '../assets/ui/spr_menu_char_right.png');
@@ -39,7 +44,8 @@ class LogReg extends Phaser.Scene
 		const textError = {color: '#A51818', fontSize: '24px', fontFamily: 'Metamorphous'};
 
 		// Background assets
-		this.splash = this.add.image(1000, 360, 'splash');
+		// this.splash = this.add.image(1000, 360, 'splash');
+		this.setsplash();
 		this.backgroundSlice = this.add.image(640, 1080-360, 'back');
 
 		// Throbber
@@ -221,6 +227,11 @@ class LogReg extends Phaser.Scene
 				scene.throbber_shadow.visible = false;
 			});
 		}
+	}
+
+	setsplash(){
+		this.randSplash = Math.floor(Math.random() * 3 + 1);
+		this.splash = this.add.image(1000, 360, `splash${this.randSplash}`);
 	}
 }
 export default LogReg;

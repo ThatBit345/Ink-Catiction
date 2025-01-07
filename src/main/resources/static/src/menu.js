@@ -17,10 +17,15 @@ class Menu extends Phaser.Scene
 	preload()
 	{
 		// Background UI
-		this.load.image('splash', '../assets/ui/spr_menu_splash.png');
+			// spr splashes pairing characters
+		this.load.image('splash1', '../assets/ui/spr_menu_splash1.png');
+		this.load.image('splash2', '../assets/ui/spr_menu_splash2.png');
+		this.load.image('splash3', '../assets/ui/spr_menu_splash3.png');
+
 		this.load.image('back', '../assets/ui/spr_menu_back.png');
 		this.load.image('back_char_left', '../assets/ui/spr_menu_char_left.png');
 		this.load.image('back_char_right', '../assets/ui/spr_menu_char_right.png');
+		this.load.image('back_char_right_inv', '../assets/ui/spr_menu_tutorial.png');
 
 		// Character icons
 		this.load.image('agata_icon', '../assets/character_icons/icon_agata.png');
@@ -50,8 +55,15 @@ class Menu extends Phaser.Scene
 		this.load.image('black_fade', '../assets/ui/spr_black.png');
 		this.load.image('throbber', '../assets/ui/spr_throbber.png');
 
+		// UI player server status
 		this.load.image('status_connected', '../assets/ui/spr_status_connected.png');
 		this.load.image('status_disconnected', '../assets/ui/spr_status_disconnected.png');
+	
+		// Tutorial assets
+		this.load.image('keys1', '../assets/ui/keys_player1_alt.png');
+		this.load.image('keys2', '../assets/ui/keys_player2_alt.png');
+		this.load.spritesheet('movement', '../assets/spritesheets/movement_tutorial.png', { frameWidth: 24, frameHeight: 24 });
+		this.load.spritesheet('attack', '../assets/spritesheets/attack_tutorial.png', { frameWidth: 24, frameHeight: 24 });
 	}
 
 	create(data)
@@ -69,7 +81,9 @@ class Menu extends Phaser.Scene
 		this.online = this.registry.get('online');
 
 		// Background assets
-		this.splash = this.add.image(1000, 360, 'splash');
+			//this.splash = this.add.image(1000, 360, 'splash1');
+			// Set random splash
+		this.setsplash();
 		this.backgroundSlice = this.add.image(640, 1080-360, 'back');
 
 		// Main menu -----------------------------------
@@ -123,6 +137,35 @@ class Menu extends Phaser.Scene
 		this.deleteAccountConfirmButton.visible = false;
 		this.deleteAccountDenyButton.visible = false;
 		
+		// Tutorial Menu -------------------------------
+		this.charBackRightInv = this.add.image(600, -1400, 'back_char_right_inv');
+		this.tutorialBackButton = new Button(this.onTutorialBack, 'Back', '64px', this, 160 - 400, 650 - 1440, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		this.keysP1 = this.add.image(920, -1250 ,'keys1');
+		this.keysP1.scale = 2.5;
+		this.keysP2 = this.add.image(920, -1050,'keys2');
+		this.keysP2.scale = 2.5;
+		this.player1Text = this.add.text(180,-1250, "Player 1", textTitleDark);
+		this.player2Text = this.add.text(250, -1050, "Player 2", textTitleDark);
+		this.movementText = this.add.text(720, -1400, "Movement", textNormal);
+		this.attackText = this.add.text(1025 , -1400, "Attack", textNormal);
+		this.onTutorialMenu = false;
+		this.anims.create({
+            key: 'mov',
+            frames: this.anims.generateFrameNumbers('movement', { start: 0, end: 5 }),
+            frameRate: 10,
+            repeat: -1
+        });
+		this.movementSpr = this.add.sprite(840, -850, 'movement').play('mov');
+		this.movementSpr.setScale(6);
+		this.anims.create({
+            key: 'att',
+            frames: this.anims.generateFrameNumbers('attack', { start: 0, end: 5 }),
+            frameRate: 10,
+            repeat: -1
+        });
+		this.attackSpr = this.add.sprite(1085, -850, 'attack').play('att');
+		this.attackSpr.setScale(6);
+
 		// Throbber
 		this.throbber = this.add.image(880, 1440 + 400, 'throbber');
 		this.throbber.scale = 3;
@@ -289,7 +332,17 @@ class Menu extends Phaser.Scene
 			this.player1SplashNameplate,
 			this.player2SplashNameplate,
 			this.startGameButton,
-			this.tutorialButton
+			this.tutorialButton,
+			this.tutorialBackButton,
+			this.charBackRightInv,
+			this.keysP1,
+			this.keysP2,
+			this.player1Text,
+			this.player2Text,
+			this.movementText,
+			this.attackText,
+			this.movementSpr,
+			this.attackSpr
 		]
 
 		this.input.on('pointerdown', function (pointer)
@@ -375,6 +428,23 @@ class Menu extends Phaser.Scene
 				scene.connectionErrorButton.visible = true;
 			}
 		});
+
+		if(this.onTutorialMenu){
+			//this.runAnimation(this.attackSpr,'attack', 0, 0);
+			//this.movementSpr.play('mov', true);
+		}
+	}
+
+	runMovement(animation, x, y){
+        this.checkDirection();
+        this.sprite.setVelocityX(x);
+        this.sprite.setVelocityY(y);
+        this.sprite.anims.play(animation, true);  
+    }
+
+	setsplash(){
+		this.randSplash = Math.floor(Math.random() * 3 + 1);
+		this.splash = this.add.image(1000, 360, `splash${this.randSplash}`);
 	}
 
 	dismissError()
@@ -427,7 +497,45 @@ class Menu extends Phaser.Scene
 
 	onTutorial()
 	{
-		this.scene.scene.start("Tutorial");
+		//this.scene.scene.start("Tutorial");
+
+		this.scene.tweens.chain({
+			targets: null,
+			tweens: [
+				{
+					targets: this.scene.elements,
+					duration: 1000,
+					y: '+=1440',
+					ease: 'Cubic.inOut'
+				},
+				{
+					targets: this.scene.tutorialBackButton,
+					duration: 400,
+					x: '+= 400',
+					ease: 'Cubic.out'
+				},
+			],
+			delay: 0
+		});
+	}
+
+	onTutorialBack()
+	{
+		this.scene.add.tween({
+			targets: this.scene.elements,
+			duration: 1000,
+			y: '-=1440',
+			ease: 'Cubic.inOut'
+		});
+
+		this.scene.add.tween({
+			targets: this.scene.tutorialBackButton,
+			duration: 400,
+			x: '-= 400',
+			ease: 'Cubic.out'
+		});
+
+
 	}
 
 	onSettings()
