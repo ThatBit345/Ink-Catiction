@@ -31,6 +31,7 @@ class OnlineGame extends Phaser.Scene
 		this.load.image('timer_back', '../assets/ui/spr_timer_back.png');
 		this.load.image('panel', '../assets/ui/spr_button_normal.png');
 		this.load.image('score_box', '../assets/ui/spr_button_normal.png');
+		this.load.image('score_box2', '../assets/ui/spr_tile_count.png');
 
 		this.load.image('end_transition_left', '../assets/ui/spr_end_back_transition_left.png');
 		this.load.image('end_transition_center', '../assets/ui/spr_end_back_transition_center.png');
@@ -38,7 +39,12 @@ class OnlineGame extends Phaser.Scene
 		this.load.image('end_back_fill', '../assets/ui/spr_end_back_fill.png');
 
         this.load.image('ink', '../assets/ink_10x.png');
-		this.load.image('map', '../assets/map_catacombs.png');
+
+		// Maps
+		this.load.image('catacomb_map', '../assets/map_catacombs_base.png');
+		this.load.image('catacomb_map_extra', '../assets/map_catacombs_extras.png');
+		this.load.image('forest_map', '../assets/map_forest_base.png');
+		this.load.image('forest_map_extra', '../assets/map_forest_extras.png');
 
         // Final Sprites
         this.load.spritesheet('agata', '../assets/spritesheets/sprsheet_agata.png', { frameWidth: 22, frameHeight: 22 });
@@ -82,8 +88,10 @@ class OnlineGame extends Phaser.Scene
         this.playerInk = this.getPlayerColor(this.playerCharacter);
         this.otherInk = this.getPlayerColor(this.otherCharacter);
 
-		this.background = this.add.image(640, 360, 'map');
-		this.background.depth = -10;
+		// Map config
+		this.bg;
+		this.bg_extras;
+		this.setMap();
 
         // Local player Configuration
         this.keys1 = ["W", "A", "S", "D", "E"]
@@ -95,19 +103,19 @@ class OnlineGame extends Phaser.Scene
         this.other = this.physics.add.existing(new OnlinePlayer(this, this.otherPos[0], this.otherPos[1], this.otherCharacter, this.otherInk));
         this.other.setCollideWorldBounds(true);
 
-		this.p1ScoreBox = this.add.image(85,50,'score_box');
-		this.p1ScoreBox.scaleX = 5.0;
+		this.p1ScoreBox = this.add.image(85, 50, 'score_box2');
+		this.p1ScoreBox.scaleX = 4.0;
 		this.p1ScoreBox.scaleY = 3.0;
-		this.p1Score = this.add.text(20, 10, '0', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous', align: 'center' });
-		Phaser.Display.Align.In.Center(this.p1Score,this.p1ScoreBox);
+		this.p1Score = this.add.text(20, 10, '0', { color: '#E5B770', fontSize: '42px', fontFamily: 'Metamorphous', align: 'center' });
+		Phaser.Display.Align.In.Center(this.p1Score, this.p1ScoreBox);
 
-		this.p2ScoreBox = this.add.image(1195,50,'score_box');
-		this.p2ScoreBox.scaleX = 5.0;
+		this.p2ScoreBox = this.add.image(1195, 50, 'score_box2');
+		this.p2ScoreBox.scaleX = 4.0;
 		this.p2ScoreBox.scaleY = 3.0;
-		this.p2Score = this.add.text(1187, 10, '0', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous' , align: 'center'});
-		Phaser.Display.Align.In.Center(this.p2Score,this.p2ScoreBox);
-
-        // World Configuration
+		this.p2Score = this.add.text(1187, 10, '0', { color: '#E5B770', fontSize: '42px', fontFamily: 'Metamorphous', align: 'center' });
+		Phaser.Display.Align.In.Center(this.p2Score, this.p2ScoreBox);
+        
+		// World Configuration
         this.grid = new Grid(this, 'ink', this.p1Score, this.p2Score);
 
 		// Timer displays
@@ -228,6 +236,44 @@ class OnlineGame extends Phaser.Scene
 	
 			otherScoreBox.setText(scores[1]);
 			Phaser.Display.Align.In.Center(this.p2Score,this.p2ScoreBox);
+		}
+	}
+
+	// #region Map generation ---------------------------
+	setMap(){
+		this.randBg = Math.floor(Math.random() * 3 + 1);
+		switch(this.randBg){
+			case 1:
+				// Scary Catacombs
+				this.bg = this.add.image(640, 360, 'catacomb_map');
+				this.bg.setScale(4);
+				this.bg.depth = -10;
+				this.bg_extras = this.physics.add.image(640, 360, 'catacomb_map_extra');
+				this.bg_extras.setScale(4);
+				this.bg_extras.depth = 1;
+			break;
+			case 2:
+				// Fantasy forest
+				this.bg = this.add.image(640, 360, 'forest_map');
+				this.bg.setScale(4);
+				this.bg.depth = -10;
+				this.bg_extras = this.physics.add.image(640, 360, 'forest_map_extra');
+				this.bg_extras.setScale(4);
+				this.bg_extras.depth = 3;
+				this.bg_extras.alpha = 0.5;
+			break;
+			case 3:
+				// Placeholder for third map -> Victory Stadium
+				this.bg = this.add.image(640, 360, 'forest_map');
+				this.bg.setScale(4);
+				this.bg.depth = -10;
+				this.bg_extras = this.physics.add.image(640, 360, 'forest_map_extra');
+				this.bg_extras.setScale(4);
+				this.bg_extras.depth = 3;
+				this.bg_extras.alpha = 0.5;
+			break;
+			default: console.log("unable to create map!");
+
 		}
 	}
 

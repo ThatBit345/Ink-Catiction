@@ -50,7 +50,10 @@ class Game extends Phaser.Scene {
 		this.load.image('end_back_fill', '../assets/ui/spr_end_back_fill.png');
 
 		this.load.image('ink', '../assets/ink_10x.png');
-		this.load.image('map', '../assets/map_catacombs.png');
+		this.load.image('catacomb_map', '../assets/map_catacombs_base.png');
+		this.load.image('catacomb_map_extra', '../assets/map_catacombs_extras.png');
+		this.load.image('forest_map', '../assets/map_forest_base.png');
+		this.load.image('forest_map_extra', '../assets/map_forest_extras.png');
 
 		// Button sprites
 		this.load.image('button_normal', '../assets/ui/spr_button_normal.png');
@@ -79,8 +82,10 @@ class Game extends Phaser.Scene {
 
 	create(data) {
 
-		this.background = this.add.image(640, 360, 'map');
-		this.background.depth = -10;
+		// Map config
+		this.bg;
+		this.bg_extras;
+		this.setMap();
 
 		this.p1ScoreBox = this.add.image(85, 50, 'score_box');
 		this.p1ScoreBox.scaleX = 4.0;
@@ -96,6 +101,7 @@ class Game extends Phaser.Scene {
 
 		this.timer_back = this.add.image(640, -100, 'timer_back');
 		this.timer_back.scale = 4;
+		this.timer_back.depth = 5;
 
 		this.start_timer_back = this.add.nineslice(640, 360, 'panel', undefined, 64, 48, 4, 4, 4, 4, undefined, undefined)
 		this.start_timer_back.scale = 4;
@@ -114,7 +120,6 @@ class Game extends Phaser.Scene {
 		this.player1 = this.physics.add.existing(new Player(this, 128, 215, this.player1_character, 1, this.keys1, this.velocity1, this.player1_ink));
 		this.player1.setCollideWorldBounds(true);
 
-
 		// Player 2 Configuration
 		this.keys2 = ["UP", "LEFT", "DOWN", "RIGHT", "M"]
 		this.velocity2 = 200;
@@ -132,6 +137,7 @@ class Game extends Phaser.Scene {
 
 		// Pause menu configuration
 		this.pauseButton = new Button(this.onPause, 'II', '64px', this, 1240, 680, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 22, 22);
+		this.pauseButton.depth = 10;
 
 		this.startTimeText = this.add.text(300, 50, ' ', { color: '#452600', fontSize: '96px', fontFamily: 'Metamorphous' });
 		this.startTimeText.depth = 10;
@@ -175,6 +181,44 @@ class Game extends Phaser.Scene {
 		this.bgm.play();
 
 		this.endWhisle = this.sound.add('end_whisle');
+	}
+
+	// #region Map generation ---------------------------
+	setMap(){
+		this.randBg = Math.floor(Math.random() * 3 + 1);
+		switch(this.randBg){
+			case 1:
+				// Scary Catacombs
+				this.bg = this.add.image(640, 360, 'catacomb_map');
+				this.bg.setScale(4);
+				this.bg.depth = -10;
+				this.bg_extras = this.physics.add.image(640, 360, 'catacomb_map_extra');
+				this.bg_extras.setScale(4);
+				this.bg_extras.depth = 1;
+			break;
+			case 2:
+				// Fantasy forest
+				this.bg = this.add.image(640, 360, 'forest_map');
+				this.bg.setScale(4);
+				this.bg.depth = -10;
+				this.bg_extras = this.physics.add.image(640, 360, 'forest_map_extra');
+				this.bg_extras.setScale(4);
+				this.bg_extras.depth = 3;
+				this.bg_extras.alpha = 0.5;
+			break;
+			case 3:
+				// Placeholder for third map -> Victory Stadium
+				this.bg = this.add.image(640, 360, 'forest_map');
+				this.bg.setScale(4);
+				this.bg.depth = -10;
+				this.bg_extras = this.physics.add.image(640, 360, 'forest_map_extra');
+				this.bg_extras.setScale(4);
+				this.bg_extras.depth = 3;
+				this.bg_extras.alpha = 0.5;
+			break;
+			default: console.log("unable to create map!");
+
+		}
 	}
 
 	update(time, delta) {
@@ -465,6 +509,7 @@ class Game extends Phaser.Scene {
 			onComplete: scene.toResults
 		});
 	}
+
 }
 
 export default Game;

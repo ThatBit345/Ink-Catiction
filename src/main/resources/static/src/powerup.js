@@ -12,6 +12,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
 
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
         this.sprite.setScale(3);
+        this.sprite.depth = 2;
 
         this.wielder = undefined; //checks which player picked the PowerUp
         this.type;

@@ -171,7 +171,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.direction = 'left';
             } 
             // Down movement
-            else if (this.controls[2].isDown && this.sprite.y < 680){
+            else if (this.controls[2].isDown && this.sprite.y < 600){
                 this.runMovement(`${this.texture}-move`, 0, velocity);
             }
             // Right Movement
