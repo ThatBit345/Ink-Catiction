@@ -33,7 +33,7 @@ class Pause extends Phaser.Scene {
 		this.pauseMenuBg.scale = 4;
 
 		// Return to game
-		this.resumeButton = new Button(this.onResume, 'Resume', '64px', this, 640, 240, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		this.resumeButton = new Button(this.onResume, 'Resume', '54px', this, 640, 240, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 		this.resumeButton.depth = 5;
 
 		//this.chatButton = new Button(this.onChat, '', '64px', this, 780, 300, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 32, 32);
@@ -43,11 +43,11 @@ class Pause extends Phaser.Scene {
 		//this.chatIcon.depth = 5;
 
 		// Return to main menu
-		this.back_Menu_button = new Button(this.onBackToMenu, 'Menu', '64px', this, 640, 360, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		this.back_Menu_button = new Button(this.onBackToMenu, 'Menu', '54px', this, 640, 360, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 		this.back_Menu_button.depth = 5;
 
 		// Check tutorial
-		this.tutorial_Menu_Nutton= new Button(this.onTutorial, 'Tutorial', '64px', this, 640, 480, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		this.tutorial_Menu_Nutton= new Button(this.onTutorial, 'Tutorial', '54px', this, 640, 480, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
 		this.tutorial_Menu_Nutton.depth = 5;
 	}
 

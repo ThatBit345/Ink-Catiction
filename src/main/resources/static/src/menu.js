@@ -64,6 +64,9 @@ class Menu extends Phaser.Scene
 		this.load.image('keys2', '../assets/ui/keys_player2_alt.png');
 		this.load.spritesheet('movement', '../assets/spritesheets/movement_tutorial.png', { frameWidth: 24, frameHeight: 24 });
 		this.load.spritesheet('attack', '../assets/spritesheets/attack_tutorial.png', { frameWidth: 24, frameHeight: 24 });
+	
+		// Sfx
+		this.load.audio('main_theme', '../assets/audio/pixel_dreams_v1.mp3');
 	}
 
 	create(data)
@@ -85,6 +88,9 @@ class Menu extends Phaser.Scene
 			// Set random splash
 		this.setsplash();
 		this.backgroundSlice = this.add.image(640, 1080-360, 'back');
+		this.mainTheme = this.sound.add('main_theme');
+        this.mainTheme.loop = true;
+        this.mainTheme.play();
 
 		// Main menu -----------------------------------
 		this.title1 = this.add.text(50, 50, 'Ink', {color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous'});
@@ -753,8 +759,10 @@ class Menu extends Phaser.Scene
 			targets: this.scene.splash,
 			duration: 800,
 			x: '+=380',
+			alpha: 0.5,
 			ease: 'Cubic.inOut'
 		});
+		
 	}
 
 	onOnline()
@@ -1132,6 +1140,7 @@ class Menu extends Phaser.Scene
 
 	onStartGame()
 	{
+		this.scene.mainTheme.stop();
 		this.scene.add.tween({
 			targets: this.scene.blackFade,
 			duration: 1000,
@@ -1183,6 +1192,7 @@ class Menu extends Phaser.Scene
 			targets: this.scene.splash,
 			duration: 1000,
 			x: '-=380',
+			alpha: 1,
 			ease: 'Cubic.inOut'
 		});
 	}

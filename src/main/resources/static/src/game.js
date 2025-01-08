@@ -29,7 +29,8 @@ class Game extends Phaser.Scene {
 		this.load.image('cat', '../assets/cat.png');
 		this.load.image('box', '../assets/box.png');
 
-		this.load.image('score_box', '../assets/ui/spr_button_normal.png');
+		this.load.image('score_box', '../assets/ui/spr_tile_count.png');
+		this.load.image('score_box2', '../assets/ui/spr_button_normal.png');
 
 		// Sound
 		this.load.audio('bgm', '../assets/audio/mus_match.mp3');
@@ -40,7 +41,7 @@ class Game extends Phaser.Scene {
 
 		// UI
 		this.load.image('endcard', '../assets/ui/spr_endcard_back.png');
-		this.load.image('timer_back', '../assets/ui/spr_timer_back.png');
+		this.load.image('timer_back', '../assets/ui/spr_timer_back1.png');
 		this.load.image('panel', '../assets/ui/spr_button_normal.png');
 
 		this.load.image('end_transition_left', '../assets/ui/spr_end_back_transition_left.png');
@@ -82,27 +83,16 @@ class Game extends Phaser.Scene {
 		this.background.depth = -10;
 
 		this.p1ScoreBox = this.add.image(85, 50, 'score_box');
-		this.p1ScoreBox.scaleX = 5.0;
+		this.p1ScoreBox.scaleX = 4.0;
 		this.p1ScoreBox.scaleY = 3.0;
-		this.p1Score = this.add.text(20, 10, '0', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous', align: 'center' });
+		this.p1Score = this.add.text(20, 10, '0', { color: '#E5B770', fontSize: '42px', fontFamily: 'Metamorphous', align: 'center' });
 		Phaser.Display.Align.In.Center(this.p1Score, this.p1ScoreBox);
 
-		this.p1lifeBox = this.add.image(85, 130, 'score_box');
-		this.p1lifeBox.scaleX = 5.0;
-		this.p1lifeBox.scaleY = 2.0;
-		this.p1lifeBox.depth = 5;
-
 		this.p2ScoreBox = this.add.image(1195, 50, 'score_box');
-		this.p2ScoreBox.scaleX = 5.0;
+		this.p2ScoreBox.scaleX = 4.0;
 		this.p2ScoreBox.scaleY = 3.0;
-		this.p2Score = this.add.text(1187, 10, '0', { color: '#452600', fontSize: '64px', fontFamily: 'Metamorphous', align: 'center' });
+		this.p2Score = this.add.text(1187, 10, '0', { color: '#E5B770', fontSize: '42px', fontFamily: 'Metamorphous', align: 'center' });
 		Phaser.Display.Align.In.Center(this.p2Score, this.p2ScoreBox);
-
-		this.p2lifeBox = this.add.image(1195, 130, 'score_box');
-		this.p2lifeBox.scaleX = 5.0;
-		this.p2lifeBox.scaleY = 2.0;
-		this.p2lifeBox.depth = 5;
-
 
 		this.timer_back = this.add.image(640, -100, 'timer_back');
 		this.timer_back.scale = 4;
