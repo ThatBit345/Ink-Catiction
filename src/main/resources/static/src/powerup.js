@@ -5,8 +5,8 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.scene = scene;
 
 		let pos = this.getPosition();
-        this.x = x;
-        this.y = y;
+        this.x = pos[0];
+        this.y = pos[1];
 
         this.texture = texture;
 
@@ -41,7 +41,7 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
 		else if (x > 1180) x = 1180;
 
 		if(y < 180) y = 180;
-		else if(y > 680) y = 680;
+		else if(y > 600) y = 600;
 
 		return [x, y];
 	}
