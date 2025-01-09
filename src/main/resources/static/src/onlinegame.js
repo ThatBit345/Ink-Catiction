@@ -158,9 +158,9 @@ class OnlineGame extends Phaser.Scene {
 		this.endcard_text_lower.depth = 10;
 
 		// PowerUps Configuration
-		this.powerup1 = this.physics.add.existing(new Powerup(this, this.powerups[0][0], this.powerups[0][1], 'powerups', this.powerups[0][2]));
-		this.powerup2 = this.physics.add.existing(new Powerup(this, this.powerups[1][0], this.powerups[1][1], 'powerups', this.powerups[1][2]));
-		this.powerup3 = this.physics.add.existing(new Powerup(this, this.powerups[2][0], this.powerups[2][2], 'powerups', this.powerups[2][2]));
+		this.powerup1 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[0][0], this.powerups[0][1], 'powerups', this.powerups[0][2]));
+		this.powerup2 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[1][0], this.powerups[1][1], 'powerups', this.powerups[1][2]));
+		this.powerup3 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[2][0], this.powerups[2][2], 'powerups', this.powerups[2][2]));
 
 		// Audio
 		let vol = this.registry.get('volume');
@@ -490,9 +490,25 @@ class OnlineGame extends Phaser.Scene {
 
 	handlePowerup(posX, posY, num) {
 		if(num == this.playerId) {
-			applyPowerup(this.player, delta, grid);
+			if(this.powerup1.x == posX && this.powerup1.y == posY) {
+				this.powerup1.applyPowerup(this.player, delta, grid);
+			}
+			if(this.powerup2.x == posX && this.powerup2.y == posY) {
+				this.powerup2.applyPowerup(this.player, delta, grid);
+			}
+			if(this.powerup3.x == posX && this.powerup3.y == posY) {
+				this.powerup3.applyPowerup(this.player, delta, grid);
+			}
 		} else {
-			applyPowerup(this.other, delta, grid);
+			if(this.powerup1.x == posX && this.powerup1.y == posY) {
+				this.powerup1.applyPowerup(this.other, delta, grid);
+			}
+			if(this.powerup2.x == posX && this.powerup2.y == posY) {
+				this.powerup2.applyPowerup(this.other, delta, grid);
+			}
+			if(this.powerup3.x == posX && this.powerup3.y == posY) {
+				this.powerup3.applyPowerup(this.player, delta, grid);
+			}
 		}
 	}
 
@@ -551,6 +567,7 @@ class OnlineGame extends Phaser.Scene {
 					scene.handleRespawn(data);
 					break;
 				case 'C':
+					handlePowerup(data) 
 					break;
 			}
 		}

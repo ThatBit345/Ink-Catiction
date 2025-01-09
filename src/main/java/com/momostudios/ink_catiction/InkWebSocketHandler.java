@@ -175,10 +175,6 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 
 		Game game = new Game(player1, player2);
 
-		game.powerups[0] = new Powerup();
-		game.powerups[1] = new Powerup();
-		game.powerups[2] = new Powerup();
-
 		game.player1.x = 128;
 		game.player1.y = 215;
 
