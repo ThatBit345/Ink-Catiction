@@ -370,6 +370,7 @@ class Menu extends Phaser.Scene
 			this.deleteAccountConfirmButton.visible = false;
 			this.deleteAccountDenyButton.visible = false;
 			this.statusIndicator.visible = false;
+			this.onlineButton.disable();
 		} 
 	}
 

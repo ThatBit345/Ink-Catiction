@@ -47,8 +47,8 @@ class Pause extends Phaser.Scene {
 		this.back_Menu_button.depth = 5;
 
 		// Check tutorial
-		this.tutorial_Menu_Nutton= new Button(this.onTutorial, 'Tutorial', '54px', this, 640, 480, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
-		this.tutorial_Menu_Nutton.depth = 5;
+		//this.tutorial_Menu_Nutton= new Button(this.onTutorial, 'Tutorial', '54px', this, 640, 480, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 32);
+		//this.tutorial_Menu_Nutton.depth = 5;
 	}
 
 	onResume() {
