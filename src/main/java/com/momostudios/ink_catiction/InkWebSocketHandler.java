@@ -38,6 +38,7 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 		String character;
 
 		int powerupDuration;
+		boolean power;
 		boolean hasPowerup;
 
 		int life;
@@ -53,6 +54,10 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 			this.life = 4;
 			this.respawnTimer = 0;
 			this.inRespawn = false;
+
+			this.powerupDuration = 0;
+			this.hasPowerup = false;
+			this.power = false;
 		}
 	}
 
@@ -274,6 +279,7 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 
 			if (game.player1.powerupDuration <= 0) {
 				game.player1.hasPowerup = false;
+				game.player1.power = false;
 				SendToClient(game.player1.session, "O", 1);
 				SendToClient(game.player2.session, "O", 1);
 			}
@@ -284,6 +290,7 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 
 			if (game.player2.powerupDuration <= 0) {
 				game.player2.hasPowerup = false;
+				game.player2.power = false;
 				SendToClient(game.player1.session, "O", 2);
 				SendToClient(game.player2.session, "O", 2);
 			}
@@ -413,7 +420,8 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 							if (otherPlayer.life <= 0) {
 								SendToClient(currPlayer.session, "D", otherPlayer.num);
 								SendToClient(otherPlayer.session, "D", otherPlayer.num);
-								otherPlayer.respawnTimer = 12; // 12 seconds
+								int respawnTime = currPlayer.power ? 18 : 12; // 18 or 12 seconds
+								otherPlayer.respawnTimer = respawnTime;
 								otherPlayer.inRespawn = true;
 							}
 						}
@@ -432,6 +440,9 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 
 									currPlayer.hasPowerup = true;
 									currPlayer.powerupDuration = 5; // 5 seconds
+
+
+									if(game.powerups[i].type == PowerupType.POWER) currPlayer.power = true;
 
 									// Bomb special case
 									if(game.powerups[i].type == PowerupType.BOMB)
