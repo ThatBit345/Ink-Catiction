@@ -307,6 +307,38 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 
 	}
 
+	private void PowerupCollection(Game game) {
+		if (ManhattanDistance(game.player1, game.powerups[0]) < 80) {
+			SendToClient(game.player1.session, "C", Arrays.asList(game.powerups[0].x, game.powerups[0].y, game.player1.num));
+			SendToClient(game.player2.session, "C", Arrays.asList(game.powerups[0].x, game.powerups[0].y, game.player1.num));
+		}
+
+		if (ManhattanDistance(game.player1, game.powerups[1]) < 80) {
+			SendToClient(game.player1.session, "C", Arrays.asList(game.powerups[1].x, game.powerups[1].y, game.player1.num));
+			SendToClient(game.player2.session, "C", Arrays.asList(game.powerups[1].x, game.powerups[1].y, game.player1.num));
+		}
+		
+		if (ManhattanDistance(game.player1, game.powerups[2]) < 80) {
+			SendToClient(game.player1.session, "C", Arrays.asList(game.powerups[2].x, game.powerups[2].y, game.player1.num));
+			SendToClient(game.player2.session, "C", Arrays.asList(game.powerups[2].x, game.powerups[2].y, game.player1.num));
+		}
+
+		if (ManhattanDistance(game.player2, game.powerups[0]) < 80) {
+			SendToClient(game.player1.session, "C", Arrays.asList(game.powerups[0].x, game.powerups[0].y, game.player2.num));
+			SendToClient(game.player2.session, "C", Arrays.asList(game.powerups[0].x, game.powerups[0].y, game.player2.num));
+		}
+
+		if (ManhattanDistance(game.player2, game.powerups[1]) < 80) {
+			SendToClient(game.player1.session, "C", Arrays.asList(game.powerups[1].x, game.powerups[1].y, game.player2.num));
+			SendToClient(game.player2.session, "C", Arrays.asList(game.powerups[1].x, game.powerups[1].y, game.player2.num));
+		}
+		
+		if (ManhattanDistance(game.player2, game.powerups[2]) < 80) {
+			SendToClient(game.player1.session, "C", Arrays.asList(game.powerups[2].x, game.powerups[2].y, game.player2.num));
+			SendToClient(game.player2.session, "C", Arrays.asList(game.powerups[2].x, game.powerups[2].y, game.player2.num));
+		}
+	}
+
 	private void UpdateGrid(Game game, double x, double y, int playerNum) {
 		int[][] grid = game.map;
 
@@ -366,6 +398,9 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 								otherPlayer.inRespawn = true;
 							}
 						}
+						break;
+					case 'C':
+						PowerupCollection(game);
 						break;
 				}
 

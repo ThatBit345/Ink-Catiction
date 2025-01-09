@@ -215,6 +215,7 @@ class OnlineGame extends Phaser.Scene {
 			this.player.checkNetworkCollission(this.other, delta);
 
 			this.sendMessage('P', [this.player.sprite.x, this.player.sprite.y]);
+			this.sendMessage('C', null);
 
 			let scores = this.grid.countColors();
 			let playerScoreBox = this.playerId == 1 ? this.p1Score : this.p2Score;
@@ -441,38 +442,29 @@ class OnlineGame extends Phaser.Scene {
 	}
 
 	powerupSpawn(data) {
-		if(this.powerup1 == null ) {this.powerup1 = data[0];}
-		if(this.powerup2 == null ) {this.powerup2 = data[1];}
-		if(this.powerup3 == null ) {this.powerup3 = data[2];}
+		if (this.powerup1 == null) { this.powerup1 = data[0]; }
+		if (this.powerup2 == null) { this.powerup2 = data[1]; }
+		if (this.powerup3 == null) { this.powerup3 = data[2]; }
 	}
 
-	powerupCollection(num) {
-		if (num == this.playerId) {
-			if (manhattanDistance(this.powerup1.x, this.powerup1.y, this.player.x, this.player.y) < 80) {
-				this.powerup1 = null;
-				this.sendMessage('C', num);
-			}
-			if (manhattanDistance(this.powerup2.x, this.powerup2.y, this.player.x, this.player.y) < 80) {
-				this.powerup2 = null;
-				this.sendMessage('C', num);
-			}
-			if (manhattanDistance(this.powerup3.x, this.powerup3.y, this.player.x, this.player.y) < 80) {
-				this.powerup3 = null;
-				this.sendMessage('C', num);
-			}
-		} else {
-			if (manhattanDistance(this.powerup1.x, this.powerup1.y, this.other.x, this.other.y) < 80) {
-				this.powerup1 = null;
-				this.sendMessage('C', num);
-			}
-			if (manhattanDistance(this.powerup2.x, this.powerup2.y, this.other.x, this.other.y) < 80) {
-				this.powerup2 = null;
-				this.sendMessage('C', num);
-			}
-			if (manhattanDistance(this.powerup3.x, this.powerup3.y, this.other.x, this.other.y) < 80) {
-				this.powerup3 = null;
-				this.sendMessage('C', num);
-			}
+	powerupCollection() {
+		if (manhattanDistance(this.powerup1.x, this.powerup1.y, this.player.x, this.player.y) < 80) {
+			this.sendMessage('C', null);
+		}
+		if (manhattanDistance(this.powerup2.x, this.powerup2.y, this.player.x, this.player.y) < 80) {
+			this.sendMessage('C', null);
+		}
+		if (manhattanDistance(this.powerup3.x, this.powerup3.y, this.player.x, this.player.y) < 80) {
+			this.sendMessage('C', null);
+		}
+		if (manhattanDistance(this.powerup1.x, this.powerup1.y, this.other.x, this.other.y) < 80) {
+			this.sendMessage('C', null);
+		}
+		if (manhattanDistance(this.powerup2.x, this.powerup2.y, this.other.x, this.other.y) < 80) {
+			this.sendMessage('C', null);
+		}
+		if (manhattanDistance(this.powerup3.x, this.powerup3.y, this.other.x, this.other.y) < 80) {
+			this.sendMessage('C', null);
 		}
 	}
 
@@ -493,6 +485,14 @@ class OnlineGame extends Phaser.Scene {
 		else {
 			console.log("Other player death");
 			this.other.deathSequence();
+		}
+	}
+
+	handlePowerup(posX, posY, num) {
+		if(num == this.playerId) {
+			applyPowerup(this.player, delta, grid);
+		} else {
+			applyPowerup(this.other, delta, grid);
 		}
 	}
 
@@ -549,6 +549,8 @@ class OnlineGame extends Phaser.Scene {
 
 				case 'R':
 					scene.handleRespawn(data);
+					break;
+				case 'C':
 					break;
 			}
 		}

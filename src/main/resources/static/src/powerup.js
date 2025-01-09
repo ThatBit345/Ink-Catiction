@@ -8,6 +8,11 @@ class Powerup extends Phaser.Physics.Arcade.Sprite {
         this.x = pos[0];
         this.y = pos[1];
 
+		this.bombX = this.x;
+		this.bombY = this.y;
+
+		this.bomb = [this.x,this.y];
+
         this.texture = texture;
 
         this.sprite = this.scene.physics.add.sprite(this.x, this.y, this.texture);
