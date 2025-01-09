@@ -91,13 +91,18 @@ La implementación de las clases que han permitido un correcto funcionamiento de
 ![diagrama_clases](https://github.com/user-attachments/assets/2d1b53d4-1091-43fc-a047-eae444571c23)
 
 ## Mapas
-El espacio consta de una dimensión en 2D con una estructura tipo mapa de baldosas. Este espacio estará limitado al espacio de la pantalla, y el POV que tendrán los jugadores del mapa será de una cámara 2D en perspectiva cenital, con las sprites representadas en picado para una mejor legibilidad de los personajes.
+El espacio consta de una dimensión en 2D con una estructura tipo mapa de baldosas. Este espacio estará limitado al espacio de la pantalla, y el POV que tendrán los jugadores del mapa será de una cámara 2D en perspectiva cenital, con las sprites representadas en picado para una mejor legibilidad de los personajes. 
 
-El juego contará con varios mapas jugables y diferenciados entre sí, los cuales serán elegidos al azar al comienzo de la partida. Se ha implementado el siguiente mapa:
+El juego contará con varios mapas jugables y diferenciados entre sí, los cuales serán elegidos al azar al comienzo de la partida. Se ha actualizado el mapa **Catacumbas de las ánimas** y se ha añadido el nuevo mapa **Bosque fantasía:*:
 - **Catacumbas de las ánimas:** a esta prisión se destinaban todos aquellos individuos que interrumpían la paz del reino de forma indiscriminada, condenándolos a un encierro en la profunda oscuridad por el resto de sus vidas. Sin embargo, una fuerza misteriosa echó abajo la estructura, convirtiéndola en unas catacumbas que ahora se usan como arena de combate callejera.
 
-Se espera implementar los siguientes mapas:
+![Mapa_catacumbas](https://github.com/user-attachments/assets/b2e69271-10a0-4f7e-a2d1-64bbb5714ecf)
+
 - **Bosque fantasía:** Colorido bosque en el que habitan criaturas fantásticas y la magia abunda allá por donde se pisa. En este lugar se refugian aquellos felinos que buscan una vida animada pero alejada del ruido de la ciudad.
+
+![Mapa_bosque_fantasia](https://github.com/user-attachments/assets/66549cce-3f4a-4c93-8b49-ad1bd83158f0)
+
+Se espera implementar el siguiente mapa:
 - **Estadio victorioso:** este estadio se ubica en el mismo centro de la ajetreada ciudad, y la cantidad de grandes eventos que se celebran en él hace de este lugar un espacio memorable en el que sólo los mejores combatientes pueden dar a conocer su espectáculo en el campo de batalla.
 
 Tanto la estructura como los bocetos de diseño se implementará en las siguientes fases del desarrollo.
@@ -105,6 +110,7 @@ Tanto la estructura como los bocetos de diseño se implementará en las siguient
 Todos los personajes de Ink Catiction son gatos, como indica el nombre. Se harán distintos tipos de gato para cada color. Esta decisión se ha llevado a cabo para que a los jugadores les resulte más fácil diferenciar a sus personajes en la pantalla. A continuación se muestran las descripciones que han permitido realizar un *concept art* de los personajes, que se convertirán en *sprites*.
 
 <img width="1599" alt="cats" src="https://github.com/user-attachments/assets/970d54f0-e923-4f6b-9107-1f2b1460dc5a">
+![all_cats](https://github.com/user-attachments/assets/99528b18-519b-4080-986a-6b59ae74b6ee)
 
 ### Personajes implementados
 - **Gato amarillo:** “*Frankcatstein* es un gato grisáceo de origen desconocido. Las partes de su cuerpo están unidas de una forma extremadamente macabra, como si de un muñeco hecho de piezas de otros juguetes se tratase. Este felino tiene una incontrolable sed de caos que se sacia únicamente cuando saborea la derrota de sus enemigos. Su accesorio especial es un cono de prevención que su creador utilizó para evitar que se arrancase partes de su propio cuerpo. El rastro de tinta amarilla que va dejando a su paso no es más que el combustible filtrado que su cuerpo utiliza para funcionar correctamente.”
