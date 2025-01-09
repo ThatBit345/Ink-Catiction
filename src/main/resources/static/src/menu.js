@@ -441,13 +441,6 @@ class Menu extends Phaser.Scene
 		}
 	}
 
-	runMovement(animation, x, y){
-        this.checkDirection();
-        this.sprite.setVelocityX(x);
-        this.sprite.setVelocityY(y);
-        this.sprite.anims.play(animation, true);  
-    }
-
 	setsplash(){
 		this.randSplash = Math.floor(Math.random() * 3 + 1);
 		this.splash = this.add.image(1000, 360, `splash${this.randSplash}`);
@@ -469,6 +462,9 @@ class Menu extends Phaser.Scene
 	// #region Main Menu Functions ---------------------
 	onPlay()
 	{
+		this.scene.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
+
 		this.scene.add.tween({
 			targets: this.scene.elements,
 			duration: 1000,
@@ -480,12 +476,18 @@ class Menu extends Phaser.Scene
 			targets: this.scene.splash,
 			duration: 1000,
 			x: '-=740',
-			ease: 'Cubic.inOut'
+			ease: 'Cubic.inOut',
+			onComplete: () => {
+				this.scene.blackFade.visible = false;
+				this.scene.blackFade.alpha = 0;}
 		});
 	}
 
 	onChat()
 	{
+		this.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
+
 		this.scene.add.tween({
 			targets: this.scene.elements,
 			duration: 1000,
@@ -505,6 +507,9 @@ class Menu extends Phaser.Scene
 	{
 		//this.scene.scene.start("Tutorial");
 
+		this.scene.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
+
 		this.scene.tweens.chain({
 			targets: null,
 			tweens: [
@@ -518,7 +523,10 @@ class Menu extends Phaser.Scene
 					targets: this.scene.tutorialBackButton,
 					duration: 400,
 					x: '+= 400',
-					ease: 'Cubic.out'
+					ease: 'Cubic.out',
+					onComplete: () => {
+						this.scene.blackFade.visible = false;
+						this.scene.blackFade.alpha = 0;}
 				},
 			],
 			delay: 0
@@ -527,6 +535,9 @@ class Menu extends Phaser.Scene
 
 	onTutorialBack()
 	{
+		this.scene.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
+
 		this.scene.add.tween({
 			targets: this.scene.elements,
 			duration: 1000,
@@ -538,7 +549,10 @@ class Menu extends Phaser.Scene
 			targets: this.scene.tutorialBackButton,
 			duration: 400,
 			x: '-= 400',
-			ease: 'Cubic.out'
+			ease: 'Cubic.out',
+			onComplete: () => {
+				this.scene.blackFade.visible = false;
+				this.scene.blackFade.alpha = 0;}
 		});
 
 
@@ -546,6 +560,9 @@ class Menu extends Phaser.Scene
 
 	onSettings()
 	{
+		this.scene.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
+
 		this.scene.add.tween({
 			targets: this.scene.elements,
 			duration: 1000,
@@ -557,12 +574,18 @@ class Menu extends Phaser.Scene
 			targets: this.scene.splash,
 			duration: 1000,
 			x: '-=380',
-			ease: 'Cubic.inOut'
+			ease: 'Cubic.inOut',
+			onComplete: () => {
+				this.scene.blackFade.visible = false;
+				this.scene.blackFade.alpha = 0;}
 		});
 	}
 
 	onCredits()
 	{
+		this.scene.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
+
 		this.scene.tweens.chain({
 			targets: null,
 			tweens: [
@@ -586,7 +609,10 @@ class Menu extends Phaser.Scene
 			targets: this.scene.splash,
 			duration: 1000,
 			x: '-=740',
-			ease: 'Cubic.inOut'
+			ease: 'Cubic.inOut',
+			onComplete: () => {
+				this.scene.blackFade.visible = false;
+				this.scene.blackFade.alpha = 0;}
 		});
 	}
 	// #endregion
@@ -594,6 +620,9 @@ class Menu extends Phaser.Scene
 	// #region Settings Functions ----------------------
 	onSettingsBack()
 	{
+		this.scene.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
+
 		// If we have connection, update the volume on the server's storage
 		if(this.scene.registry.get('connected'))
 		{
@@ -621,7 +650,10 @@ class Menu extends Phaser.Scene
 			targets: this.scene.splash,
 			duration: 1000,
 			x: '+=380',
-			ease: 'Cubic.inOut'
+			ease: 'Cubic.inOut',
+			onComplete: () => {
+				this.scene.blackFade.visible = false;
+				this.scene.blackFade.alpha = 0;}
 		});
 	}
 
@@ -730,6 +762,9 @@ class Menu extends Phaser.Scene
 	// #region Comms Selection Functions ---------------
 	onLocal()
 	{
+		this.scene.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
+
 		this.scene.tweens.chain({
 			targets: null,
 			tweens: [
@@ -760,7 +795,10 @@ class Menu extends Phaser.Scene
 			duration: 800,
 			x: '+=380',
 			alpha: 0.5,
-			ease: 'Cubic.inOut'
+			ease: 'Cubic.inOut',
+			onComplete: () => {
+				this.scene.blackFade.visible = false;
+				this.scene.blackFade.alpha = 0;}
 		});
 		
 	}
@@ -786,6 +824,8 @@ class Menu extends Phaser.Scene
 
 	onCommsBack()
 	{
+		this.scene.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
 
 		this.scene.add.tween({
 			targets: this.scene.elements,
@@ -798,7 +838,10 @@ class Menu extends Phaser.Scene
 			targets: this.scene.splash,
 			duration: 1000,
 			x: '+=740',
-			ease: 'Cubic.inOut'
+			ease: 'Cubic.inOut',
+			onComplete: () => {
+				this.scene.blackFade.visible = false;
+				this.scene.blackFade.alpha = 0;}
 		});
 	}
 	// #endregion
@@ -1161,6 +1204,9 @@ class Menu extends Phaser.Scene
 
 	onCharacterBack()
 	{
+		this.scene.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
+
 		this.scene.add.tween({
 			targets: this.scene.charBackButton,
 			duration: 400,
@@ -1195,7 +1241,10 @@ class Menu extends Phaser.Scene
 			duration: 1000,
 			x: '-=380',
 			alpha: 1,
-			ease: 'Cubic.inOut'
+			ease: 'Cubic.inOut',
+			onComplete: () => {
+				this.scene.blackFade.visible = false;
+				this.scene.blackFade.alpha = 0;}
 		});
 	}
 
@@ -1238,6 +1287,9 @@ class Menu extends Phaser.Scene
 	// #region Credits Functions -----------------------
 	onCreditsBack()
 	{
+		this.scene.blackFade.visible = true;
+		this.scene.blackFade.alpha = 0.01;
+
 		this.scene.add.tween({
 			targets: this.scene.creditsBackButton,
 			duration: 400,
@@ -1256,7 +1308,10 @@ class Menu extends Phaser.Scene
 			targets: this.scene.splash,
 			duration: 1000,
 			x: '+=740',
-			ease: 'Cubic.inOut'
+			ease: 'Cubic.inOut',
+			onComplete: () => {
+				this.scene.blackFade.visible = false;
+				this.scene.blackFade.alpha = 0;}
 		});
 	}
 	// #endregion
