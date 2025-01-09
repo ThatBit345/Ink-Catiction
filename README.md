@@ -31,12 +31,18 @@ El documento de diseño es un elemento vivo que evoluciona junto con el juego. E
  	- Actualización del diagrama de estados y adición del diagrama de clases
   	- Actualización de imágenes
   	- Instrucciones de uso del servidor
+  - V4.0 10/01/2025
+	- Añadido un apartado de implementación mediante WebSockets
+	- Actualización del diagrama de clases con WebSockets
+	- Revisión y corrección final
 
 ## Introducción
+
 ### Motivación
 El surgimiento de los juegos en línea ha supuesto un antes y un después en la historia de los videojuegos, marcando así tendencias y hábitos de los jugadores. Este fenómeno ha cobrado una especial importancia, siendo que según un estudio realizado a principios de 2024 por Statista, calcula que el 93% de los jugadores juegan en línea, por lo que merece la pena detenerse a reflexionar y aprender acerca del formato de juego más común de la industria. El objetivo de esta práctica será, por lo tanto, desplegar un proceso de diseño y desarrollo que permita crear un videojuego en red que pueda conectar a dos usuarios desde distintos dispositivos.
 
 A lo largo de las cuatro fases de la práctica de Juegos en Red el equipo de desarrollo *MoMo Studios* se encargará de traer a la vida *Ink Catiction*, un videojuego de acción inspirado en *Splatoon*. A continuación se muestra el documento de diseño de dicho videojuego, donde se desarrollan todos los contenidos que se pretenden plasmar en la entrega final.
+
 ### Concepto
 *Ink Catiction* es un videojuego en el que los jugadores tendrán la oportunidad de ponerse en la piel de distintos felinos combatientes, cuyo objetivo es competir contra otros gatos y dominar el campo de batalla usando el poder de la tinta como arma, para así convertirse en los campeones del reino.
 
@@ -62,6 +68,42 @@ Ink Catiction tiene una licencia Apache 2.0, por lo que se permite modificar, re
 El juego no tendrá un contenido narrativo amplio, ya que no forma parte del género del videojuego. Sin embargo, para situar al jugador en un mundo lúdico narrativo sí que se implementará una pequeña historia para crear el contexto del videojuego.
 
 La narración de *Ink Catiction* está centrada en los conflictos que surgen entre distintos felinos territoriales, que combatirán en un torneo por reclamar la propiedad de un reino. Estos gatos pelearán en espacios preparados para el combate, donde deberán ir dejando trazos de tinta para marcar el terreno de su propiedad. Los protagonistas deberán combatir entre sí para, no solo pintar la mayor zona del patio posible, sino para evitar que el adversario les arrebate su puesto por conseguir la corona.
+
+## Diagrama de clases de la aplicación
+La implementación de las clases que han permitido un correcto funcionamiento del servidor se han reflejado en un diagrama cuya distinción de clases viene dada por una leyenda de colores. Adicionalmente se ha modificado para incluir la parte de WebSockets: 
+
+![UML_ink](https://github.com/user-attachments/assets/e06d3746-5058-46ae-94ea-474a272eb9c4)
+
+## WebSockets
+Se ha generado una versión del juego _online_ mediante el protocolo de comunicación bidireccional WebSockets. En la siguiente lista se detallan las siguientes funcionalidades implementadas para el protocolo:
+
+### Comunicación del lobby
+**- Inicialización del lobby (ID:I):** mensaje enviado por el servidor a los clientes cuando un lobby es creado.
+**- Jugador listo (ID:Y): **mensaje enviado por el cliente al servidor cuando el mismo selecciona un personaje, para luego ser enviado al otro cliente. En este mensaje se envían tanto el personaje seleccionado como el id del jugador.
+**- Cierre de lobby (ID:L):** se envía por el servidor cuando el lobby de cierra debido a cualquier motivo.
+
+### Comunicación del juego
+**- Inicialización (ID:G):** mensaje enviado por el servidor para iniciar el estado del jugador, cuando los clientes envían un _packet_ para asegurar que la inicialización está hecha. Se envían los siguientes elementos:
+	- **Id:** identificación del jugador que será reutilizada posteriormente en otras partes del protocolo.
+ 	- El personaje seleccionado por el jugador.
+  	- Posición inicial del jugador.
+   	- De la misma manera se envían el personaje seleccionado por el jugador contrario y su posición inicial.
+    	- Información inicial de los Power Ups.
+     
+#### Comunicación de datos relativos al jugador
+**- Posición (ID:P):** se envía desde el cliente hasta el servidor para actualizar la posición del personaje en coordenadas 2D (x, y), mientras que el servidor se encarga de enviarlo al otro cliente junto con el id del jugador.
+**- Ataque (ID:A):** enviado por el cliente al servidor cuando en jugador se encuentra atacando, el servidor lo envía al cliente contrario para actualizar las animaciones. Adicionalmente, el servidor también se encarga de comprobar el daño ingligido al jugador contrincante.
+**- Muerte (ID:D):** es enviado por el servidor a ambos clientes cuando alguno de los jugadores muere. Transfiere el id del jugador cuyo número de vidas llegó a cero.
+**- Reaparición (ID:R):** caso similar al anterior, este mensaje de envía cuando un jugador reaparece (tras morir). También transfiere el id del jugador que reapareció.
+
+#### Comunicación de datos relativos a los PowerUps
+**- Aparición de PowerUps (ID:S):** se envía por el servidor cada vez que un Power Up aparece en el mapa. Se envían sus coordenadas de aparición en 2D (x, y) y su tipo (en función de si es de velocidad, fuerza o bomba de pintua).
+- Recolección de PowerUps (ID:C): se envía por el cliente cada vez que el jugador recoge un PowerUp. El servidor se encarga de comprobar si es correcto y el tipo de PowerUp recogido, para después actualizar ambos clientes. El cliente envía el id del jugador que recogió el PowerUp mientras que el servidor se encarga de enviar el id y adicionalmente la posición en 2D (x, y) del PowerUp para eliminarlo en el lado del cliente.
+**- Consumo de PowerUp (ID: O):** mensaje enviado por el servidor una vez que se supera la duración de los efectos de un PowerUp recogido por un jugador (se llama únicamente para los PowerUps de velocidad y fuerza). El servidor envía el id del jugador que agotó el PowerUp.
+
+-** Tiempo (ID:T):** el servidor envía la cantidad de tiempo restante de una partica cada vez que el tiempo avanza.
+**- Finalización de partida (ID:F):** el servidor envía los resultados de ambos jugadores (número de celdas que pintaron y número de veces que eliminaron al contrincante) junto con los personajes seleccionados por cada uno cuando el tiempo de partida se acaba.
+
 ## Jugabilidad
 ### Mecánicas
 En esta sección se explica detalladamente los controles que se emplean en el juego así como otros aspectos de la jugabilidad como pueden ser los potenciadores o las condiciones de victoria y derrota. Como puntualización adicional, el juego no contará con niveles progresivamente más complicados ni una curva de dificultad definida, puesto que por el tipo de juego que es, estos aspectos vienen determinados por el nivel de habilidad del jugador y de su oponente y no del videojuego.
@@ -83,13 +125,7 @@ En el mapa se distribuirán una serie de *Power Ups* que aparecerán aleatoria y
 - **Aumento de velocidad:** el personaje recibe un bonificador que aumenta su velocidad durante 5 segundos, pudiendo abarcar más zonas del tablero.
 - **Ataques ilimitados:** el jugador recibirá por 5 segundos un número ilimitado de ataques que no afectará a la barra de resistencia.
 - **Bomba de pintura:** se produce una explosión que cubre de tinta todo lo que hay alrededor del jugador en un radio determinado, pintando de una sola vez una mayor zona del mapa.
-<img width="1599" alt="cats" src="https://github.com/user-attachments/assets/47f7369c-6c55-426c-ab74-e9ce256d546b">
-
-## Diagrama de clases de la aplicación
-La implementación de las clases que han permitido un correcto funcionamiento del servidor se han reflejado en un diagrama cuya distinción de clases viene dada por una leyenda de colores: 
-
-![UML_ink](https://github.com/user-attachments/assets/e06d3746-5058-46ae-94ea-474a272eb9c4)
-
+<img width="1599" alt="power ups" src="https://github.com/user-attachments/assets/47f7369c-6c55-426c-ab74-e9ce256d546b">
 
 ## Mapas
 El espacio consta de una dimensión en 2D con una estructura tipo mapa de baldosas. Este espacio estará limitado al espacio de la pantalla, y el POV que tendrán los jugadores del mapa será de una cámara 2D en perspectiva cenital, con las sprites representadas en picado para una mejor legibilidad de los personajes. 
@@ -110,23 +146,19 @@ Tanto la estructura como los bocetos de diseño se implementará en las siguient
 ## Personajes
 Todos los personajes de Ink Catiction son gatos, como indica el nombre. Se harán distintos tipos de gato para cada color. Esta decisión se ha llevado a cabo para que a los jugadores les resulte más fácil diferenciar a sus personajes en la pantalla. A continuación se muestran las descripciones que han permitido realizar un *concept art* de los personajes, que se convertirán en *sprites*.
 
-<img width="1599" alt="cats" src="https://github.com/user-attachments/assets/970d54f0-e923-4f6b-9107-1f2b1460dc5a">
-![all_cats](https://github.com/user-attachments/assets/99528b18-519b-4080-986a-6b59ae74b6ee)
 
-### Personajes implementados
-- **Gato amarillo:** “*Frankcatstein* es un gato grisáceo de origen desconocido. Las partes de su cuerpo están unidas de una forma extremadamente macabra, como si de un muñeco hecho de piezas de otros juguetes se tratase. Este felino tiene una incontrolable sed de caos que se sacia únicamente cuando saborea la derrota de sus enemigos. Su accesorio especial es un cono de prevención que su creador utilizó para evitar que se arrancase partes de su propio cuerpo. El rastro de tinta amarilla que va dejando a su paso no es más que el combustible filtrado que su cuerpo utiliza para funcionar correctamente.”
-
-- **Gato magenta:** “*Ágata* es una gata calicó pastelera a la que le encantan las fresas. Tiene un carácter cariñoso y amistoso que invita a iniciar una amistad, sin embargo, le lanzará una tarta de fresas recién sacada del horno a todos aquellos que le intenten hacer daño a ella o a cualquiera de sus amigos. Tiene un sombrero con forma de fresa. La tinta que utiliza está hecha de una crema pastelera especial que se queda pegada allá por donde cae.”
-
+![all_cats](https://github.com/user-attachments/assets/56dc3c88-671a-42e5-b699-8494d493e9cc)
 A continuación se muestra el arte de los personajes en orden de descripción respectivamente.
 
-![character_splash](https://github.com/user-attachments/assets/9c43e060-a53d-4d72-91d7-a479a69b484d)
-
-### Personajes por implementar 
-- **Gato morado:** “*Yenna* es una gata esfinge muy solitaria que ha dominado el arte de la brujería. Tiende a maldecir con sus hechizos chamánicos a todos aquellos que la molestan, ya que es fácilmente irritable. Su accesorio especial es una calavera  de cuervo teñida de morado que lleva como casco. La tinta morada que emplea en combate es el resultado de los torrentes de magia negra que salen despedidos de sus manos cuando conjura un hechizo.”
+- **Gato magenta:** “*Ágata* es una gata calicó pastelera a la que le encantan las fresas. Tiene un carácter cariñoso y amistoso que invita a iniciar una amistad, sin embargo, le lanzará una tarta de fresas recién sacada del horno a todos aquellos que le intenten hacer daño a ella o a cualquiera de sus amigos. Tiene un sombrero con forma de fresa. La tinta que utiliza está hecha de una crema pastelera especial que se queda pegada allá por donde cae.” 
+- **Gato amarillo:** “*Frankcatstein* es un gato grisáceo de origen desconocido. Las partes de su cuerpo están unidas de una forma extremadamente macabra, como si de un muñeco hecho de piezas de otros juguetes se tratase. Este felino tiene una incontrolable sed de caos que se sacia únicamente cuando saborea la derrota de sus enemigos. Su accesorio especial es un cono de prevención que su creador utilizó para evitar que se arrancase partes de su propio cuerpo. El rastro de tinta amarilla que va dejando a su paso no es más que el combustible filtrado que su cuerpo utiliza para funcionar correctamente.”
+- **Gato cian:** “*Gwynn* es un gato tuxedo y el fan número uno de la limpieza de baños. Tiene un carácter robusto y estricto. Se dedica a limpiar todos los restos de tinta que otros combatientes dejan por ahí, lo que le ha ganado bastantes enemigos. Utiliza una mezcla de limpiadores muy potentes y corrosivos a la piel como tinta, lo que puede provocar intoxicación a sus enemigos. Su accesorio especia es un gorro de limpieza y dos pared de guantes de color cian.”
 - **Gato azul:** “*Stregobor* es un gato siamés anciano y uno de los hechiceros más reconocidos del reino. Tiene un carácter tranquilo y tiende a sopesar mucho las posibles soluciones para resolver sus problemas, por lo que no suele recurrir al conflicto a no ser que sea estrictamente necesario. Su accesorio identificativo es un sombrero puntiagudo azul de mago y una capa del mismo color. La tinta azul que utiliza proviene de las pociones mágicas cuya receta se ha esmerado en perfeccionar desde su juventud.”
 - **Gato naranja:** “*Sardinilla* es un gato naranja y, como los demás gatos de este tipo, es muy activo y tiene momentos de locura espontáneos. Su perfil hiperactivo encaja muy bien con la ajetreada vida de la ciudad, por lo que se retiró a la *miautrópolis* a trabajar como agente de obras. Su accesorio más llamativo es un cono de tráfico naranja reflectante que lleva puesto en la cabeza, junto con un chaleco del mismo color. Su tinta naranja son los cientos de litros de pintura que encargó por error para pintar su casa, y que ahora tiene que gastar en algo mejor.”
-- **Gato cian:** “*Gwynn* es un gato tuxedo y el fan número uno de la limpieza de baños. Tiene un carácter robusto y estricto. Se dedica a limpiar todos los restos de tinta que otros combatientes dejan por ahí, lo que le ha ganado bastantes enemigos. Utiliza una mezcla de limpiadores muy potentes y corrosivos a la piel como tinta, lo que puede provocar intoxicación a sus enemigos. Su accesorio especia es un gorro de limpieza y dos pared de guantes de color cian.”
+- **Gato morado:** “*Yenna* es una gata esfinge muy solitaria que ha dominado el arte de la brujería. Tiende a maldecir con sus hechizos chamánicos a todos aquellos que la molestan, ya que es fácilmente irritable. Su accesorio especial es una calavera  de cuervo teñida de morado que lleva como casco. La tinta morada que emplea en combate es el resultado de los torrentes de magia negra que salen despedidos de sus manos cuando conjura un hechizo.”
+
+<img width="1599" alt="cats" src="https://github.com/user-attachments/assets/970d54f0-e923-4f6b-9107-1f2b1460dc5a">
+_Bocetos de los personajes jugables_
 
 ## Estilo visual
 *Ink Catiction* contará con un estilo de arte tipo *Pixel Art*, con una resolución aproximada de 32px. Será de una estética simple debido al reducido tiempo disponible para el desarrollo del videojuego pero con posibilidad de un mayor desarrollo en el apartado de diseño en un futuro. A continuación se muestran ejemplos de algunos ciclos de animación creados para los personajes, como el idle de Ágata o el ciclo de carrera de Frankcatstein:
