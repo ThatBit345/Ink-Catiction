@@ -40,6 +40,9 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 		String character;
 		PowerupType powerup;
 		int powerupDuration;
+		int life;
+		int respawnTimer;
+		boolean inRespawn;
 		boolean initialized;
 
 		Player(WebSocketSession session, int num, String character)
@@ -47,6 +50,9 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 			this.session = session;
 			this.num = num;
 			this.character = character;
+			this.life = 4;
+			this.respawnTimer = 0;
+			this.inRespawn = false;
 		}
 	}
 
@@ -255,9 +261,36 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 		SendToClient(game.player1.session, "T", game.time);
 		SendToClient(game.player2.session, "T", game.time);
 
+		// Check respawn timers
+		if(game.player1.inRespawn)
+		{
+			game.player1.respawnTimer--;
+			
+			if(game.player1.respawnTimer <= 0)
+			{
+				game.player1.life = 4;
+				game.player1.inRespawn = false;
+				SendToClient(game.player1.session, "R", 1);
+				SendToClient(game.player2.session, "R", 1);
+			}
+		}
+
+		if(game.player2.inRespawn)
+		{
+			game.player2.respawnTimer--;
+			
+			if(game.player2.respawnTimer <= 0)
+			{
+				game.player2.life = 4;
+				game.player2.inRespawn = false;
+				SendToClient(game.player1.session, "R", 2);
+				SendToClient(game.player2.session, "R", 2);
+			}
+		}
+
 		if(game.time % 5 == 0)
 		{
-			RespawnPowerups(game);
+			//RespawnPowerups(game);
 		}
 
 		if(game.time <= 0)
@@ -280,6 +313,11 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 		SendToClient(game.player2.session, "S", Arrays.asList(powerup1.x, powerup1.y, powerup1.type));
 		SendToClient(game.player2.session, "S", Arrays.asList(powerup2.x, powerup2.y, powerup2.type));
 		SendToClient(game.player2.session, "S", Arrays.asList(powerup3.x, powerup3.y, powerup3.type));
+	}
+
+	private void PlayerAttack()
+	{
+
 	}
 
 	private void UpdateGrid(Game game, double x, double y, int playerNum)
@@ -329,6 +367,22 @@ public class InkWebSocketHandler extends TextWebSocketHandler
 
 						SendToClient(otherPlayer.session, "P", Arrays.asList(currPlayer.x, currPlayer.y));
 						break;
+
+					case 'A':
+						SendToClient(otherPlayer.session, "A", null);
+						float distance = ChevyshevDistance(currPlayer, otherPlayer);
+
+						if(distance < 80)
+						{
+							otherPlayer.life--;
+							if(otherPlayer.life <= 0)
+							{
+								SendToClient(currPlayer.session, "D", otherPlayer.num);
+								SendToClient(otherPlayer.session, "D", otherPlayer.num);
+								otherPlayer.respawnTimer = 12; // 12 seconds
+								otherPlayer.inRespawn = true;
+							}
+						}
 				}
 
 			}
@@ -474,5 +528,10 @@ public class InkWebSocketHandler extends TextWebSocketHandler
         } catch (IOException e) {
             e.printStackTrace();
         }
+	}
+
+	private float ChevyshevDistance(Player p1, Player p2)
+	{
+		return (float)Math.max(Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y));
 	}
 }

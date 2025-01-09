@@ -88,9 +88,9 @@ class Menu extends Phaser.Scene
 			// Set random splash
 		this.setsplash();
 		this.backgroundSlice = this.add.image(640, 1080-360, 'back');
-		this.mainTheme = this.sound.add('main_theme');
-        this.mainTheme.loop = true;
-        this.mainTheme.play();
+		//this.mainTheme = this.sound.add('main_theme');
+        //this.mainTheme.loop = true;
+        //this.mainTheme.play();
 
 		// Main menu -----------------------------------
 		this.title1 = this.add.text(50, 50, 'Ink', {color: '#E5B770', fontSize: '96px', fontFamily: 'Metamorphous'});
@@ -780,6 +780,7 @@ class Menu extends Phaser.Scene
 	{
 		let scene = this.parent.scene;
 
+        //this.mainTheme.stop();
 		scene.scene.start("Lobby");
 	}
 
@@ -805,6 +806,7 @@ class Menu extends Phaser.Scene
 	// #region Character Functions ---------------------
 	onSelectCharacter()
 	{
+        //this.mainTheme.stop();
 		this.scene.scene.start('Game');
 	}
 

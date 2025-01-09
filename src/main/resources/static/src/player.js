@@ -10,6 +10,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 		this.x = x;
 		this.y = y;
 
+		this.networked = false;
+
         // Player Statistics
         this.name = `Player ${number}`;
         //this.name = 'Player 1';
@@ -22,6 +24,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.stat_y;
         this.sphaghettiPos();
         this.stats = new PlayerStats(this.scene, this.stat_x, this.stat_y, `heart_${this.texture}`, this.lifes);
+		this.dead = false;
 
         // Animation and Control setup for player
         this.addKeys(keys);
@@ -152,6 +155,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.runAnimation(this, `${this.texture}-attack`, 0, 0);                  
         }
         else if(this.controls[4].isDown && !this.isAttacking && !this.isAnimating){
+			if(this.networked) this.scene.socket.send('A');
             this.isAttacking = true;  
             this.runAnimation(this, `${this.texture}-attack`, 0, 0);                  
         }
@@ -234,6 +238,28 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
     }
 
+	checkNetworkCollission(other, delta){
+        this.clock += delta;
+        this.clockHandling(delta);
+        this.networkAttack(other);
+    }
+
+	networkAttack(other)
+	{
+		var distance = this.chevyshevDistance(this.sprite.x, this.sprite.y, other.sprite.x, other.sprite.y);
+
+        if(distance < 80 && this.isAttacking && this.cont < 1){
+			console.log("hit other player");
+            this.runAnimation(other,`${other.texture}-hit`, 0, 0);
+			this.hitSfx.play();    
+            this.cont++;
+            if(this.cont >= 1){
+                this.isAttacking = false;
+                this.clock = 0;
+            }
+        }  
+	}
+
 	resetState()
 	{
 		this.runMovement(`${this.texture}-idle`, 0, 0);
@@ -259,6 +285,30 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             other.stats.resetLifes();     
         } 
     }
+
+	networkDeath()
+	{
+		this.isAnimating = true;
+        this.sprite.setVelocityX(0);
+        this.sprite.setVelocityY(0);
+        this.checkDirection();
+        this.sprite.play(`${this.texture}-die`, true);                   
+        this.sprite.on('animationcomplete', () => {
+			this.isAnimating = false;
+        });  
+		this.dead = true;
+	}
+
+	networkRespawn()
+	{
+		this.sprite.x = this.x;
+        this.sprite.y = this.y;
+        this.runAnimation(this,`${this.texture}-teleport`,0, 0); 
+		this.respawnclock = 0;
+        this.lifes = 4;
+        this.deaths++; 
+		this.dead = false;
+	}
 
     chevyshevDistance(x1, y1, x2, y2){
         return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2));

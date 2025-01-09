@@ -26,6 +26,8 @@ class OnlinePlayer extends Phaser.Physics.Arcade.Sprite {
         this.isAnimating = false;
         this.isAttacking = false;
 
+		this.dead = false;
+
         // Handle the Animation timing
         this.power = false; // If Player holds Stamina PowerUp
         this.cont = 0;
@@ -131,6 +133,7 @@ class OnlinePlayer extends Phaser.Physics.Arcade.Sprite {
 
     // Basic Movement
     runMovement(animation, x, y){
+		if(this.isAnimating) return;
         this.checkDirection();
         this.sprite.setVelocityX(x);
         this.sprite.setVelocityY(y);
@@ -190,23 +193,44 @@ class OnlinePlayer extends Phaser.Physics.Arcade.Sprite {
 		this.sprite.setVelocityY(0);
 	}
 
-    deathSequence(other, a, b){
-        if(other.respawnclock > 1 && other.respawnclock < 400){
-            this.runAnimation(other,`${other.texture}-hit`, 0, 0);  
-        }
-        if (other.respawnclock > a ) {   
-            this.runAnimation(other,`${other.texture}-die`, 0, 0);                     
-        }
-        if(other.respawnclock > b ) {
-            other.sprite.x = other.x;
-            other.sprite.y = other.y;
-            this.runAnimation(other,`${other.texture}-teleport`,0, 0);
-            other.lifes = 4;   
-            other.respawnclock = 0;    
-            other.deaths++;
-            console.log(other.deaths);      
-        } 
+	attack(other)
+	{
+		this.isAttacking = true;
+		this.runAnimation(this, `${this.texture}-attack`, 0, 0);
+
+		var distance = this.chevyshevDistance(this.sprite.x, this.sprite.y, other.sprite.x, other.sprite.y);
+
+		if(distance < 80 && this.isAttacking && this.cont < 1){
+			console.log("hit other player");
+            this.runAnimation(other,`${other.texture}-hit`, 0, 0);
+			this.hitSfx.play();
+		}
+	}
+
+    deathSequence()
+	{
+		this.isAnimating = true;
+        this.sprite.setVelocityX(0);
+        this.sprite.setVelocityY(0);
+        this.checkDirection();
+        this.sprite.play(`${this.texture}-die`, true);                   
+        this.sprite.on('animationcomplete', () => {
+			console.log("death");
+			this.isAnimating = false;
+        }); 
+		this.dead = true;
     }
+
+	respawn()
+	{
+		this.sprite.x = this.x;
+        this.sprite.y = this.y;
+        this.runAnimation(this,`${this.texture}-teleport`,0, 0);
+		this.dead = false;
+        this.lifes = 4;
+		this.respawnclock = 0;
+        this.deaths++; 
+	}
 
     chevyshevDistance(x1, y1, x2, y2){
         return Math.max(Math.abs(x1 - x2), Math.abs(y1 - y2));

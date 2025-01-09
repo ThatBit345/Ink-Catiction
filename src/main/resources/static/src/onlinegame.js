@@ -98,6 +98,7 @@ class OnlineGame extends Phaser.Scene
         this.velocity1 = 200;
         this.player = this.physics.add.existing(new Player(this, this.pos[0], this.pos[1], this.playerCharacter, 1, this.keys1, this.velocity1, this.playerInk));
         this.player.setCollideWorldBounds(true);
+		this.player.networked = true;
 
         // Other player Configuration
         this.other = this.physics.add.existing(new OnlinePlayer(this, this.otherPos[0], this.otherPos[1], this.otherCharacter, this.otherInk));
@@ -163,7 +164,16 @@ class OnlineGame extends Phaser.Scene
 		// PowerUps Configuration
 		this.powerup1 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[0][0], this.powerups[0][1], 'powerups', this.powerups[0][2]));
 		this.powerup2 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[1][0], this.powerups[1][1], 'powerups', this.powerups[1][2]));
-		this.powerup3 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[2][0], this.powerups[2][2], 'powerups', this.powerups[2][2]));	
+		this.powerup3 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[2][0], this.powerups[2][2], 'powerups', this.powerups[2][2]));
+		
+		// Audio
+		let vol = this.registry.get('volume');
+		this.sound.setVolume(vol);
+		
+		this.bgm = this.sound.add('bgm');
+		this.bgm.play();
+		
+		this.endWhisle = this.sound.add('end_whisle');
 	}
 
 	update(time, delta)
@@ -207,25 +217,13 @@ class OnlineGame extends Phaser.Scene
 			this.grid.updateGrid(this.other);
 	
 			// Update both players basic movement
-			this.player.updateMovement(this.player.velocity);
-			this.other.calculateMovement();
+			if(!this.player.dead) this.player.updateMovement(this.player.velocity);
+			if(!this.other.dead) this.other.calculateMovement();
+
+			// Check if player hit the other player
+			this.player.checkNetworkCollission(this.other, delta);
 
 			this.sendMessage('P', [this.player.sprite.x, this.player.sprite.y]);
-
-			// Update the powerups
-			var newPos = this.getRandomPosition();
-
-			this.powerup1.updatePowerup(this.player, newPos[0],newPos[1], delta, this.grid);
-			this.powerup2.updatePowerup(this.player, newPos[0],newPos[1], delta, this.grid);
-			this.powerup3.updatePowerup(this.player, newPos[0],newPos[1], delta, this.grid);
-	
-			this.powerup1.updatePowerup(this.other, newPos[0],newPos[1], delta, this.grid);
-			this.powerup2.updatePowerup(this.other, newPos[0],newPos[1], delta, this.grid);
-			this.powerup3.updatePowerup(this.other, newPos[0],newPos[1], delta, this.grid);
-
-			this.sendMessage('S', [this.powerup1.x, this.powerup1.y]);
-			this.sendMessage('S', [this.powerup2.x, this.powerup2.y]);
-			this.sendMessage('S', [this.powerup3.x, this.powerup3.y]);
 
 			let scores = this.grid.countColors();
 			let playerScoreBox = this.playerId == 1 ? this.p1Score : this.p2Score;
@@ -239,9 +237,9 @@ class OnlineGame extends Phaser.Scene
 		}
 	}
 
-	// #region Map generation ---------------------------
+	// #region Map generation --------------------------
 	setMap(){
-		this.randBg = Math.floor(Math.random() * 3 + 1);
+		this.randBg = 1;
 		switch(this.randBg){
 			case 1:
 				// Scary Catacombs
@@ -295,8 +293,8 @@ class OnlineGame extends Phaser.Scene
 	{
 		this.over = true;
 			
-		//this.bgm.stop();
-		//this.endWhisle.play();
+		this.bgm.stop();
+		this.endWhisle.play();
 	
 		// Remove timer element
 		this.timeText.setText('');
@@ -477,6 +475,34 @@ class OnlineGame extends Phaser.Scene
 		this.timer = time;
 	}
 
+	handleDeath(num)
+	{
+		if(num == this.playerId)
+		{
+			console.log("Local player death");
+			this.player.networkDeath();
+		}
+		else
+		{
+			console.log("Other player death");
+			this.other.deathSequence();
+		}
+	}
+
+	handleRespawn(num)
+	{
+		if(num == this.playerId)
+		{
+			console.log("Local player respawn");
+			this.player.networkRespawn();
+		}
+		else
+		{
+			console.log("Other player respawn");
+			this.other.respawn();
+		}
+	}
+
 	// #region Communication ---------------------------
 	setupSocket() {
 		let scene = this;
@@ -504,8 +530,22 @@ class OnlineGame extends Phaser.Scene
 				case 'F':
 					scene.endSequence(data);
 					break;
+
 				case 'S':
 					scene.powerupSpawn(data);
+					break;
+
+				case 'A':
+					scene.other.attack(scene.player);
+					break;
+
+				case 'D':
+					scene.handleDeath(data);
+					break;
+
+				case 'R':
+					scene.handleRespawn(data);
+					break;
 			}
 		}
 
