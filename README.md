@@ -88,7 +88,8 @@ En el mapa se distribuirán una serie de *Power Ups* que aparecerán aleatoria y
 ## Diagrama de clases de la aplicación
 La implementación de las clases que han permitido un correcto funcionamiento del servidor se han reflejado en un diagrama cuya distinción de clases viene dada por una leyenda de colores: 
 
-![diagrama_clases](https://github.com/user-attachments/assets/2d1b53d4-1091-43fc-a047-eae444571c23)
+![UML_ink](https://github.com/user-attachments/assets/e06d3746-5058-46ae-94ea-474a272eb9c4)
+
 
 ## Mapas
 El espacio consta de una dimensión en 2D con una estructura tipo mapa de baldosas. Este espacio estará limitado al espacio de la pantalla, y el POV que tendrán los jugadores del mapa será de una cámara 2D en perspectiva cenital, con las sprites representadas en picado para una mejor legibilidad de los personajes. 
