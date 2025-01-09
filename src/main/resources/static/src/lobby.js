@@ -51,6 +51,7 @@ class Lobby extends Phaser.Scene {
 		const textTitleDark = { color: '#452600', fontSize: '48px', fontFamily: 'Metamorphous' };
 		const textNormal = { color: '#E5B770', fontSize: '32px', fontFamily: 'Metamorphous' };
 		const textDark = { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' };
+		const textError = {color: '#A51818', fontSize: '32px', fontFamily: 'Metamorphous'};
 
 		this.character = undefined;
 		this.otherCharacter = undefined;
@@ -151,6 +152,34 @@ class Lobby extends Phaser.Scene {
 
 		this.readyButton = new Button(this.onReady, 'Ready!', '40px', this, 640, 425, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 24);
 		this.readyButton.disable();
+	
+		// Black fade
+		this.blackFade = this.add.image(640, 360, 'black_fade');
+		this.blackFade.setInteractive();
+		this.blackFade.visible = false;
+		this.blackFade.depth = 11;
+		this.blackFade.alpha = 0;
+		
+		// Connection error popup
+		this.connectionErrorShown = false;
+		this.connectionErrorPanel = this.add.nineslice(640, 360, 'button_normal', undefined, 300, 125, 4, 4, 4, 4, undefined, undefined);
+		this.connectionErrorPanel.scale = 3;
+		this.connectionErrorPanel.depth = 11;
+		
+		this.connectionErrorLabel = this.add.text(450, 200, 'An error has occurred!', textError);
+		this.connectionErrorLabel.depth = 11;
+		
+		this.connectionErrorTextP1 = this.add.text(225, 250, 'There was a problem connecting to the server!', textDark);
+		this.connectionErrorTextP1.depth = 11;
+		
+		this.connectionErrorButton = new Button(this.dismissError, 'Ok', '40px', this, 640, 470, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 24);
+		this.connectionErrorButton.depth = 11;
+		this.errored = false;
+		
+		this.connectionErrorPanel.visible = false;
+		this.connectionErrorLabel.visible = false;
+		this.connectionErrorTextP1.visible = false;
+		this.connectionErrorButton.visible = false;
 
 		this.socket = new WebSocket("ws://" + location.host + "/ws");
 		this.registry.set('socket', this.socket);
@@ -163,6 +192,11 @@ class Lobby extends Phaser.Scene {
 
 		this.throbber.setRotation(this.throbber_rotation);
 		this.throbber_shadow.setRotation(this.throbber_rotation);
+	}
+
+	dismissError()
+	{
+		this.scene.scene.start('Menu');
 	}
 
 	onBack()
@@ -390,6 +424,16 @@ class Lobby extends Phaser.Scene {
 
 		this.socket.onopen = () => {
 			console.log("Socket opened!");
+		}
+
+		this.socket.onerror = () => {
+			this.blackFade.visible = true;
+			this.blackFade.alpha = 0.25;
+					
+			this.connectionErrorPanel.visible = true;
+			this.connectionErrorLabel.visible = true;
+			this.connectionErrorTextP1.visible = true;
+			this.connectionErrorButton.visible = true;
 		}
 
 		this.socket.onmessage = (event) => {

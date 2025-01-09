@@ -2,6 +2,7 @@ import Player from "./player.js";
 import OnlinePlayer from "./onlineplayer.js";
 import Grid from "./grid.js";
 import OnlinePowerup from "./onlinepowerup.js";
+import Button from './button.js';
 
 class OnlineGame extends Phaser.Scene {
 	constructor() {
@@ -60,6 +61,9 @@ class OnlineGame extends Phaser.Scene {
 	}
 
 	create() {
+		const textError = {color: '#A51818', fontSize: '32px', fontFamily: 'Metamorphous'};
+		const textDark = {color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous'};
+
 		this.playerId = this.registry.get('id');
 		this.playerCharacter = this.registry.get('character');
 		this.otherCharacter = this.registry.get('other_character');
@@ -161,6 +165,34 @@ class OnlineGame extends Phaser.Scene {
 		this.endcard_text_lower.angle = -28.6;
 		this.endcard_text_lower.depth = 10;
 
+		// Black fade
+		this.blackFade = this.add.image(640, 360, 'black_fade');
+		this.blackFade.setInteractive();
+		this.blackFade.visible = false;
+		this.blackFade.depth = 11;
+		this.blackFade.alpha = 0;
+
+		// Connection error popup
+		this.connectionErrorShown = false;
+		this.connectionErrorPanel = this.add.nineslice(640, 360, 'button_normal', undefined, 300, 125, 4, 4, 4, 4, undefined, undefined);
+		this.connectionErrorPanel.scale = 3;
+		this.connectionErrorPanel.depth = 11;
+
+		this.connectionErrorLabel = this.add.text(450, 200, 'An error has occurred!', textError);
+		this.connectionErrorLabel.depth = 11;
+
+		this.connectionErrorTextP1 = this.add.text(225, 250, 'There was a problem connecting to the server!', textDark);
+		this.connectionErrorTextP1.depth = 11;
+
+		this.connectionErrorButton = new Button(this.dismissError, 'Ok', '40px', this, 640, 470, 'button_normal', 'button_highlighted', 'button_pressed', 'button_disabled', 90, 24);
+		this.connectionErrorButton.depth = 11;
+		this.errored = false;
+
+		this.connectionErrorPanel.visible = false;
+		this.connectionErrorLabel.visible = false;
+		this.connectionErrorTextP1.visible = false;
+		this.connectionErrorButton.visible = false;
+
 		// Audio
 		let vol = this.registry.get('volume');
 		this.sound.setVolume(vol);
@@ -174,6 +206,8 @@ class OnlineGame extends Phaser.Scene {
 	update(time, delta) {
 		this.countDown(this.timer, this.startTimeText);
 		Phaser.Display.Align.In.Center(this.startTimeText, this.start_timer_back);
+
+		if(this.errored) return;
 
 		// Warmup period
 		if (this.timer > this.maxTime - 1) {
@@ -232,6 +266,11 @@ class OnlineGame extends Phaser.Scene {
 			this.p2Score.setText(scores[1]);
 			Phaser.Display.Align.In.Center(this.p2Score, this.p2ScoreBox);
 		}
+	}
+
+	dismissError()
+	{
+		this.scene.scene.start('Menu');
 	}
 
 	// #region Map generation --------------------------
@@ -544,7 +583,13 @@ class OnlineGame extends Phaser.Scene {
 		}
 
 		this.socket.onerror = () => {
-			console.log("SOCKET DEAD");
+			this.blackFade.visible = true;
+			this.blackFade.alpha = 0.25;
+					
+			this.connectionErrorPanel.visible = true;
+			this.connectionErrorLabel.visible = true;
+			this.connectionErrorTextP1.visible = true;
+			this.connectionErrorButton.visible = true;
 		}
 
 		this.socket.onmessage = (event) => {
