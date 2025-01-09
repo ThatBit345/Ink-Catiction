@@ -8,6 +8,10 @@ Trabajo desarrollado para la asignatura de _Juegos en Red_.
 - Sara María Romero Bermejo -> @SaraRomBer -> sm.romero.2022@alumnos.urjc.es
 - Samuel Retamero Salado -> @Samuelovich -> s.retamero.2022@alumnos.urjc.es
 
+## Video
+
+[![Watch the video](https://img.youtube.com/vi/6NP8d72Mbeg/hqdefault.jpg)](https://youtu.be/6NP8d72Mbeg?si=S6G9H7zFg4yha7gF)
+
 # Compilación y ejecución
 Para compilar el projecto se necesita un JDK de Java 17.
 
