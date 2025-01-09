@@ -20,9 +20,18 @@ class PlayerStats {
        }
     }
 
+
     loseLife(p_lifes){
-        this.arr_lifes[p_lifes - 1].runAnimation(`${this.texture}-life`);
+        var l;
+        if(p_lifes - 1 > 0){
+            l = p_lifes - 1;
+        }
+        else {
+            l = 0;
+        }
+        this.arr_lifes[l].runAnimation(`${this.texture}-life`);
     }
+
 
     resetLifes(){
         var x_pos = this.x;
