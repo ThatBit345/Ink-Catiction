@@ -26,8 +26,7 @@ class OnlineGame extends Phaser.Scene {
 		this.load.image('endcard', '../assets/ui/spr_endcard_back.png');
 		this.load.image('timer_back', '../assets/ui/spr_timer_back.png');
 		this.load.image('panel', '../assets/ui/spr_button_normal.png');
-		this.load.image('score_box', '../assets/ui/spr_button_normal.png');
-		this.load.image('score_box2', '../assets/ui/spr_tile_count.png');
+		this.load.image('score_box', '../assets/ui/spr_tile_count.png');
 
 		this.load.image('end_transition_left', '../assets/ui/spr_end_back_transition_left.png');
 		this.load.image('end_transition_center', '../assets/ui/spr_end_back_transition_center.png');
@@ -102,13 +101,13 @@ class OnlineGame extends Phaser.Scene {
 		this.other = this.physics.add.existing(new OnlinePlayer(this, this.otherPos[0], this.otherPos[1], this.playerId, this.otherCharacter, this.otherInk));
 		this.other.setCollideWorldBounds(true);
 
-		this.p1ScoreBox = this.add.image(85, 50, 'score_box2');
+		this.p1ScoreBox = this.add.image(85, 50, 'score_box');
 		this.p1ScoreBox.scaleX = 4.0;
 		this.p1ScoreBox.scaleY = 3.0;
 		this.p1Score = this.add.text(20, 10, '0', { color: '#E5B770', fontSize: '42px', fontFamily: 'Metamorphous', align: 'center' });
 		Phaser.Display.Align.In.Center(this.p1Score, this.p1ScoreBox);
 
-		this.p2ScoreBox = this.add.image(1195, 50, 'score_box2');
+		this.p2ScoreBox = this.add.image(1195, 50, 'score_box');
 		this.p2ScoreBox.scaleX = 4.0;
 		this.p2ScoreBox.scaleY = 3.0;
 		this.p2Score = this.add.text(1187, 10, '0', { color: '#E5B770', fontSize: '42px', fontFamily: 'Metamorphous', align: 'center' });
