@@ -1,12 +1,15 @@
+import PlayerStats from './playerStats.js'
+
 class OnlinePlayer extends Phaser.Physics.Arcade.Sprite {
    
-    constructor(scene, x, y, texture, color){
+    constructor(scene, x, y, otherId, texture, color){
         super(scene, x, y, 'Texture');
 
         this.scene = scene;
         this.texture = texture;
 
-		this.name = "Player 2";
+		if(otherId == 1) this.name = "Player 2";
+		else this.name = "Player 1";
 		this.x = x;
 		this.y = y;
 
@@ -22,6 +25,11 @@ class OnlinePlayer extends Phaser.Physics.Arcade.Sprite {
         this.direction;
         this.getInitialDirection(x);
         this.createAnimations();
+		this.lifes = 4;
+        this.stat_x;
+        this.stat_y;
+		this.sphaghettiPos();
+        this.stats = new PlayerStats(this.scene, this.stat_x, this.stat_y, `heart_${this.texture}`, this.lifes);
 
         this.isAnimating = false;
         this.isAttacking = false;
@@ -36,6 +44,17 @@ class OnlinePlayer extends Phaser.Physics.Arcade.Sprite {
         this.respawnclock = 0;
 
 		this.hitSfx = this.scene.sound.add('hit');
+    }
+
+	sphaghettiPos(){
+        if(this.name == `Player 1`){
+            this.stat_x = 33;
+            this.stat_y = 125;
+        }
+        else {
+            this.stat_x = 1143;
+            this.stat_y = 125;
+        }
     }
 
     // Create PLayer configuration
@@ -108,12 +127,12 @@ class OnlinePlayer extends Phaser.Physics.Arcade.Sprite {
 		let xDiff = x - this.serverX;
 		let yDiff = y - this.serverY;
 
-		let deadzone = 0.1;
+		let deadzone = 0.05;
 
 		if(xDiff > -deadzone && xDiff < deadzone) xDiff = 0;
 		if(yDiff > -deadzone && yDiff < deadzone) yDiff = 0;
 
-		if(x == this.serverX && y == this.serverY)
+		if(xDiff == 0 && yDiff == 0)
 		{
 			this.runMovement(`${this.texture}-idle`, 0, 0);
 		}

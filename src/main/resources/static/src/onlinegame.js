@@ -90,12 +90,12 @@ class OnlineGame extends Phaser.Scene {
 		// Local player Configuration
 		this.keys1 = ["W", "A", "S", "D", "E"]
 		this.velocity1 = 200;
-		this.player = this.physics.add.existing(new Player(this, this.pos[0], this.pos[1], this.playerCharacter, 1, this.keys1, this.velocity1, this.playerInk));
+		this.player = this.physics.add.existing(new Player(this, this.pos[0], this.pos[1], this.playerCharacter, this.playerId, this.keys1, this.velocity1, this.playerInk));
 		this.player.setCollideWorldBounds(true);
 		this.player.networked = true;
 
 		// Other player Configuration
-		this.other = this.physics.add.existing(new OnlinePlayer(this, this.otherPos[0], this.otherPos[1], this.otherCharacter, this.otherInk));
+		this.other = this.physics.add.existing(new OnlinePlayer(this, this.otherPos[0], this.otherPos[1], this.playerId, this.otherCharacter, this.otherInk));
 		this.other.setCollideWorldBounds(true);
 
 		this.p1ScoreBox = this.add.image(85, 50, 'score_box2');
@@ -225,13 +225,11 @@ class OnlineGame extends Phaser.Scene {
 			if(this.powerup3.sprite.visible) this.powerup3.updatePowerup();
 
 			let scores = this.grid.countColors();
-			let playerScoreBox = this.playerId == 1 ? this.p1Score : this.p2Score;
-			let otherScoreBox = this.playerId == 1 ? this.p2Score : this.p1Score;
 
-			playerScoreBox.setText(scores[0]);
+			this.p1Score.setText(scores[0]);
 			Phaser.Display.Align.In.Center(this.p1Score, this.p1ScoreBox);
 
-			otherScoreBox.setText(scores[1]);
+			this.p2Score.setText(scores[1]);
 			Phaser.Display.Align.In.Center(this.p2Score, this.p2ScoreBox);
 		}
 	}
@@ -543,6 +541,10 @@ class OnlineGame extends Phaser.Scene {
 
 		this.socket.onopen = () => {
 			console.log("Socket opened!");
+		}
+
+		this.socket.onerror = () => {
+			console.log("SOCKET DEAD");
 		}
 
 		this.socket.onmessage = (event) => {

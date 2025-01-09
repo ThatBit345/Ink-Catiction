@@ -251,6 +251,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if(distance < 80 && this.isAttacking && this.cont < 1){
 			console.log("hit other player");
             this.runAnimation(other,`${other.texture}-hit`, 0, 0);
+            other.stats.loseLife(other.lifes);
+			other.lifes--;
 			this.hitSfx.play();    
             this.cont++;
             if(this.cont >= 1){
