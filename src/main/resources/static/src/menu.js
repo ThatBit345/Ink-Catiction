@@ -485,7 +485,7 @@ class Menu extends Phaser.Scene
 
 	onChat()
 	{
-		this.blackFade.visible = true;
+		//this.blackFade.visible = true;
 		this.scene.blackFade.alpha = 0.01;
 
 		this.scene.add.tween({

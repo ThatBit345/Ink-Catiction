@@ -492,22 +492,28 @@ class OnlineGame extends Phaser.Scene {
 		if(num == this.playerId) {
 			if(this.powerup1.x == posX && this.powerup1.y == posY) {
 				this.powerup1.applyPowerup(this.player, delta, grid);
+				this.powerup1 = null;
 			}
 			if(this.powerup2.x == posX && this.powerup2.y == posY) {
 				this.powerup2.applyPowerup(this.player, delta, grid);
+				this.powerup2 = null;
 			}
 			if(this.powerup3.x == posX && this.powerup3.y == posY) {
 				this.powerup3.applyPowerup(this.player, delta, grid);
+				this.powerup3 = null;
 			}
 		} else {
 			if(this.powerup1.x == posX && this.powerup1.y == posY) {
 				this.powerup1.applyPowerup(this.other, delta, grid);
+				this.powerup1 = null;
 			}
 			if(this.powerup2.x == posX && this.powerup2.y == posY) {
 				this.powerup2.applyPowerup(this.other, delta, grid);
+				this.powerup2 = null;
 			}
 			if(this.powerup3.x == posX && this.powerup3.y == posY) {
-				this.powerup3.applyPowerup(this.player, delta, grid);
+				this.powerup3.applyPowerup(this.other, delta, grid);
+				this.powerup3 = null;
 			}
 		}
 	}
@@ -567,7 +573,7 @@ class OnlineGame extends Phaser.Scene {
 					scene.handleRespawn(data);
 					break;
 				case 'C':
-					handlePowerup(data) 
+					scene.handlePowerup(data) 
 					break;
 			}
 		}
