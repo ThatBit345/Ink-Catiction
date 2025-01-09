@@ -29,7 +29,8 @@ class OnlinePlayer extends Phaser.Physics.Arcade.Sprite {
 		this.dead = false;
 
         // Handle the Animation timing
-        this.power = false; // If Player holds Stamina PowerUp
+		this.power = false;
+        this.powerup = false; // Has a powerup
         this.cont = 0;
         this.clock = 0;
         this.respawnclock = 0;

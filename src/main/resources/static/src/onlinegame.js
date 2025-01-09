@@ -2,7 +2,6 @@ import Player from "./player.js";
 import OnlinePlayer from "./onlineplayer.js";
 import Grid from "./grid.js";
 import OnlinePowerup from "./onlinepowerup.js";
-import Powerup from "./powerup.js";
 
 class OnlineGame extends Phaser.Scene {
 	constructor() {
@@ -114,6 +113,11 @@ class OnlineGame extends Phaser.Scene {
 		// World Configuration
 		this.grid = new Grid(this, 'ink', this.p1Score, this.p2Score);
 
+		// PowerUps Configuration
+		this.powerup1 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[0][0], this.powerups[0][1], 'powerups', this.powerups[0][2]));
+		this.powerup2 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[1][0], this.powerups[1][1], 'powerups', this.powerups[1][2]));
+		this.powerup3 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[2][0], this.powerups[2][1], 'powerups', this.powerups[2][2]));
+
 		// Timer displays
 		this.timer_back = this.add.image(640, -100, 'timer_back');
 		this.timer_back.scale = 4;
@@ -157,11 +161,6 @@ class OnlineGame extends Phaser.Scene {
 		this.endcard_text_lower.angle = -28.6;
 		this.endcard_text_lower.depth = 10;
 
-		// PowerUps Configuration
-		this.powerup1 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[0][0], this.powerups[0][1], 'powerups', this.powerups[0][2]));
-		this.powerup2 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[1][0], this.powerups[1][1], 'powerups', this.powerups[1][2]));
-		this.powerup3 = this.physics.add.existing(new OnlinePowerup(this, this.powerups[2][0], this.powerups[2][2], 'powerups', this.powerups[2][2]));
-
 		// Audio
 		let vol = this.registry.get('volume');
 		this.sound.setVolume(vol);
@@ -197,6 +196,8 @@ class OnlineGame extends Phaser.Scene {
 					y: 40,
 					ease: 'Cubic.inOut'
 				});
+
+				console.log(this.powerup3);
 			}
 
 			// Set display timer
@@ -214,8 +215,14 @@ class OnlineGame extends Phaser.Scene {
 			// Check if player hit the other player
 			this.player.checkNetworkCollission(this.other, delta);
 
+			// Send server information
 			this.sendMessage('P', [this.player.sprite.x, this.player.sprite.y]);
-			this.sendMessage('C', null);
+			this.powerupCollection();
+
+			// Update powerups
+			if(this.powerup1.sprite.visible) this.powerup1.updatePowerup();
+			if(this.powerup2.sprite.visible) this.powerup2.updatePowerup();
+			if(this.powerup3.sprite.visible) this.powerup3.updatePowerup();
 
 			let scores = this.grid.countColors();
 			let playerScoreBox = this.playerId == 1 ? this.p1Score : this.p2Score;
@@ -442,28 +449,24 @@ class OnlineGame extends Phaser.Scene {
 	}
 
 	powerupSpawn(data) {
-		if (this.powerup1 == null) { this.powerup1 = data[0]; }
-		if (this.powerup2 == null) { this.powerup2 = data[1]; }
-		if (this.powerup3 == null) { this.powerup3 = data[2]; }
+		if (!this.powerup1.visible) { this.powerup1.respawn(data); }
+		if (!this.powerup2.visible) { this.powerup2.respawn(data); }
+		if (!this.powerup3.visible) { this.powerup3.respawn(data); }
 	}
 
 	powerupCollection() {
-		if (manhattanDistance(this.powerup1.x, this.powerup1.y, this.player.x, this.player.y) < 80) {
+		let distance = 40;
+
+		if (this.manhattanDistance(this.powerup1.x, this.powerup1.y, this.player.sprite.x, this.player.sprite.y) < distance) {
+			console.log("POWERUP");
 			this.sendMessage('C', null);
 		}
-		if (manhattanDistance(this.powerup2.x, this.powerup2.y, this.player.x, this.player.y) < 80) {
+		else if (this.manhattanDistance(this.powerup2.x, this.powerup2.y, this.player.sprite.x, this.player.sprite.y) < distance) {
+			console.log("POWERUP");
 			this.sendMessage('C', null);
 		}
-		if (manhattanDistance(this.powerup3.x, this.powerup3.y, this.player.x, this.player.y) < 80) {
-			this.sendMessage('C', null);
-		}
-		if (manhattanDistance(this.powerup1.x, this.powerup1.y, this.other.x, this.other.y) < 80) {
-			this.sendMessage('C', null);
-		}
-		if (manhattanDistance(this.powerup2.x, this.powerup2.y, this.other.x, this.other.y) < 80) {
-			this.sendMessage('C', null);
-		}
-		if (manhattanDistance(this.powerup3.x, this.powerup3.y, this.other.x, this.other.y) < 80) {
+		else if (this.manhattanDistance(this.powerup3.x, this.powerup3.y, this.player.sprite.x, this.player.sprite.y) < distance) {
+			console.log("POWERUP");
 			this.sendMessage('C', null);
 		}
 	}
@@ -488,33 +491,41 @@ class OnlineGame extends Phaser.Scene {
 		}
 	}
 
-	handlePowerup(posX, posY, num) {
-		if(num == this.playerId) {
-			if(this.powerup1.x == posX && this.powerup1.y == posY) {
-				this.powerup1.applyPowerup(this.player, delta, grid);
-				this.powerup1 = null;
-			}
-			if(this.powerup2.x == posX && this.powerup2.y == posY) {
-				this.powerup2.applyPowerup(this.player, delta, grid);
-				this.powerup2 = null;
-			}
-			if(this.powerup3.x == posX && this.powerup3.y == posY) {
-				this.powerup3.applyPowerup(this.player, delta, grid);
-				this.powerup3 = null;
-			}
-		} else {
-			if(this.powerup1.x == posX && this.powerup1.y == posY) {
-				this.powerup1.applyPowerup(this.other, delta, grid);
-				this.powerup1 = null;
-			}
-			if(this.powerup2.x == posX && this.powerup2.y == posY) {
-				this.powerup2.applyPowerup(this.other, delta, grid);
-				this.powerup2 = null;
-			}
-			if(this.powerup3.x == posX && this.powerup3.y == posY) {
-				this.powerup3.applyPowerup(this.other, delta, grid);
-				this.powerup3 = null;
-			}
+	handlePowerup(data) 
+	{
+		let posX = data[0];
+		let posY = data[1];
+		let num = data[2];
+		let player = (num == this.playerId) ? this.player : this.other;
+
+		if(this.powerup1.x == posX && this.powerup1.y == posY) 
+		{
+			console.log("Player " + num + " grabbed powerup of type " + this.powerup1.type);
+			this.powerup1.applyPowerup(player, this.grid);
+		}
+		else if(this.powerup2.x == posX && this.powerup2.y == posY) 
+		{
+			console.log("Player " + num + " grabbed powerup of type " + this.powerup2.type);
+			this.powerup2.applyPowerup(player, this.grid);
+		}
+		else if(this.powerup3.x == posX && this.powerup3.y == posY) 
+		{
+			console.log("Player " + num + " grabbed powerup of type " + this.powerup3.type);
+			this.powerup3.applyPowerup(player, this.grid);
+		}
+	}
+
+	handlePowerupDepletion(num)
+	{
+		if(num == this.playerId)
+		{
+			this.player.velocity = 200;
+			this.player.power = false;
+		}
+		else
+		{
+			this.other.velocity = 200;
+			this.other.powerup = false;
 		}
 	}
 
@@ -572,8 +583,13 @@ class OnlineGame extends Phaser.Scene {
 				case 'R':
 					scene.handleRespawn(data);
 					break;
+
 				case 'C':
-					scene.handlePowerup(data) 
+					scene.handlePowerup(data);
+					break;
+
+				case 'O':
+					scene.handlePowerupDepletion(data);
 					break;
 			}
 		}
@@ -619,5 +635,9 @@ class OnlineGame extends Phaser.Scene {
 
 		return "0xFFFFFF";
 	}
+
+	manhattanDistance(powerx, powery, playerx, playery){
+        return Math.abs(powerx - playerx) + Math.abs(powery - playery);
+    }
 }
 export default OnlineGame;

@@ -4,7 +4,6 @@ class OnlinePowerup extends Phaser.Physics.Arcade.Sprite {
 
         this.scene = scene;
 
-		let pos = [x,y];
         this.x = x;
         this.y = y;
 
@@ -19,8 +18,8 @@ class OnlinePowerup extends Phaser.Physics.Arcade.Sprite {
         this.sprite.setScale(3);
         this.sprite.depth = 2;
 
-        this.wielder = undefined; //checks which player picked the PowerUp
         this.type = type;
+		this.createAnimations(type);
 
         // Power Up duration
         this.time = 0;
@@ -59,25 +58,25 @@ class OnlinePowerup extends Phaser.Physics.Arcade.Sprite {
 
     createAnimations(type){
         switch (type){
-            case 'Dash':
+            case 'DASH':
                 this.scene.anims.create({
-                    key: `Dash`,
+                    key: `DASH`,
                     frames: this.scene.anims.generateFrameNumbers(`powerups`, { start: 0, end: 5 }),
                     frameRate: 10,
                     repeat: -1
                 });
             break;
-            case 'Power':
+            case 'POWER':
                 this.scene.anims.create({
-                    key: `Power`,
+                    key: `POWER`,
                     frames: this.scene.anims.generateFrameNumbers(`powerups`, { start: 6, end: 11 }),
                     frameRate: 10,
                     repeat: -1
                 });
             break;
-            case 'Bomb':
+            case 'BOMB':
                 this.scene.anims.create({
-                    key: `Bomb`,
+                    key: `BOMB`,
                     frames: this.scene.anims.generateFrameNumbers(`powerups`, { start: 12, end: 17 }),
                     frameRate: 10,
                     repeat: -1
@@ -87,54 +86,30 @@ class OnlinePowerup extends Phaser.Physics.Arcade.Sprite {
         }       
     }
 
-    updatePowerup(player, delta, grid){
+    updatePowerup()
+	{
         this.sprite.anims.play(`${this.type}`, true);  
-
-        var distance = this.manhattanDistance(this.sprite.x, this.sprite.y, player.sprite.x, player.sprite.y);
-        if(distance < 40 && this.sprite.visible){
-            this.time += delta;
-            if(this.time < 200){
-                player.runAnimation(player,`${player.texture}-powerup`, 0, 0);
-                if(this.duration < 5){        
-                    console.log(`${player.name} picked ${this.type} up`);  
-                }
-                //this.sprite.enable = false;
-                this.picked = true;
-				this.wielder = player;
-				this.sfx.play();
-                this.sprite.setVisible(false);
-            }                           
-        } 
-
-        if(this.picked && this.wielder == player){
-            this.applyPowerup(player, delta, grid);
-        }
-        if (this.duration > 10000 && this.wielder == player) {
-            this.respawn(delta);
-        }
-        
     }
 
-    applyPowerup(player, delta, grid){
+    applyPowerup(player, grid){
         switch(this.type){
-            case 'Dash':    
+            case 'DASH':    
+				this.sfx.play();
                 player.velocity = player.initialVelocity*2;
-                this.duration += delta;
-                if(this.duration > 5000){        
-                    player.velocity = 200;
-                }
+				player.runAnimation(player,`${player.texture}-powerup`, 0, 0);
+				this.sprite.setVisible(false);
             break;
-            case 'Power':
+
+            case 'POWER':
+				this.sfx.play();
                 player.power = true;
-                this.duration += delta;
-                if(this.duration > 5000){        
-                    player.power = false;
-                }
+				player.runAnimation(player,`${player.texture}-powerup`, 0, 0);
+				this.sprite.setVisible(false);
             break;
-            case 'Bomb':
-				if(this.exploded) return;
-				this.exploded = true;
+
+            case 'BOMB':
 				this.bombSfx.play();
+				this.sprite.setVisible(false);
 
                 let x = Math.floor(this.x / 40);
                 let y = Math.floor(this.y / 40);
@@ -151,21 +126,18 @@ class OnlinePowerup extends Phaser.Physics.Arcade.Sprite {
                     }
                 }
                 break;
+
             default: console.log(`Type ${type} not implemented`); 
         }
     }
 
-    respawn(delta){
+    respawn(data){
         this.sprite.setVisible(true);
-        this.generateRandomType();
+		this.type = data[3];
+		this.createAnimations(type);
         this.sprite.enable = true;
-        this.picked = false;
-        this.time = 0;
-        this.duration = 0;
-        this.exploded = false;
-		this.wielder = undefined;
 
-		var pos = this.getPosition();
+		var pos = data;
 
 		this.x = pos[0];
 		this.y = pos[1];

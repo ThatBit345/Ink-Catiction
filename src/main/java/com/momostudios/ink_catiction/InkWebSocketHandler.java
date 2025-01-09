@@ -36,11 +36,14 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 		double x;
 		double y;
 		String character;
-		PowerupType powerup;
+
 		int powerupDuration;
+		boolean hasPowerup;
+
 		int life;
 		int respawnTimer;
 		boolean inRespawn;
+
 		boolean initialized;
 
 		Player(WebSocketSession session, int num, String character) {
@@ -79,9 +82,9 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 
 		Powerup() {
 			Random rand = new Random();
-			this.x = rand.nextInt(1700) + 100; // 100-1800 range
+			this.x = rand.nextInt(1080) + 100; // 100-1180 range
 			// this.x = (int)Math.floor(Math.random()*(1800-100+1)+100); // 100-1800 range
-			this.y = rand.nextInt(500) + 180; // 180-680 range
+			this.y = rand.nextInt(420) + 180; // 180-600 range
 			// this.y = (int)Math.floor(Math.random()*(680-180+1)+180); // 180-680 range
 
 			int type = rand.nextInt(PowerupType.values().length);
@@ -181,6 +184,10 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 		game.player2.x = 1152;
 		game.player2.y = 215;
 
+		game.powerups[0] = new Powerup();
+		game.powerups[1] = new Powerup();
+		game.powerups[2] = new Powerup();
+
 		List<List<Object>> powerups = Arrays.asList(
 				Arrays.asList(game.powerups[0].x, game.powerups[0].y, game.powerups[0].type), // Powerup 0
 				Arrays.asList(game.powerups[1].x, game.powerups[1].y, game.powerups[1].type), // Powerup 1
@@ -262,6 +269,26 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 			}
 		}
 
+		if (game.player1.hasPowerup) {
+			game.player1.powerupDuration--;
+
+			if (game.player1.powerupDuration <= 0) {
+				game.player1.hasPowerup = false;
+				SendToClient(game.player1.session, "O", 1);
+				SendToClient(game.player2.session, "O", 1);
+			}
+		}
+
+		if (game.player2.hasPowerup) {
+			game.player2.powerupDuration--;
+
+			if (game.player2.powerupDuration <= 0) {
+				game.player2.hasPowerup = false;
+				SendToClient(game.player1.session, "O", 2);
+				SendToClient(game.player2.session, "O", 2);
+			}
+		}
+
 		if (game.time % 5 == 0) {
 			RespawnPowerups(game);
 		}
@@ -297,10 +324,6 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 			SendToClient(game.player2.session, "S",
 					Arrays.asList(game.powerups[2].x, game.powerups[2].y, game.powerups[2].type));
 		}
-	}
-
-	private void PlayerAttack() {
-
 	}
 
 	private void PowerupCollection(Game game) {
@@ -396,7 +419,42 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 						}
 						break;
 					case 'C':
-						PowerupCollection(game);
+						//PowerupCollection(game);
+
+						for (int i = 0; i < game.powerups.length; i++) 
+						{
+							if(game.powerups[i] != null)
+							{
+								if(ManhattanDistance(currPlayer, game.powerups[i]) < 40)
+								{
+									SendToClient(game.player1.session, "C", Arrays.asList(game.powerups[i].x, game.powerups[i].y, currPlayer.num));
+									SendToClient(game.player2.session, "C", Arrays.asList(game.powerups[i].x, game.powerups[i].y, currPlayer.num));
+
+									currPlayer.hasPowerup = true;
+									currPlayer.powerupDuration = 5; // 5 seconds
+
+									// Bomb special case
+									if(game.powerups[i].type == PowerupType.BOMB)
+									{
+										int pX = game.powerups[i].x;
+										int pY = game.powerups[i].y;
+
+										for (int x = -1; x < 2; x++) 
+										{
+											for (int y = -1; y < 2; y++) 
+											{
+												if(pX + x < game.map.length)
+												{
+													if(pY + y < game.map[pX].length) game.map[pX + x][pY + y] = currPlayer.num;
+												}
+											}
+										}
+									}
+
+									game.powerups[i] = null;
+								}
+							}
+						}
 						break;
 				}
 
