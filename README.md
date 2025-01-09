@@ -31,7 +31,7 @@ El documento de diseño es un elemento vivo que evoluciona junto con el juego. E
  	- Actualización del diagrama de estados y adición del diagrama de clases
   	- Actualización de imágenes
   	- Instrucciones de uso del servidor
-  - V4.0 10/01/2025
+- V4.0 10/01/2025
 	- Añadido un apartado de implementación mediante WebSockets
 	- Actualización del diagrama de clases con WebSockets
 	- Revisión y corrección final
@@ -50,7 +50,7 @@ El título cuenta con las siguientes características principales:
 - **Mecánicas variadas:** cuenta con mecánicas inspiradas en *Splatoon*, como la condición de victoria de aquel jugador que haya pintado una mayor zona de la pantalla, así como mecánicas originales que le darán más personalidad al juego.
 - **Uso del modelo cliente/servidor**, ya que está pensado para ser jugado desde dos máquinas distintas conectadas a la misma red que acceden al juego que se encuentra almacenado en otro dispositivo que actúa de servidor.
 - **Uso del framework Phaser 3** para desarrollar el videojuego mediante Javascript.
-- Uso de la interfaz de programación **REST**.
+- Uso de la interfaz de programación **REST** y uso del protocolo de comunicación WebSockets.
 
 ### Género
 *Ink Catiction* es un juego de acción en formato multijugador competitivo en el que dos jugadores deberán enfrentarse y tomar todo el control de un territorio posible. Tiene diferentes aspectos de juegos de estrategia, como el uso de potenciadores que habrá repartidos por el mapa.
@@ -146,8 +146,8 @@ Tanto la estructura como los bocetos de diseño se implementará en las siguient
 ## Personajes
 Todos los personajes de Ink Catiction son gatos, como indica el nombre. Se harán distintos tipos de gato para cada color. Esta decisión se ha llevado a cabo para que a los jugadores les resulte más fácil diferenciar a sus personajes en la pantalla. A continuación se muestran las descripciones que han permitido realizar un *concept art* de los personajes, que se convertirán en *sprites*.
 
-
 ![all_cats](https://github.com/user-attachments/assets/56dc3c88-671a-42e5-b699-8494d493e9cc)
+
 A continuación se muestra el arte de los personajes en orden de descripción respectivamente.
 
 - **Gato magenta:** “*Ágata* es una gata calicó pastelera a la que le encantan las fresas. Tiene un carácter cariñoso y amistoso que invita a iniciar una amistad, sin embargo, le lanzará una tarta de fresas recién sacada del horno a todos aquellos que le intenten hacer daño a ella o a cualquiera de sus amigos. Tiene un sombrero con forma de fresa. La tinta que utiliza está hecha de una crema pastelera especial que se queda pegada allá por donde cae.” 
@@ -241,6 +241,13 @@ Esta pantalla contará con los siguientes elementos:
 - Una imagen artística 2d tipo *splash art* que sirva como portada de presentación del juego.
 - Se debe incluir la versión en la que se encuentra el juego.
 
+![imagen](https://github.com/user-attachments/assets/1783f33d-d46b-49e6-a9b3-ec39fbc1492d)
+
+Esta pantalla ha sufrido cambios debido a la adición de las siguientes mejoras:
+- La imagen 2d varía aleatoriamente para mostrar a los distintos personajes jugables.
+- Botón *Chat* en caso de estar utilizando el modo online para poder comunicarse con otros jugadores.
+- Botón *Tutorial* que conduce a una pantalla con una explicación básica de controles para el modo local.
+
 ### Pantalla de Selección del tipo de conexión
 
 ![tipo de conexion](https://github.com/user-attachments/assets/40ab20a7-0538-41bd-959e-143e16847f92)
@@ -293,6 +300,13 @@ A continuación se muestra la implementación realizada por el equipo de program
 	- Un campo de texto acompañado de un botón *Cambiar* que permita modificar la contraseña en caso de haber iniciado sesión.
 	- Un botón *Borrar Cuenta* que permita eliminar la cuenta del usuario.
 - Un botón *Volver* que permita regresar al *Menú Principal*.
+
+### Pantalla de  Tutorial
+Pantalla informativa que muestra visualmente los controles básicos asignados a cada jugador en el modo local
+- Botón *Volver* que permite regresar al Menú Principal.
+
+![imagen](https://github.com/user-attachments/assets/caad56a5-dbae-43e4-99e0-591636753354)
+
 ### Pantalla de Resultados
 
 ![resultados](https://github.com/user-attachments/assets/9870232e-0cdc-4cc8-b831-348e45352a03)
