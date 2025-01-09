@@ -27,9 +27,9 @@ class Endgame extends Phaser.Scene {
 
 		//this.title1 = this.add.text(245, 100, 'Game Ranking', { color: '#452600', fontSize: '96px', fontFamily: 'Metamorphous' });
 
-		let player1WinText = 'WINNER          PLAYER 1        WINNER          PLAYER 1        WINNER          PLAYER 1        WINNER';
-		let player2WinText = 'WINNER          PLAYER 2        WINNER          PLAYER 2        WINNER          PLAYER 2        WINNER';
-		let drawText = 'DRAW            DRAW            DRAW            DRAW            DRAW            DRAW            DRAW  ';
+		let player1WinText = 'WINNER          PLAYER 1        ';
+		let player2WinText = 'WINNER          PLAYER 2        ';
+		let drawText = 'DRAW            DRAW            ';
 
 		//this.first = this.add.text(275, 250, 'First Place:', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
 		//this.second = this.add.text(275, 350, 'Second Place: ', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
@@ -43,6 +43,12 @@ class Endgame extends Phaser.Scene {
 
 			this.title = this.add.text(1280, 80, player1WinText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
 			this.title.depth = 5;
+			this.title_scroll1 = this.add.text(1280 + this.title.width, 80, player1WinText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
+			this.title_scroll1.depth = 5;
+			this.title_scroll2 = this.add.text(this.title_scroll1.x + this.title_scroll1.width, 80, player1WinText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
+			this.title_scroll2.depth = 5;
+			this.title_scroll3 = this.add.text(this.title_scroll2.x + this.title_scroll2.width, 80, player1WinText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
+			this.title_scroll3.depth = 5;
 			//this.first_name = this.add.text(675, 250, this.players[0].name +' ('+ this.ranking[0] +')', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
 			//this.second_name = this.add.text(675, 350, this.players[1].name +' ('+ this.ranking[1] +')', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
 		} 
@@ -54,6 +60,12 @@ class Endgame extends Phaser.Scene {
 			
 			this.title = this.add.text(1280, 80, player2WinText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
 			this.title.depth = 5;
+			this.title_scroll1 = this.add.text(this.title.x + this.title.width, 80, player2WinText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
+			this.title_scroll1.depth = 5;
+			this.title_scroll2 = this.add.text(this.title_scroll1.x + this.title_scroll1.width, 80, player2WinText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
+			this.title_scroll2.depth = 5;
+			this.title_scroll3 = this.add.text(this.title_scroll2.x + this.title_scroll2.width, 80, player2WinText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
+			this.title_scroll3.depth = 5;
 			//this.first_name = this.add.text(675, 250, this.players[1].name  +' ('+ this.ranking[1] +')', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
 			//this.second_name = this.add.text(675, 350, this.players[0].name  +' ('+ this.ranking[0] +')', { color: '#452600', fontSize: '45px', fontFamily: 'Metamorphous' });
 		}
@@ -62,6 +74,12 @@ class Endgame extends Phaser.Scene {
 		{
 			this.title = this.add.text(1280, 80, drawText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
 			this.title.depth = 5;
+			this.title_scroll1 = this.add.text(1280 + this.title.width, 80, drawText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
+			this.title_scroll1.depth = 5;
+			this.title_scroll2 = this.add.text(this.title_scroll1.x + this.title_scroll1.width, 80, drawText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
+			this.title_scroll2.depth = 5;
+			this.title_scroll3 = this.add.text(this.title_scroll2.x + this.title_scroll2.width, 80, drawText, { color: '#452600', fontSize: '32px', fontFamily: 'Metamorphous' });
+			this.title_scroll3.depth = 5;
 		}
 
 		this.banner_back = this.add.image(2500, 100, 'banner_back');
@@ -77,7 +95,14 @@ class Endgame extends Phaser.Scene {
 	update(time, delta)
 	{
 		this.title.x -= 0.5 * delta;
-		if(this.title.x < -511) this.title.x -= -511;
+		this.title_scroll1.x -= 0.5 * delta;
+		this.title_scroll2.x -= 0.5 * delta;
+		this.title_scroll3.x -= 0.5 * delta;
+		
+		if(this.title.x < -this.title.width) this.title.x = this.title_scroll3.x + this.title_scroll3.width;
+		if(this.title_scroll1.x < -this.title_scroll1.width) this.title_scroll1.x = this.title.x + this.title.width;
+		if(this.title_scroll2.x < -this.title_scroll2.width) this.title_scroll2.x = this.title_scroll1.x + this.title_scroll1.width;
+		if(this.title_scroll3.x < -this.title_scroll3.width) this.title_scroll3.x = this.title_scroll2.x + this.title_scroll2.width;
 	}
 
 	onBackToMenu() {

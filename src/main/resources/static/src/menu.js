@@ -1142,7 +1142,7 @@ class Menu extends Phaser.Scene
 
 	onStartGame()
 	{
-		this.scene.mainTheme.stop();
+		//this.scene.mainTheme.stop();
 		this.scene.add.tween({
 			targets: this.scene.blackFade,
 			duration: 1000,
