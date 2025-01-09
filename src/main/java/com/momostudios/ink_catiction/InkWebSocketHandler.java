@@ -310,14 +310,14 @@ public class InkWebSocketHandler extends TextWebSocketHandler {
 			SendToClient(game.player2.session, "S",
 					Arrays.asList(game.powerups[0].x, game.powerups[0].y, game.powerups[0].type));
 		}
-		if (game.powerups[1] == null) {
+		else if (game.powerups[1] == null) {
 			game.powerups[1] = new Powerup();
 			SendToClient(game.player1.session, "S",
 					Arrays.asList(game.powerups[1].x, game.powerups[1].y, game.powerups[1].type));
 			SendToClient(game.player2.session, "S",
 					Arrays.asList(game.powerups[1].x, game.powerups[1].y, game.powerups[1].type));
 		}
-		if (game.powerups[2] == null) {
+		else if (game.powerups[2] == null) {
 			game.powerups[2] = new Powerup();
 			SendToClient(game.player1.session, "S",
 					Arrays.asList(game.powerups[2].x, game.powerups[2].y, game.powerups[2].type));

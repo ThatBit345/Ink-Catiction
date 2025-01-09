@@ -96,14 +96,14 @@ class OnlinePowerup extends Phaser.Physics.Arcade.Sprite {
             case 'DASH':    
 				this.sfx.play();
                 player.velocity = player.initialVelocity*2;
-				player.runAnimation(player,`${player.texture}-powerup`, 0, 0);
+                player.runAnimation(player,`${player.texture}-powerup`, 0, 0);
 				this.sprite.setVisible(false);
             break;
 
             case 'POWER':
 				this.sfx.play();
                 player.power = true;
-				player.runAnimation(player,`${player.texture}-powerup`, 0, 0);
+                player.runAnimation(player,`${player.texture}-powerup`, 0, 0);
 				this.sprite.setVisible(false);
             break;
 
@@ -132,9 +132,10 @@ class OnlinePowerup extends Phaser.Physics.Arcade.Sprite {
     }
 
     respawn(data){
+		console.log("POWERUP RESPAWNING");
         this.sprite.setVisible(true);
-		this.type = data[3];
-		this.createAnimations(type);
+		this.type = data[2];
+		this.createAnimations(this.type);
         this.sprite.enable = true;
 
 		var pos = data;

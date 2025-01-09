@@ -449,24 +449,21 @@ class OnlineGame extends Phaser.Scene {
 	}
 
 	powerupSpawn(data) {
-		if (!this.powerup1.visible) { this.powerup1.respawn(data); }
-		if (!this.powerup2.visible) { this.powerup2.respawn(data); }
-		if (!this.powerup3.visible) { this.powerup3.respawn(data); }
+		if (!this.powerup1.sprite.visible) { this.powerup1.respawn(data); }
+		if (!this.powerup2.sprite.visible) { this.powerup2.respawn(data); }
+		if (!this.powerup3.sprite.visible) { this.powerup3.respawn(data); }
 	}
 
 	powerupCollection() {
 		let distance = 40;
 
 		if (this.manhattanDistance(this.powerup1.x, this.powerup1.y, this.player.sprite.x, this.player.sprite.y) < distance) {
-			console.log("POWERUP");
 			this.sendMessage('C', null);
 		}
 		else if (this.manhattanDistance(this.powerup2.x, this.powerup2.y, this.player.sprite.x, this.player.sprite.y) < distance) {
-			console.log("POWERUP");
 			this.sendMessage('C', null);
 		}
 		else if (this.manhattanDistance(this.powerup3.x, this.powerup3.y, this.player.sprite.x, this.player.sprite.y) < distance) {
-			console.log("POWERUP");
 			this.sendMessage('C', null);
 		}
 	}

@@ -105,14 +105,20 @@ class OnlinePlayer extends Phaser.Physics.Arcade.Sprite {
 		let x = this.sprite.x;
 		let y = this.sprite.y;
 
+		let xDiff = x - this.serverX;
+		let yDiff = y - this.serverY;
+
+		let deadzone = 0.1;
+
+		if(xDiff > -deadzone && xDiff < deadzone) xDiff = 0;
+		if(yDiff > -deadzone && yDiff < deadzone) yDiff = 0;
+
 		if(x == this.serverX && y == this.serverY)
 		{
 			this.runMovement(`${this.texture}-idle`, 0, 0);
 		}
 		else
 		{
-			let xDiff = x - this.serverX;
-			let yDiff = y - this.serverY;
 			if (xDiff > 0) this.direction = 'left';
 			else if (xDiff < 0) this.direction = 'right';
 
