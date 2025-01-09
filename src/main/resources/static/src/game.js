@@ -246,6 +246,7 @@ class Game extends Phaser.Scene {
 				if (this.isPaused) {
 					//this.timeText.setText(this.saveTime);
 					//this.timer.setTime();
+					//this.timer.resume();
 					this.pauseButton.setVisible(true);
 					this.isPaused = false;
 					this.bgm.resume();
