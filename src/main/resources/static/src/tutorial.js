@@ -18,7 +18,6 @@ class Tutorial extends Phaser.Scene
 		this.load.image('keys1', '../assets/ui/keys_player1.png');
 		this.load.image('keys2', '../assets/ui/keys_player2.png');
 	
-
 		this.load.image('button_normal', '../assets/ui/spr_button_normal.png');
 		this.load.image('button_highlighted', '../assets/ui/spr_button_highlighted.png');
 		this.load.image('button_pressed', '../assets/ui/spr_button_pressed.png');
